@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="lol">
+        <item>아이언</item>
+        <item>브론즈</item>
+        <item>실버</item>
+        <item>골드</item>
+        <item>플레티넘</item>
+        <item>다이아</item>
+        <item>마스터</item>
+        <item>그랜드마스터</item>
+        <item>챌린저</item>
+    </string-array>
+    <string-array name="battle">
+        <item>브론즈</item>
+        <item>실버</item>
+        <item>골드</item>
+        <item>플레티넘</item>
+        <item>다이아</item>
+        <item>마스터</item>
+    </string-array>
+    <string-array name="over">
+        <item>브론즈</item>
+        <item>실버</item>
+        <item>골드</item>
+        <item>플레티넘</item>
+        <item>다이아</item>
+        <item>마스터</item>
+        <item>그랜드마스터</item>
+        <item>랭커</item>
+    </string-array>
+    <string-array name="fifa4">
+        <item>아마추어</item>
+        <item>미프로</item>
+        <item>프로</item>
+        <item>월드클래스</item>
+        <item>챌린지</item>
+        <item>챔피언스</item>
+    </string-array>
+    <string-array name="kartrider_1">
+        <item>노랑</item>
+        <item>초록</item>
+        <item>파랑</item>
+        <item>빨강</item>
+        <item>검정</item>
+        <item>무지개</item>
+    </string-array>
+    <string-array name="kartrider_2">
+        <item>장갑</item>
+        <item>별장갑</item>
+        <item>스타</item>
+        <item>메달</item>
+    </string-array>
+    <string-array name="hearthstone">
+        <item>신규</item>
+        <item>브론즈</item>
+        <item>실버</item>
+        <item>골드</item>
+        <item>플레티넘</item>
+        <item>다이아</item>
+        <item>전설</item>
+    </string-array>
+    <string-array name="hearthstone_dack">
+        <item>악마사냥꾼</item>
+        <item>드루이드</item>
+        <item>사냥꾼</item>
+        <item>마법사</item>
+        <item>성기사</item>
+        <item>사제</item>
+        <item>도적</item>
+        <item>주술사</item>
+        <item>흑마법사</item>
+        <item>전사</item>
+    </string-array>
+
+    <string-array name="star2_tier">
+        <item>브론즈</item>
+        <item>실버</item>
+        <item>골드</item>
+        <item>플래티넘</item>
+        <item>다이아</item>
+        <item>마스터</item>
+        <item>그랜드 마스터</item>
+    </string-array>
+    <string-array name="star2_triber">
+        <item>저그</item>
+        <item>테란</item>
+        <item>프로토스</item>
+    </string-array>
+
+
+
+
+</resources>

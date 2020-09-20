@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+        <Button
+            android:id="@+id/btn_lol_star_notice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="공지사항"
+            android:layout_weight="1"
+            ></Button>
+        <Button
+            android:id="@+id/btn_lol_star_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="인기 게시판"
+            android:layout_weight="1"
+            ></Button>
+        <Button
+            android:id="@+id/btn_lol_star_free"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="자유 게시판"
+            android:layout_weight="1"
+            ></Button>
+        <Button
+            android:id="@+id/btn_lol_star_find"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="팀원/상대 모집"
+            android:layout_weight="1"
+            ></Button>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_lol_star_Search"
+            android:layout_width="202dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:hint="검색(10자 이내)"
+            android:enabled="true"
+            android:selectAllOnFocus="true"
+            android:textColorHighlight="@color/colorPrimary"
+            android:inputType="textPersonName"
+            android:maxLength="10"></EditText>
+        <Button
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/btn_lol_star_Search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="검색"></Button>
+        <Button
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:id="@+id/btn_lol_star_write"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:text="글 쓰기"
+            ></Button>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <ListView
+            android:id="@+id/lv_lol_star"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></ListView>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,823 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/game"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#CCCCCC"
+            android:text="Game"
+            android:textSize="30dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/hidden1">
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LOL"
+                android:textSize="15dp"
+                android:id="@+id/check_lol"
+                android:layout_marginLeft="5dp" />
+
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="배그"
+                android:textSize="15dp"
+                android:id="@+id/check_battle"
+                android:layout_toRightOf="@+id/check_lol"
+                android:layout_marginLeft="10dp"
+                 />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="오버워치"
+                android:textSize="15dp"
+                android:id="@+id/check_over"
+                android:layout_toRightOf="@+id/check_battle"
+                android:layout_marginLeft="10dp"
+                 />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="피파4"
+                android:textSize="15dp"
+                android:id="@+id/check_fifa4"
+                android:layout_toRightOf="@+id/check_over"
+                android:layout_marginLeft="10dp"
+                />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="카트라이더"
+                android:textSize="15dp"
+                android:id="@+id/check_kartrider"
+                android:layout_below="@id/check_lol"
+                android:layout_alignLeft="@id/check_lol"
+                 />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="하스스톤"
+                android:textSize="15dp"
+                android:id="@+id/check_hearthstone"
+                android:layout_below="@id/check_lol"
+                android:layout_toRightOf="@id/check_kartrider"
+                />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="스타2"
+                android:textSize="15dp"
+                android:id="@+id/check_star2"
+                android:layout_below="@id/check_lol"
+                android:layout_toRightOf="@id/check_hearthstone"
+                />
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="어몽어스"
+                android:textSize="15dp"
+                android:id="@+id/check_amongus"
+                android:layout_below="@id/check_lol"
+                android:layout_toRightOf="@id/check_star2"
+                />
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/hidden2"
+            >
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="#AAAAAA" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:id="@+id/lol"
+                android:background="#CCCCCC"
+                android:text="LoL"
+                android:textSize="25dp"
+                />
+
+            <TextView
+                android:id="@+id/abc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="자유랭크 티어"
+                android:layout_below="@+id/lol"
+                android:textSize="20dp"></TextView>
+
+            <Spinner
+                android:id="@+id/freerank"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/abc"
+                android:entries="@array/lol"></Spinner>
+
+
+            <TextView
+                android:id="@+id/cba"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="30dp"
+                android:layout_toRightOf="@+id/abc"
+                android:layout_below="@+id/lol"
+                android:text="솔로랭크 티어"
+                android:textSize="20dp"></TextView>
+
+            <Spinner
+                android:id="@+id/sololank"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/abc"
+                android:layout_toRightOf="@id/freerank"
+                android:entries="@array/lol"></Spinner>
+
+
+
+
+        <TextView
+            android:id="@+id/text_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/freerank"
+            android:text="포지션"
+            android:textSize="20dp"></TextView>
+
+
+
+            <CheckBox
+                android:id="@+id/check_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_below="@id/text_position"
+                android:text="탑"
+                android:textSize="15dp" />
+
+            <CheckBox
+                android:id="@+id/check_jg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_below="@id/text_position"
+                android:layout_toRightOf="@+id/check_top"
+                android:text="정글"
+                android:textSize="15dp" />
+
+            <CheckBox
+                android:id="@+id/check_mid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="미드"
+                android:layout_below="@id/text_position"
+                android:layout_toRightOf="@+id/check_jg"
+                android:textSize="15dp" />
+
+            <CheckBox
+                android:id="@+id/check_ad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_below="@id/text_position"
+                android:layout_toRightOf="@+id/check_mid"
+                android:text="원딜"
+                android:textSize="15dp" />
+
+            <CheckBox
+                android:id="@+id/check_sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_position"
+                android:layout_toRightOf="@+id/check_ad"
+                android:layout_marginLeft="10dp"
+                android:text="서폿"
+                android:textSize="15dp" />
+
+        </RelativeLayout>
+
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/hidden3">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="#AAAAAA" />
+
+
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#CCCCCC"
+            android:text="배틀그라운드"
+            android:id="@+id/battle"
+            android:textSize="25dp"
+           />
+
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="티어"
+            android:layout_below="@+id/battle"
+            android:id="@+id/tier"
+            android:textSize="20dp"></TextView>
+
+
+        <Spinner
+            android:id="@+id/battle_tier"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="3dp"
+            android:layout_below="@+id/battle"
+            android:layout_toRightOf="@+id/tier"
+            android:entries="@array/battle"></Spinner>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="맵"
+            android:id="@+id/text_map"
+            android:layout_below="@+id/tier"
+            android:textSize="20dp"></TextView>
+
+
+
+
+
+            <CheckBox
+                android:id="@+id/check_sa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="사녹"
+                android:layout_below="@+id/text_map"
+                android:textSize="15dp"
+
+                />
+
+            <CheckBox
+                android:id="@+id/check_eran"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/check_sa"
+                android:layout_below="@+id/text_map"
+                android:text="에란겔"
+                android:textSize="15dp"
+
+                />
+
+            <CheckBox
+                android:id="@+id/check_mi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_map"
+                android:layout_toRightOf="@+id/check_eran"
+                android:text="미라마"
+                android:textSize="15dp" />
+
+            <CheckBox
+                android:id="@+id/check_ca"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/check_mi"
+                android:layout_below="@+id/text_map"
+                android:text="카라틴"
+                android:textSize="15dp" />
+
+            <CheckBox
+                android:id="@+id/check_bi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/check_ca"
+                android:layout_below="@+id/text_map"
+                android:text="비켄디"
+                android:textSize="15dp" />
+
+
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:text="인원"
+            android:layout_below="@+id/check_sa"
+            android:id="@+id/text_people"
+            android:textSize="20dp"></TextView>
+
+
+
+
+            <CheckBox
+                android:id="@+id/check_solo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="솔로"
+                android:textSize="15dp"
+                android:layout_below="@id/text_people"
+
+                />
+
+            <CheckBox
+                android:id="@+id/check_duo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="35dp"
+                android:layout_toRightOf="@+id/check_solo"
+                android:text="듀오"
+                android:layout_below="@id/text_people"
+                android:textSize="15dp" />
+
+            <CheckBox
+                android:id="@+id/check_solos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/check_duo"
+                android:layout_below="@id/text_people"
+                android:text="솔쿼드"
+                android:textSize="15dp" />
+
+            <CheckBox
+                android:id="@+id/check_dus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/check_solos"
+                android:layout_below="@id/text_people"
+                android:text="듀쿼드"
+                android:textSize="15dp" />
+
+            <CheckBox
+                android:id="@+id/check_three"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/check_solo"
+                android:text="3인 스쿼드"
+                android:textSize="15dp" />
+
+            <CheckBox
+                android:id="@+id/check_four"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/check_solos"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/check_three"
+                android:text="4인 스쿼드"
+                android:textSize="15dp" />
+
+        </RelativeLayout>
+
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/hidden4">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="#AAAAAA" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#CCCCCC"
+                android:text="오버워치"
+                android:id="@+id/over"
+                android:textSize="25dp"
+                />
+
+
+            <TextView
+                android:id="@+id/ccc"
+                android:layout_below="@+id/over"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="티어"
+                android:textSize="20dp"></TextView>
+
+            <Spinner
+                android:id="@+id/over_lank"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/ccc"
+                android:entries="@array/over"></Spinner>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="70dp"
+                android:layout_toRightOf="@+id/over_lank"
+                android:id="@+id/over_position"
+                android:layout_below="@+id/over"
+                android:text="포지션"
+                android:textSize="20dp"></TextView>
+
+
+            <CheckBox
+                android:id="@+id/check_tanker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ccc"
+                android:layout_toRightOf="@+id/over_lank"
+                android:text="탱커"
+                android:textSize="15dp" />
+
+            <CheckBox
+                android:id="@+id/check_dps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ccc"
+                android:layout_toRightOf="@+id/check_tanker"
+                android:text="딜러"
+                android:textSize="15dp" />
+
+            <CheckBox
+                android:id="@+id/check_healer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ccc"
+                android:layout_toRightOf="@+id/check_dps"
+                android:text="힐러"
+                android:textSize="15dp" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/hidden5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="#AAAAAA" />
+
+            <TextView
+                android:id="@+id/fifa4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#CCCCCC"
+                android:text="피파4"
+                android:textSize="25dp" />
+
+
+            <TextView
+                android:id="@+id/fifa4_game"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fifa4"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="경기"
+                android:textSize="20dp"></TextView>
+
+
+            <CheckBox
+                android:id="@+id/check_gon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fifa4_game"
+                android:layout_marginTop="10dp"
+                android:text="공식경기"
+                android:textSize="15dp" />
+
+            <CheckBox
+                android:id="@+id/check_chi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fifa4_game"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/check_gon"
+                android:text="친선경기"
+                android:textSize="15dp" />
+
+
+            <CheckBox
+                android:id="@+id/check_onebyone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fifa4_game"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/check_chi"
+                android:text="1vs1"
+                android:textSize="15dp" />
+
+            <CheckBox
+                android:id="@+id/check_twobytwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fifa4_game"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/check_onebyone"
+                android:text="2vs2"
+                android:textSize="15dp" />
+
+            <CheckBox
+                android:id="@+id/check_bol"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fifa4_game"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/check_twobytwo"
+                android:text="볼타"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/fifa4_tier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/check_gon"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="티어"
+                android:textSize="20dp"></TextView>
+
+
+            <Spinner
+                android:id="@+id/fifa4_tiers"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/check_gon"
+                android:layout_toRightOf="@+id/fifa4_tier"
+                android:entries="@array/fifa4">
+
+            </Spinner>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/hidden6">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="#AAAAAA" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#CCCCCC"
+                android:text="카트라이더"
+                android:id="@+id/kartrider"
+                android:textSize="25dp"
+                />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:id="@+id/opop"
+            android:layout_below="@+id/kartrider"
+            android:text="엠블럼"
+            android:textSize="20dp"></TextView>
+
+
+        <Spinner
+            android:id="@+id/kartrider_tier1"
+            android:layout_width="100dp"
+
+            android:layout_below="@+id/kartrider"
+            android:layout_height="40dp"
+            android:layout_toRightOf="@id/opop"
+            android:layout_marginTop="10dp"
+            android:entries="@array/kartrider_1"></Spinner>
+
+        <Spinner
+            android:id="@+id/kartrider_tier2"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+
+            android:layout_below="@+id/kartrider"
+            android:layout_toRightOf="@id/kartrider_tier1"
+            android:layout_marginTop="10dp"
+            android:entries="@array/kartrider_2"></Spinner>
+
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/hidden7">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="#AAAAAA" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#CCCCCC"
+                android:text="하스스톤"
+                android:textAlignment="center"
+                android:id="@+id/hearthstone"
+                android:textSize="25dp"
+                tools:ignore="RtlCompat" />
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/wqwq"
+                    android:text="랭크"
+                    android:layout_below="@+id/hearthstone"
+                    android:textSize="20dp"></TextView>
+
+
+                <Spinner
+                    android:id="@+id/hearthstone_lank"
+                    android:layout_width="140dp"
+                    android:layout_height="40dp"
+                    android:layout_toRightOf="@id/wqwq"
+
+                    android:layout_below="@+id/hearthstone"
+                    android:layout_marginTop="10dp"
+                    android:entries="@array/hearthstone"></Spinner>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:id="@+id/qqqq"
+                    android:layout_toRightOf="@id/hearthstone_lank"
+
+                    android:layout_below="@+id/hearthstone"
+                    android:text="주 덱"
+                    android:textSize="20dp"></TextView>
+
+                <Spinner
+                    android:id="@+id/hearthstone_dack"
+                    android:layout_width="140dp"
+                    android:layout_height="40dp"
+                    android:layout_toRightOf="@id/qqqq"
+                    android:layout_marginTop="10dp"
+
+                    android:layout_below="@+id/hearthstone"
+                    android:entries="@array/hearthstone_dack"></Spinner>
+
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/hidden8">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="#AAAAAA" />
+
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#CCCCCC"
+                android:text="스타2"
+                android:id="@+id/star2"
+                android:textSize="25dp"
+                />
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/star2_tribe"
+                android:text="종족"
+                android:layout_below="@+id/star2"
+                android:textSize="20dp"></TextView>
+
+
+            <Spinner
+                android:id="@+id/star2_triber"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_toRightOf="@id/star2_tribe"
+                android:layout_marginTop="10dp"
+
+                android:layout_below="@+id/star2"
+                android:entries="@array/star2_triber"></Spinner>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/star2_tier"
+                android:layout_toRightOf="@id/star2_triber"
+                android:text="티어"
+
+                android:layout_below="@+id/star2"
+                android:textSize="20dp"></TextView>
+
+            <Spinner
+                android:id="@+id/star2_tiers"
+                android:layout_width="140dp"
+                android:layout_height="40dp"
+                android:layout_toRightOf="@id/star2_tier"
+                android:layout_marginTop="10dp"
+
+                android:layout_below="@+id/star2"
+                android:entries="@array/star2_tier">
+
+            </Spinner>
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#AAAAAA" />
+
+                    <Button
+                        android:id="@+id/btn_update"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Update"
+                        android:background="#CCCCCC"
+                        android:layout_marginTop="10dp" />
+
+    </LinearLayout>
+
+
+
+
+    </ScrollView>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    >
+
+    <View
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/game_icon"
+        android:layout_alignParentLeft="true"
+        android:scaleType="centerInside"
+        android:background="@drawable/circle"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/list_time"
+        android:text="00:00"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/recentMsg"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/name_textView"
+        android:text="User name"
+        android:layout_toRightOf="@+id/game_icon"
+        android:layout_marginLeft="15dp"
+        android:textSize="18dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/recentMsg"
+        android:layout_below="@+id/name_textView"
+        android:layout_alignLeft="@+id/name_textView"
+        android:text="Recent Text Message ..." />
+
+</RelativeLayout>

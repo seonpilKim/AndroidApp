@@ -1,0 +1,35 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <TextView
+        android:id="@+id/childTextView"
+        android:layout_width="100dp"
+        android:text="Itemnae"
+        android:layout_marginTop="15sp"
+        android:textSize="18sp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true" />
+
+    <Button
+        android:id="@+id/childButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/childButton2"
+        android:textSize="10sp"
+        android:layout_marginRight="10sp"
+        android:layout_marginTop="5sp"
+        android:text="프로필" />
+
+    <Button
+        android:id="@+id/childButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textSize="10sp"
+        android:text="채팅"
+        android:layout_marginTop="5sp"
+        android:layout_marginRight="20sp" />
+
+</RelativeLayout>
