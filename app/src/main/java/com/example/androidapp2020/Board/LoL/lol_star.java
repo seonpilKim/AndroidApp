@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -87,13 +88,20 @@ public class lol_star extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 search = et_search.getText().toString();
-                if (search.replace(" ","").equals("") || search.length() == 0) {
+                if (search.replace(" ", "").equals("") || search.length() == 0) {
                     Toast.makeText(getApplicationContext(), "검색할 키워드를 입력해주세요.", Toast.LENGTH_SHORT).show();
                     et_search.setText("");
-                }
-                else {
-                    ((ListViewAdapter) listView.getAdapter()).getFilter().filter(search);
-                    Toast.makeText(getApplicationContext(), "검색되었습니다.", Toast.LENGTH_SHORT).show();
+                } else {
+                    ((ListViewAdapter) listView.getAdapter()).getFilter().filter(search, new Filter.FilterListener() {
+                        @Override
+                        public void onFilterComplete(int count) {
+                            if (count == 0) {
+                                Toast.makeText(getApplicationContext(), "검색 결과가 없습니다.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "검색되었습니다.", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 }
             }
         });

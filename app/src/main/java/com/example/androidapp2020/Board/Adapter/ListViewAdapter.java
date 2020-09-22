@@ -24,15 +24,12 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
     }
 
     @Override
-    public int getCount()
-    {
-//        return listVO.size();
+    public int getCount() {
         return filteredItemList.size();
     }
 
     @Override
     public Object getItem(int position) {
-//        return listVO.get(position);
         return filteredItemList.get(position);
     }
 

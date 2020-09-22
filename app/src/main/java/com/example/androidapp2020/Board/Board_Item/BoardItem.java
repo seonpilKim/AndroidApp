@@ -166,8 +166,6 @@ public class BoardItem extends AppCompatActivity {
         tv_recommendations = (TextView) findViewById(R.id.tv_lol_board_Recommendations);
         tv_recommendations.setText(""+(intent.getIntExtra("recommendations", 0)));
 
-
-
         listView.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
