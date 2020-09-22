@@ -100,13 +100,22 @@ public class League_of_Legend extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 search = et_search.getText().toString();
-                if(search.length() > 0) {
+                if (search.replace(" ","").equals("") || search.length() == 0) {
+                    Toast.makeText(getApplicationContext(), "검색할 키워드를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    et_search.setText("");
+                }
+                else {
                     ((ListViewAdapter) listView.getAdapter()).getFilter().filter(search);
                     Toast.makeText(getApplicationContext(), "검색되었습니다.", Toast.LENGTH_SHORT).show();
                 }
-                else{
-                    Toast.makeText(getApplicationContext(), "검색할 키워드를 입력해주세요.", Toast.LENGTH_SHORT).show();
-                }
+            }
+        });
+
+        btn_notice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent = new Intent(getApplicationContext(), League_of_Legend.class);
+                startActivity(intent);
             }
         });
 

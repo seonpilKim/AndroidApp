@@ -87,12 +87,13 @@ public class lol_star extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 search = et_search.getText().toString();
-                if(search.length() > 0) {
+                if (search.replace(" ","").equals("") || search.length() == 0) {
+                    Toast.makeText(getApplicationContext(), "검색할 키워드를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                    et_search.setText("");
+                }
+                else {
                     ((ListViewAdapter) listView.getAdapter()).getFilter().filter(search);
                     Toast.makeText(getApplicationContext(), "검색되었습니다.", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), "검색할 키워드를 입력해주세요.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -109,6 +110,7 @@ public class lol_star extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
         btn_find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,6 +122,13 @@ public class lol_star extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 intent = new Intent(getApplicationContext(), lol_free.class);
+                startActivity(intent);
+            }
+        });
+        btn_star.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                intent = new Intent(getApplicationContext(), lol_star.class);
                 startActivity(intent);
             }
         });
