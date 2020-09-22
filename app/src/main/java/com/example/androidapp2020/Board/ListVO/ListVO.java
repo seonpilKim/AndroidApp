@@ -7,7 +7,6 @@ public class ListVO {
     private String Key;
     private String Time;
     private String t;
-    private String descStr;
     private int views;
     private int comments;
     private int recommendations;
@@ -17,15 +16,6 @@ public class ListVO {
     public ListVO(){}
     public ListVO(String Title){
         this.Title = Title;
-    }
-
-
-    public String getDescStr() {
-        return descStr;
-    }
-
-    public void setDescStr(String descStr) {
-        this.descStr = descStr;
     }
 
     public int getNum() {

@@ -66,9 +66,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Game" />
         </activity>
-        <activity android:name=".Game"></activity>
-        <activity android:name=".MainActivity">
-        </activity>
+        <activity android:name=".Game" />
+        <activity android:name=".MainActivity"></activity>
         <activity android:name=".LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -76,13 +75,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ProfileActivity"/>
-        <activity android:name=".FriendAddActivity"/>
-        <activity android:name=".MenuActivity"/>
-        <activity android:name=".UserProfileActivity"/>
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".FriendAddActivity" />
+        <activity android:name=".MenuActivity" />
+        <activity android:name=".UserProfileActivity" />
         <activity android:name=".Board.Board_Write.board_LoL_edit" />
-        <activity android:name=".Chat.ChattingRoom"></activity>
-
+        <activity android:name=".Chat.ChattingRoom" />
     </application>
 
 </manifest>

@@ -15,7 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="5dp"
+        android:weightSum="10">
         <TextView
             android:layout_marginTop="5dp"
             android:layout_marginLeft="5dp"
@@ -26,19 +27,22 @@
             android:text="제목"
             android:textColor="#000000"
             android:textStyle="bold"
-            android:textSize="30dp"></TextView>
+            android:textSize="30dp"
+            android:layout_weight="8"></TextView>
         <Button
             android:id="@+id/btn_lol_board_edit"
             android:text="수정"
             android:textSize="10dp"
             android:layout_width="50dp"
-            android:layout_height="wrap_content"></Button>
+            android:layout_height="wrap_content"
+            android:layout_weight="1"></Button>
         <Button
             android:id="@+id/btn_lol_board_delete"
             android:text="삭제"
             android:textSize="10dp"
             android:layout_width="50dp"
-            android:layout_height="wrap_content"></Button>
+            android:layout_height="wrap_content"
+            android:layout_weight="1"></Button>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -151,7 +155,7 @@
 
         <Button
             android:id="@+id/btn_lol_comment_Register"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="등록"></Button>

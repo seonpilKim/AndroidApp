@@ -26,14 +26,14 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
     @Override
     public int getCount()
     {
-        return listVO.size();
-//        return filteredItemList.size();
+//        return listVO.size();
+        return filteredItemList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return listVO.get(position);
-//        return filteredItemList.get(position);
+//        return listVO.get(position);
+        return filteredItemList.get(position);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
     public View getView(int position, View convertView, ViewGroup parent) {
         final int pos = position;
         final Context context = parent.getContext();
-        final ListVO listViewItem = listVO.get(position);
+        final ListVO listViewItem = filteredItemList.get(position);
 
         if(convertView == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -93,7 +93,6 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
             listFilter = new ListFilter();
         }
         return listFilter;
-//        return null;
     }
 
     private class ListFilter extends Filter {
@@ -109,8 +108,7 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
                 ArrayList<ListVO> itemList = new ArrayList<ListVO>() ;
 
                 for (ListVO item : listVO) {
-                    if (item.getTitle().toUpperCase().contains(constraint.toString().toUpperCase()) ||
-                            item.getDescStr().toUpperCase().contains(constraint.toString().toUpperCase()))
+                    if (item.getTitle().toUpperCase().contains(constraint.toString().toUpperCase()))
                     {
                         itemList.add(item) ;
                     }

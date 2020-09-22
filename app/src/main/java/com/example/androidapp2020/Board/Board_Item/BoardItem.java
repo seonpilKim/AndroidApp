@@ -1,5 +1,6 @@
 package com.example.androidapp2020.Board.Board_Item;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.example.androidapp2020.Board.Adapter.CommViewAdapter;
 import com.example.androidapp2020.Board.LoL.League_of_Legend;
@@ -163,6 +165,8 @@ public class BoardItem extends AppCompatActivity {
         tv_comments.setText(""+(intent.getIntExtra("comments",0)));
         tv_recommendations = (TextView) findViewById(R.id.tv_lol_board_Recommendations);
         tv_recommendations.setText(""+(intent.getIntExtra("recommendations", 0)));
+
+
 
         listView.setOnTouchListener(new View.OnTouchListener(){
             @Override
@@ -346,7 +350,8 @@ public class BoardItem extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
         else if(System.currentTimeMillis() - time < 2000 ){
-            finish();
+            ActivityCompat.finishAffinity(this);
+            System.exit(0);
         }
     }
     @Override

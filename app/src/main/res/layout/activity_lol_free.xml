@@ -47,12 +47,14 @@
         android:layout_marginRight="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="5">
 
         <EditText
             android:id="@+id/et_lol_free_Search"
-            android:layout_width="202dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="3"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:hint="검색(10자 이내)"
@@ -65,15 +67,17 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:id="@+id/btn_lol_free_Search"
-            android:layout_width="wrap_content"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="검색"></Button>
         <Button
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:id="@+id/btn_lol_free_write"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="글 쓰기"
             ></Button>
     </LinearLayout>

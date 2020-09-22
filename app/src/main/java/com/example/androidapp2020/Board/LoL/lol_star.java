@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -78,6 +79,23 @@ public class lol_star extends AppCompatActivity {
         et_search = (EditText) findViewById(R.id.et_lol_star_Search);
 
         id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+        search = "";
+        ((ListViewAdapter)listView.getAdapter()).getFilter().filter(search);
+
+        // 검색
+        btn_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                search = et_search.getText().toString();
+                if(search.length() > 0) {
+                    ((ListViewAdapter) listView.getAdapter()).getFilter().filter(search);
+                    Toast.makeText(getApplicationContext(), "검색되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "검색할 키워드를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         ActionBar ab = getSupportActionBar();
         ab.setTitle("롤 인기게시판");
@@ -187,7 +205,8 @@ public class lol_star extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
         else if(System.currentTimeMillis() - time < 2000 ){
-            finish();
+            ActivityCompat.finishAffinity(this);
+            System.exit(0);
         }
     }
     @Override

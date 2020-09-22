@@ -43,7 +43,7 @@ public class board_LoL_edit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board_lol_edit);
         ActionBar ab = getSupportActionBar();
-        ab.setTitle("롤");
+        ab.setTitle("글 수정");
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
 

@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.example.androidapp2020.Board.AmongUs;
 import com.example.androidapp2020.Board.BattleGrounds;
@@ -121,7 +122,8 @@ public class Game extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
         else if(System.currentTimeMillis() - time < 2000 ){
-            finish();
+            ActivityCompat.finishAffinity(this);
+            System.exit(0);
         }
     }
     @Override

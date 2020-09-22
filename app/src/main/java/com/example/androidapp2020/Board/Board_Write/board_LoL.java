@@ -93,7 +93,7 @@ public class board_LoL extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board__lo_l);
         ActionBar ab = getSupportActionBar();
-        ab.setTitle("롤");
+        ab.setTitle("글 작성");
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
 
@@ -142,7 +142,6 @@ public class board_LoL extends AppCompatActivity {
             }
         });
     }
-
     @Override
     public void onBackPressed(){
         alert.setTitle("");

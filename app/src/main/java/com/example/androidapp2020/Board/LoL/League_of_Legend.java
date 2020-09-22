@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.example.androidapp2020.Board.Adapter.ListViewAdapter;
 import com.example.androidapp2020.Board.Board_Item.BoardItem;
@@ -58,7 +59,6 @@ public class League_of_Legend extends AppCompatActivity {
     private String search;
     private String id;
     private String type;
-    private String name;
 
     private Button btn_search;
     private Button btn_write;
@@ -75,6 +75,10 @@ public class League_of_Legend extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_league_of__legend); // Link to xml
+        ActionBar ab = getSupportActionBar();
+        ab.setTitle("롤 공지사항");
+        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setDisplayShowHomeEnabled(true);
 
         listView = (ListView) findViewById(R.id.lv_lol_notice);
         adapter = new ListViewAdapter(listVO);
@@ -87,13 +91,24 @@ public class League_of_Legend extends AppCompatActivity {
         btn_free = (Button) findViewById(R.id.btn_lol_notice_free);
         btn_find = (Button) findViewById(R.id.btn_lol_notice_find);
         et_search = (EditText) findViewById(R.id.et_lol_notice_Search);
-
         id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+        search = "";
+        ((ListViewAdapter)listView.getAdapter()).getFilter().filter(search);
 
-        ActionBar ab = getSupportActionBar();
-        ab.setTitle("롤 공지사항");
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setDisplayShowHomeEnabled(true);
+        // 검색
+        btn_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                search = et_search.getText().toString();
+                if(search.length() > 0) {
+                    ((ListViewAdapter) listView.getAdapter()).getFilter().filter(search);
+                    Toast.makeText(getApplicationContext(), "검색되었습니다.", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "검색할 키워드를 입력해주세요.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         btn_find.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,41 +143,6 @@ public class League_of_Legend extends AppCompatActivity {
                 else{
                     Toast.makeText(getApplicationContext(),"권한이 없습니다.", Toast.LENGTH_SHORT).show();
                 }
-            }
-        });
-
-        et_search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                search = et_search.getText().toString();
-            }
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (charSequence.toString().equals(search)) return;
-                if(et_search.isFocusable() && !charSequence.toString().equals("")){
-                    try{
-                        listView.setFilterText(et_search.getText().toString());
-                    }catch(StringIndexOutOfBoundsException e){
-                        e.printStackTrace();
-                        return;
-                    }
-                }
-            }
-            @Override
-            public void afterTextChanged(Editable edit) {
-                name = edit.toString() ;
-                if (name.length() > 0) {
-                    listView.setFilterText(name) ;
-                } else {
-                    listView.clearTextFilter() ;
-                }
-            }
-        });
-
-        btn_search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
             }
         });
 
@@ -239,7 +219,8 @@ public class League_of_Legend extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
         else if(System.currentTimeMillis() - time < 2000 ){
-            finish(); // 수정
+            ActivityCompat.finishAffinity(this);
+            System.exit(0);
         }
     }
     @Override
