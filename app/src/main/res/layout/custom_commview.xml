@@ -2,58 +2,82 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="wrap_content"
+    android:background="#FFFFFF">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
+        android:orientation="horizontal"
         android:layout_marginTop="5dp"
+        android:weightSum="10"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+    <ImageView
+        android:src="@mipmap/profile"
+        android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"
-        android:orientation="horizontal"
-        android:weightSum="10">
-
-        <TextView
-            android:id="@+id/tv_comm_id"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:text="닉네임"
-            android:textColor="#000000"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            android:layout_weight="1"/>
-
-        <TextView
-            android:id="@+id/tv_comm_content"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:text="내용"
-            android:textColor="#000000"
-            android:layout_weight="7"/>
-
-        <TextView
-            android:id="@+id/tv_comm_time"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:text="작성일"
-            android:textSize="10dp"
-            android:layout_weight="1"></TextView>
-
-        <ImageButton
-            android:id="@+id/btn_comm_menu"
-            android:background="@android:color/transparent"
-            android:src="@drawable/menu"
-            android:layout_width="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_weight="2"
+        ></ImageView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="8">
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"></ImageButton>
-
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:weightSum="10">
+            <TextView
+                android:id="@+id/tv_comm_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="닉네임"
+                android:textColor="#000000"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:layout_weight="9"/>
+            <ImageButton
+                android:id="@+id/btn_comm_menu"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:src="@drawable/menu"></ImageButton>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginRight="20dp">
+            <TextView
+                android:id="@+id/tv_comm_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="내용"
+                android:textColor="#000000" />
+            <TextView
+                android:id="@+id/tv_comm_time"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="작성일"
+                android:textSize="10dp"></TextView>
+        </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_centerInParent="true"
+        android:background="#E6E6E6"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"></View>
+</LinearLayout>
+
