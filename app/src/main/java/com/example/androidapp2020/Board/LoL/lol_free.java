@@ -25,6 +25,7 @@ import com.example.androidapp2020.Board.Board_Write.board_LoL;
 import com.example.androidapp2020.Board.ListVO.ListVO;
 import com.example.androidapp2020.Game;
 import com.example.androidapp2020.MainActivity;
+import com.example.androidapp2020.MenuActivity;
 import com.example.androidapp2020.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -38,6 +39,8 @@ import java.util.Map;
 
 public class lol_free extends AppCompatActivity {
     private ListView listView;
+    private ListView listView2;
+    private View header;
 
     private ListViewAdapter adapter;
 
@@ -66,10 +69,17 @@ public class lol_free extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lol_free); // Link to xml
-
+        ActionBar ab = getSupportActionBar();
+        ab.setTitle("롤 자유게시판");
+        ab.setDisplayHomeAsUpEnabled(true);
+        ab.setDisplayShowHomeEnabled(true);
+        header = getLayoutInflater().inflate(R.layout.activity_lol_star, null, false);
         listView = (ListView) findViewById(R.id.lv_lol_free);
+        listView2 = (ListView) header.findViewById(R.id.lv_lol_star);
         adapter = new ListViewAdapter(listVO);
         listView.setAdapter(adapter);
+        listView2.setAdapter(adapter);
+
 
         btn_search = (Button) findViewById(R.id.btn_lol_free_Search);
         btn_write = (Button) findViewById(R.id.btn_lol_free_write);
@@ -105,11 +115,6 @@ public class lol_free extends AppCompatActivity {
                 }
             }
         });
-
-        ActionBar ab = getSupportActionBar();
-        ab.setTitle("롤 자유게시판");
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setDisplayShowHomeEnabled(true);
 
         btn_notice.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,6 +164,14 @@ public class lol_free extends AppCompatActivity {
                         listVO.getViews(), listVO.getComments(), listVO.getRecommendations(), listVO.getNum());
                 adapter.notifyDataSetChanged();
                 listView.setAdapter(adapter);
+                for(DataSnapshot s : dataSnapshot.getChildren()){
+                    if(s.getKey().equals("recommendations")){
+                        if(s.getValue(Integer.class) >= 1){
+                            adapter.notifyDataSetChanged();
+                            listView2.setAdapter(adapter);
+                        }
+                    }
+                }
             }
 
             @Override
@@ -213,6 +226,11 @@ public class lol_free extends AppCompatActivity {
             }
         });
 
+       /*
+       * lol_star에서 listview item클릭하면 lol_free의 해당 item view 증가시키기. 추천, 댓글도 마찬가지.
+       * 같은 아이템을 다른 리스트뷰에도 나타내려면 어떻게?
+       * */
+
     }
     private long time= 0;
     @Override
@@ -235,8 +253,8 @@ public class lol_free extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.btn_main:
-                Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent1);
+                intent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.btn_profile:
                 // 화면전환
@@ -248,8 +266,8 @@ public class lol_free extends AppCompatActivity {
                 // 화면전환
                 return true;
             case R.id.btn_game:
-                Intent intent5= new Intent(getApplicationContext(), Game.class);
-                startActivity(intent5);
+                intent= new Intent(getApplicationContext(), Game.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

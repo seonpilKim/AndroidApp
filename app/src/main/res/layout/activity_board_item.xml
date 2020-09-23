@@ -107,6 +107,7 @@
             android:text="0"
             android:textSize="10dp"></TextView>
         <TextView
+            android:id="@+id/tv_lol_board_Recommendations2"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_width="wrap_content"
