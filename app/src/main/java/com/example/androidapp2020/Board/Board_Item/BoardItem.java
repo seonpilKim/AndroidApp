@@ -32,6 +32,7 @@ import com.example.androidapp2020.Board.LoL.lol_star;
 import com.example.androidapp2020.Game;
 import com.example.androidapp2020.Board.ListVO.CommVO;
 import com.example.androidapp2020.MainActivity;
+import com.example.androidapp2020.MenuActivity;
 import com.example.androidapp2020.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
@@ -81,6 +82,7 @@ public class BoardItem extends AppCompatActivity {
 
     private TextView tv_comments;
     private TextView tv_recommendations;
+    private TextView tv_recommendations2;
     private TextView tv_views;
     private TextView tv_time;
     private TextView tv_id;
@@ -165,6 +167,7 @@ public class BoardItem extends AppCompatActivity {
         tv_comments.setText(""+(intent.getIntExtra("comments",0)));
         tv_recommendations = (TextView) findViewById(R.id.tv_lol_board_Recommendations);
         tv_recommendations.setText(""+(intent.getIntExtra("recommendations", 0)));
+        tv_recommendations2 = (TextView) findViewById(R.id.tv_lol_board_Recommendations2);
 
         listView.setOnTouchListener(new View.OnTouchListener(){
             @Override
@@ -174,6 +177,11 @@ public class BoardItem extends AppCompatActivity {
             }
         });
 
+        if(type.equals("Find")){
+            btn_recommendation.setVisibility(View.GONE);
+            tv_recommendations.setVisibility(View.GONE);
+            tv_recommendations2.setVisibility(View.GONE);
+        }
         if(intent.getStringExtra("id").equals(id)){
             btn_delete.setVisibility(View.VISIBLE);
             btn_edit.setVisibility(View.VISIBLE);
@@ -380,8 +388,8 @@ public class BoardItem extends AppCompatActivity {
                 return true;
             }
             case R.id.btn_main:
-                Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent1);
+                intent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.btn_profile:
                 // 화면전환
@@ -393,8 +401,8 @@ public class BoardItem extends AppCompatActivity {
                 // 화면전환
                 return true;
             case R.id.btn_game:
-                Intent intent5= new Intent(getApplicationContext(), Game.class);
-                startActivity(intent5);
+                intent= new Intent(getApplicationContext(), Game.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

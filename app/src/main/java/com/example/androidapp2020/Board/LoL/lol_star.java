@@ -25,6 +25,7 @@ import com.example.androidapp2020.Board.Board_Write.board_LoL;
 import com.example.androidapp2020.Board.ListVO.ListVO;
 import com.example.androidapp2020.Game;
 import com.example.androidapp2020.MainActivity;
+import com.example.androidapp2020.MenuActivity;
 import com.example.androidapp2020.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -150,69 +151,6 @@ public class lol_star extends AppCompatActivity {
             }
         });
 
-        database.child("Board_list").child("Star").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String previousChildName) {
-                ListVO listVO = dataSnapshot.getValue(ListVO.class);
-                Key = dataSnapshot.getKey();
-                adapter.addVO(listVO.getTitle(), listVO.getContent(), Key, listVO.getId(), listVO.getTime(), listVO.getT(),
-                        listVO.getViews(), listVO.getComments(), listVO.getRecommendations(), listVO.getNum());
-                adapter.notifyDataSetChanged();
-                listView.setAdapter(adapter);
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long i) {
-                String title = ((ListVO)adapter.getItem(position)).getTitle();
-                String content = ((ListVO)adapter.getItem(position)).getContent();
-                String key = ((ListVO)adapter.getItem(position)).getKey();
-                String id = ((ListVO)adapter.getItem(position)).getId();
-                String time = ((ListVO)adapter.getItem(position)).getTime();
-                int comments = ((ListVO)adapter.getItem(position)).getComments();
-                int recommendations = ((ListVO)adapter.getItem(position)).getRecommendations();
-                int number = ((ListVO)adapter.getItem(position)).getNum();
-
-                taskMap.put("/Board_list/Star/" + key + "/views", ((ListVO)adapter.getItem(position)).getViews() + 1);
-                database.updateChildren(taskMap);
-                int views = ((ListVO)adapter.getItem(position)).getViews();
-
-                Intent it_boardItem = new Intent(lol_star.this, BoardItem.class);
-                it_boardItem.putExtra("title", title);
-                it_boardItem.putExtra("content", content);
-                it_boardItem.putExtra("key", key);
-                it_boardItem.putExtra("id", id);
-                it_boardItem.putExtra("time", time);
-                it_boardItem.putExtra("views", views);
-                it_boardItem.putExtra("comments", comments);
-                it_boardItem.putExtra("recommendations", recommendations);
-                it_boardItem.putExtra("number", number);
-                it_boardItem.putExtra("type", "Star");
-                startActivity(it_boardItem);
-            }
-        });
-
     }
     private long time= 0;
     @Override
@@ -235,8 +173,8 @@ public class lol_star extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.btn_main:
-                Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent1);
+                intent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.btn_profile:
                 // 화면전환
@@ -248,8 +186,8 @@ public class lol_star extends AppCompatActivity {
                 // 화면전환
                 return true;
             case R.id.btn_game:
-                Intent intent5= new Intent(getApplicationContext(), Game.class);
-                startActivity(intent5);
+                intent= new Intent(getApplicationContext(), Game.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

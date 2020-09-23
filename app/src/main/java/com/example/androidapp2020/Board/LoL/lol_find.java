@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import com.example.androidapp2020.Board.Board_Write.board_LoL;
 import com.example.androidapp2020.Board.ListVO.ListVO;
 import com.example.androidapp2020.Game;
 import com.example.androidapp2020.MainActivity;
+import com.example.androidapp2020.MenuActivity;
 import com.example.androidapp2020.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -155,7 +157,7 @@ public class lol_find extends AppCompatActivity {
                 ListVO listVO = dataSnapshot.getValue(ListVO.class);
                 Key = dataSnapshot.getKey();
                 adapter.addVO(listVO.getTitle(), listVO.getContent(), Key, listVO.getId(), listVO.getTime(), listVO.getT(),
-                        listVO.getViews(), listVO.getComments(), listVO.getRecommendations(), listVO.getNum());
+                        listVO.getViews(), listVO.getComments(), -1, listVO.getNum());
                 adapter.notifyDataSetChanged();
                 listView.setAdapter(adapter);
             }
@@ -234,8 +236,8 @@ public class lol_find extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.btn_main:
-                Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent1);
+                intent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.btn_profile:
                 // 화면전환
@@ -247,8 +249,8 @@ public class lol_find extends AppCompatActivity {
                 // 화면전환
                 return true;
             case R.id.btn_game:
-                Intent intent5= new Intent(getApplicationContext(), Game.class);
-                startActivity(intent5);
+                intent= new Intent(getApplicationContext(), Game.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -55,9 +55,14 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
         TextView views = (TextView) convertView.findViewById(R.id.tv_lol_board_item_Views);
         TextView comments = (TextView) convertView.findViewById(R.id.tv_lol_board_item_Comments);
         TextView recommendations = (TextView) convertView.findViewById(R.id.tv_lol_board_item_Recommendations);
+        TextView recommendations2 = (TextView) convertView.findViewById(R.id.tv_lol_board_item_Recommendations2);
 
         comments.setText(""+listViewItem.getComments());
-        recommendations.setText(""+listViewItem.getRecommendations());
+        if(listViewItem.getRecommendations() != -1) {
+            recommendations.setText("" + listViewItem.getRecommendations());
+            recommendations2.setVisibility(View.VISIBLE);
+            recommendations.setVisibility(View.VISIBLE);
+        }
         views.setText(""+listViewItem.getViews());
         title.setText(listViewItem.getTitle());
         id.setText(listViewItem.getId());

@@ -12,9 +12,11 @@ import androidx.core.app.ActivityCompat;
 
 import com.example.androidapp2020.Game;
 import com.example.androidapp2020.MainActivity;
+import com.example.androidapp2020.MenuActivity;
 import com.example.androidapp2020.R;
 
 public class BattleGrounds extends AppCompatActivity {
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +48,8 @@ public class BattleGrounds extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.btn_main:
-                Intent intent1 = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent1);
+                intent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.btn_profile:
                 // 화면전환
@@ -59,8 +61,8 @@ public class BattleGrounds extends AppCompatActivity {
                 // 화면전환
                 return true;
             case R.id.btn_game:
-                Intent intent5= new Intent(getApplicationContext(), Game.class);
-                startActivity(intent5);
+                intent= new Intent(getApplicationContext(), Game.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
