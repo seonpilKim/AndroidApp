@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-    android:id="@+id/mn_delete"
+    android:id="@+id/mn_comm_Delete"
     android:title="삭제"></item>
     <item
-        android:id="@+id/mn_edit"
+        android:id="@+id/mn_comm_Edit"
         android:title="수정"></item>
 </menu>

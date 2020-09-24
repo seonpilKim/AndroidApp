@@ -23,6 +23,7 @@ import com.example.androidapp2020.Board.Adapter.ListViewAdapter;
 import com.example.androidapp2020.Board.Board_Item.BoardItem;
 import com.example.androidapp2020.Board.Board_Write.board_LoL;
 import com.example.androidapp2020.Board.ListVO.ListVO;
+import com.example.androidapp2020.FriendAddActivity;
 import com.example.androidapp2020.Game;
 import com.example.androidapp2020.MainActivity;
 import com.example.androidapp2020.MenuActivity;
@@ -180,7 +181,8 @@ public class lol_star extends AppCompatActivity {
                 // 화면전환
                 return true;
             case R.id.btn_friend:
-                // 화면전환
+                intent = new Intent(getApplicationContext(), FriendAddActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.btn_setup:
                 // 화면전환

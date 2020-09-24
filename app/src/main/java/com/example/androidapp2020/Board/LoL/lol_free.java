@@ -23,6 +23,7 @@ import com.example.androidapp2020.Board.Adapter.ListViewAdapter;
 import com.example.androidapp2020.Board.Board_Item.BoardItem;
 import com.example.androidapp2020.Board.Board_Write.board_LoL;
 import com.example.androidapp2020.Board.ListVO.ListVO;
+import com.example.androidapp2020.FriendAddActivity;
 import com.example.androidapp2020.Game;
 import com.example.androidapp2020.MainActivity;
 import com.example.androidapp2020.MenuActivity;
@@ -55,6 +56,18 @@ public class lol_free extends AppCompatActivity {
     private String Key;
     private String search;
     private String id;
+    private String myid;
+    private String title;
+    private String content;
+    private String key;
+    private String time;
+    private String userID;
+
+    private int comments;
+    private int recommendations;
+    private int number;
+    private int views;
+    private long time2 = 0;
 
     private Button btn_search;
     private Button btn_write;
@@ -90,6 +103,7 @@ public class lol_free extends AppCompatActivity {
         et_search = (EditText) findViewById(R.id.et_lol_free_Search);
 
         id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+        myid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         search = "";
         ((ListViewAdapter)listView.getAdapter()).getFilter().filter(search);
 
@@ -161,7 +175,7 @@ public class lol_free extends AppCompatActivity {
                 ListVO listVO = dataSnapshot.getValue(ListVO.class);
                 Key = dataSnapshot.getKey();
                 adapter.addVO(listVO.getTitle(), listVO.getContent(), Key, listVO.getId(), listVO.getTime(), listVO.getT(),
-                        listVO.getViews(), listVO.getComments(), listVO.getRecommendations(), listVO.getNum());
+                        listVO.getuserID(), listVO.getViews(), listVO.getComments(), listVO.getRecommendations(), listVO.getNum());
                 adapter.notifyDataSetChanged();
                 listView.setAdapter(adapter);
                 for(DataSnapshot s : dataSnapshot.getChildren()){
@@ -198,24 +212,33 @@ public class lol_free extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long i) {
-                String title = ((ListVO)adapter.getItem(position)).getTitle();
-                String content = ((ListVO)adapter.getItem(position)).getContent();
-                String key = ((ListVO)adapter.getItem(position)).getKey();
-                String id = ((ListVO)adapter.getItem(position)).getId();
-                String time = ((ListVO)adapter.getItem(position)).getTime();
-                int comments = ((ListVO)adapter.getItem(position)).getComments();
-                int recommendations = ((ListVO)adapter.getItem(position)).getRecommendations();
-                int number = ((ListVO)adapter.getItem(position)).getNum();
+                title = ((ListVO)adapter.getItem(position)).getTitle();
+                content = ((ListVO)adapter.getItem(position)).getContent();
+                key = ((ListVO)adapter.getItem(position)).getKey();
+                id = ((ListVO)adapter.getItem(position)).getId();
+                time = ((ListVO)adapter.getItem(position)).getTime();
+                userID = ((ListVO)adapter.getItem(position)).getuserID();
+                comments = ((ListVO)adapter.getItem(position)).getComments();
+                recommendations = ((ListVO)adapter.getItem(position)).getRecommendations();
+                number = ((ListVO)adapter.getItem(position)).getNum();
 
-                taskMap.put("/Board_list/Free/" + key + "/views", ((ListVO)adapter.getItem(position)).getViews() + 1);
+                if(id.equals(myid)){
+                    taskMap.put("/Board_list/Free/" + key + "/views", ((ListVO) adapter.getItem(position)).getViews());
+                    views = ((ListVO)adapter.getItem(position)).getViews();
+                }
+                else {
+                    taskMap.put("/Board_list/Free/" + key + "/views", ((ListVO) adapter.getItem(position)).getViews() + 1);
+                    views = ((ListVO)adapter.getItem(position)).getViews();
+                }
                 database.updateChildren(taskMap);
-                int views = ((ListVO)adapter.getItem(position)).getViews();
+                views = ((ListVO)adapter.getItem(position)).getViews();
 
                 Intent it_boardItem = new Intent(lol_free.this, BoardItem.class);
                 it_boardItem.putExtra("title", title);
                 it_boardItem.putExtra("content", content);
                 it_boardItem.putExtra("key", key);
                 it_boardItem.putExtra("id", id);
+                it_boardItem.putExtra("userID", userID);
                 it_boardItem.putExtra("time", time);
                 it_boardItem.putExtra("views", views);
                 it_boardItem.putExtra("comments", comments);
@@ -232,14 +255,14 @@ public class lol_free extends AppCompatActivity {
        * */
 
     }
-    private long time= 0;
+
     @Override
     public void onBackPressed(){
-        if(System.currentTimeMillis() - time >= 2000){
-            time=System.currentTimeMillis();
+        if(System.currentTimeMillis() - time2 >= 2000){
+            time2 = System.currentTimeMillis();
             Toast.makeText(getApplicationContext(),"한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
         }
-        else if(System.currentTimeMillis() - time < 2000 ){
+        else if(System.currentTimeMillis() - time2 < 2000 ){
             ActivityCompat.finishAffinity(this);
             System.exit(0);
         }
@@ -260,7 +283,8 @@ public class lol_free extends AppCompatActivity {
                 // 화면전환
                 return true;
             case R.id.btn_friend:
-                // 화면전환
+                intent = new Intent(getApplicationContext(), FriendAddActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.btn_setup:
                 // 화면전환

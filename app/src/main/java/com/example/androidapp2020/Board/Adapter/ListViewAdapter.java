@@ -65,16 +65,17 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
         }
         views.setText(""+listViewItem.getViews());
         title.setText(listViewItem.getTitle());
-        id.setText(listViewItem.getId());
+        id.setText(listViewItem.getuserID());
         t.setText(listViewItem.getT());
 
         return convertView;
     }
 
-    public void addVO(String Title, String Content, String Key, String id, String time, String t
+    public void addVO(String Title, String Content, String Key, String id, String time, String t, String userID
     , int views, int comments, int recommendations, int num){
         ListVO item = new ListVO();
 
+        item.setuserID(userID);
         item.setNum(num);
         item.setComments(comments);
         item.setRecommendations(recommendations);

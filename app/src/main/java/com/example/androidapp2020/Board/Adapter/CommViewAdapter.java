@@ -50,14 +50,15 @@ public class CommViewAdapter extends BaseAdapter {
 
             content.setText(commViewItem.getContent());
             time.setText(commViewItem.getTime());
-            id.setText(commViewItem.getID());
+            id.setText(commViewItem.getuserID());
         }
         return convertView;
     }
 
-    public void addVO(String id, String content, String time){
+    public void addVO(String id, String userID, String content, String time){
         CommVO item = new CommVO();
 
+        item.setuserID(userID);
         item.setID(id);
         item.setContent(content);
         item.setTime(time);

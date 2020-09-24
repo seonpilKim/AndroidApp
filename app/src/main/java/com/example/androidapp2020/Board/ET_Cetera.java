@@ -10,6 +10,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.example.androidapp2020.FriendAddActivity;
 import com.example.androidapp2020.Game;
 import com.example.androidapp2020.MainActivity;
 import com.example.androidapp2020.MenuActivity;
@@ -54,7 +55,8 @@ public class ET_Cetera extends AppCompatActivity {
                 // 화면전환
                 return true;
             case R.id.btn_friend:
-                // 화면전환
+                intent = new Intent(getApplicationContext(), FriendAddActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.btn_setup:
                 // 화면전환

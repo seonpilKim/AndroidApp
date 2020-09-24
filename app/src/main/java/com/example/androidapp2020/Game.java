@@ -143,7 +143,8 @@ public class Game extends AppCompatActivity {
                 // 화면전환
                 return true;
             case R.id.btn_friend:
-                // 화면전환
+                intent = new Intent(getApplicationContext(), FriendAddActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.btn_setup:
                 // 화면전환

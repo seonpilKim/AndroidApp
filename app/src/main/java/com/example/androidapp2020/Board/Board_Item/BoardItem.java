@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,10 +30,12 @@ import com.example.androidapp2020.Board.Board_Write.board_LoL_edit;
 import com.example.androidapp2020.Board.LoL.lol_find;
 import com.example.androidapp2020.Board.LoL.lol_free;
 import com.example.androidapp2020.Board.LoL.lol_star;
+import com.example.androidapp2020.FriendAddActivity;
 import com.example.androidapp2020.Game;
 import com.example.androidapp2020.Board.ListVO.CommVO;
 import com.example.androidapp2020.MainActivity;
 import com.example.androidapp2020.MenuActivity;
+import com.example.androidapp2020.ProfileActivity;
 import com.example.androidapp2020.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
@@ -56,6 +59,8 @@ public class BoardItem extends AppCompatActivity {
     private String id;
     private String recommended;
     private String type;
+    private String userID;
+    private String cm_userID;
 
     private DatabaseReference database;
 
@@ -99,15 +104,19 @@ public class BoardItem extends AppCompatActivity {
 
     private class Comment {
         private String id;
+        private String userID;
         private String content;
         private String time;
 
         Comment() { }
-        public Comment(String id, String content, String time) {
+        public Comment(String id, String userID, String content, String time) {
             this.id = id;
             this.content = content;
             this.time = time;
+            this.userID = userID;
         }
+
+        public String getuserID() {return userID;}
 
         public String getId() {
             return id;
@@ -136,8 +145,9 @@ public class BoardItem extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
 
-        id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         intent = getIntent();
+        id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+        userID = intent.getStringExtra("userID");
         key = intent.getStringExtra("key");
         btn_register = (Button) findViewById(R.id.btn_lol_comment_Register);
         btn_recommendation = (Button) findViewById(R.id.btn_lol_board_Recommendations);
@@ -158,16 +168,72 @@ public class BoardItem extends AppCompatActivity {
         tv_content = (TextView) findViewById(R.id.tv_lol_board_Content);
         tv_content.setText(intent.getStringExtra("content"));
         tv_id = (TextView) findViewById(R.id.tv_lol_board_Id);
-        tv_id.setText(intent.getStringExtra("id"));
+        tv_id.setText(intent.getStringExtra("userID"));
         tv_time = (TextView) findViewById(R.id.tv_lol_board_Time);
         tv_time.setText(intent.getStringExtra("time"));
         tv_views = (TextView) findViewById((R.id.tv_lol_board_Views));
-        tv_views.setText(""+(intent.getIntExtra("views", 0)+1));
+        if(id.equals(intent.getStringExtra("id"))) {
+            tv_views.setText("" + (intent.getIntExtra("views", 0)));
+        }
+        else{
+            tv_views.setText("" + (intent.getIntExtra("views", 0) + 1));
+        }
         tv_comments = (TextView) findViewById(R.id.tv_lol_board_Comments);
         tv_comments.setText(""+(intent.getIntExtra("comments",0)));
         tv_recommendations = (TextView) findViewById(R.id.tv_lol_board_Recommendations);
         tv_recommendations.setText(""+(intent.getIntExtra("recommendations", 0)));
         tv_recommendations2 = (TextView) findViewById(R.id.tv_lol_board_Recommendations2);
+
+        userID = tv_id.getText().toString();
+
+        tv_id.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu p = new PopupMenu(getApplicationContext(), view);
+                getMenuInflater().inflate(R.menu.profile_menu, p.getMenu());
+                p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch(menuItem.getItemId()) {
+                            case R.id.mn_pf_addFriend:
+                                return true;
+                            case R.id.mn_pf_Chat:
+                                return true;
+                            case R.id.mn_pf_Profile:
+                                intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                                intent.putExtra("friendID", userID);
+                                startActivity(intent);
+                                return true;
+                            default:
+                                return BoardItem.super.onOptionsItemSelected(menuItem);
+                        }
+                    }
+                });
+                p.show();
+            }
+        });
+
+        database.child("User_list").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                for(DataSnapshot s : snapshot.getChildren()){
+                    if(s.getKey().equals("UID")){
+                        if(s.getValue(String.class).equals(id)){
+                            cm_userID = snapshot.getKey();
+                            break;
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) { }
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) { }
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) { }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
+        });
 
         listView.setOnTouchListener(new View.OnTouchListener(){
             @Override
@@ -254,9 +320,9 @@ public class BoardItem extends AppCompatActivity {
         database.child("Board_list").child(type).child(key).child("recommended").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                recommendations = 0;
+                recommendations = (int)dataSnapshot.getChildrenCount();
+                recommendeds.clear();
                 for (DataSnapshot recSnapshot : dataSnapshot.getChildren()) {
-                   recommendations++;
                    recommended = recSnapshot.getValue(String.class);
                    recommendeds.add(recommended);
                 }
@@ -288,10 +354,7 @@ public class BoardItem extends AppCompatActivity {
         database.child("Board_list").child(type).child(key).child("commented").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                comments = 0;
-                for(DataSnapshot comSnapshot : dataSnapshot.getChildren()){
-                    comments++;
-                }
+                comments = (int)dataSnapshot.getChildrenCount();
                 taskMap.put("/Board_list/" + type + "/" + key + "/comments", comments);
                 database.updateChildren(taskMap);
                 tv_comments.setText("" + comments);
@@ -306,9 +369,9 @@ public class BoardItem extends AppCompatActivity {
             public void onClick(View view) {
                 now = System.currentTimeMillis();
                 mDate = new Date(now);
-                SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy.MM.dd\nHH:mm:ss");
+                SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
                 simpleDate.setTimeZone(zone);
-                Comment com = new Comment(id, et_comment.getText().toString(), simpleDate.format(mDate));
+                Comment com = new Comment(id, cm_userID, et_comment.getText().toString(), simpleDate.format(mDate));
                 database.child("Board_list").child(type).child(key).child("commented").push().setValue(com);
                 Toast.makeText(getApplicationContext(), "댓글이 작성되었습니다.", Toast.LENGTH_LONG).show();
                 intent = getIntent();
@@ -321,7 +384,7 @@ public class BoardItem extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String previousChildName) {
                 CommVO commVO = dataSnapshot.getValue(CommVO.class);
-                adapter.addVO(commVO.getID(), commVO.getContent(), commVO.getTime());
+                adapter.addVO(commVO.getID(), commVO.getuserID(), commVO.getContent(), commVO.getTime());
                 adapter.notifyDataSetChanged();
                 listView.setAdapter(adapter);
             }
@@ -363,6 +426,7 @@ public class BoardItem extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.profile_menu, menu);
         return true;
     }
     @Override
@@ -395,7 +459,8 @@ public class BoardItem extends AppCompatActivity {
                 // 화면전환
                 return true;
             case R.id.btn_friend:
-                // 화면전환
+                intent = new Intent(getApplicationContext(), FriendAddActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.btn_setup:
                 // 화면전환

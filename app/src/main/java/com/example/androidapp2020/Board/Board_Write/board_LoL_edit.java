@@ -18,6 +18,7 @@ import com.example.androidapp2020.Board.LoL.League_of_Legend;
 import com.example.androidapp2020.Board.LoL.lol_find;
 import com.example.androidapp2020.Board.LoL.lol_free;
 import com.example.androidapp2020.Board.LoL.lol_star;
+import com.example.androidapp2020.FriendAddActivity;
 import com.example.androidapp2020.Game;
 import com.example.androidapp2020.MainActivity;
 import com.example.androidapp2020.MenuActivity;
@@ -162,21 +163,61 @@ public class board_LoL_edit extends AppCompatActivity {
                 return true;
             }
             case R.id.btn_main:
-                intent = new Intent(getApplicationContext(), MenuActivity.class);
-                startActivity(intent);
+                alert.setTitle("");
+                alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        intent = new Intent(getApplicationContext(), MenuActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+                alert.setMessage("지금 나가시면 이 글은 저장되지 않습니다.\n그래도 나가시겠습니까?");
+                alert.show();
                 return true;
             case R.id.btn_profile:
                 // 화면전환
                 return true;
             case R.id.btn_friend:
-                // 화면전환
+                alert.setTitle("");
+                alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        intent = new Intent(getApplicationContext(), FriendAddActivity.class);
+                        startActivity(intent);
+                    }
+                });
+                alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+                alert.setMessage("지금 나가시면 이 글은 저장되지 않습니다.\n그래도 나가시겠습니까?");
+                alert.show();
                 return true;
             case R.id.btn_setup:
                 // 화면전환
                 return true;
             case R.id.btn_game:
-                intent= new Intent(getApplicationContext(), Game.class);
-                startActivity(intent);
+                alert.setTitle("");
+                alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        intent= new Intent(getApplicationContext(), Game.class);
+                        startActivity(intent);
+                    }
+                });
+                alert.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+                alert.setMessage("지금 나가시면 이 글은 저장되지 않습니다.\n그래도 나가시겠습니까?");
+                alert.show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
