@@ -230,7 +230,7 @@ public class League_of_Legend extends AppCompatActivity {
                 }
                 else {
                     taskMap.put("/Board_list/Notice/" + key + "/views", ((ListVO) adapter.getItem(position)).getViews() + 1);
-                    views = ((ListVO)adapter.getItem(position)).getViews() + 1;
+                    views = ((ListVO)adapter.getItem(position)).getViews();
                 }
                 database.updateChildren(taskMap);
 

@@ -172,7 +172,12 @@ public class BoardItem extends AppCompatActivity {
         tv_time = (TextView) findViewById(R.id.tv_lol_board_Time);
         tv_time.setText(intent.getStringExtra("time"));
         tv_views = (TextView) findViewById((R.id.tv_lol_board_Views));
-        tv_views.setText(""+(intent.getIntExtra("views", 0)));
+        if(id.equals(intent.getStringExtra("id"))) {
+            tv_views.setText("" + (intent.getIntExtra("views", 0)));
+        }
+        else{
+            tv_views.setText("" + (intent.getIntExtra("views", 0) + 1));
+        }
         tv_comments = (TextView) findViewById(R.id.tv_lol_board_Comments);
         tv_comments.setText(""+(intent.getIntExtra("comments",0)));
         tv_recommendations = (TextView) findViewById(R.id.tv_lol_board_Recommendations);

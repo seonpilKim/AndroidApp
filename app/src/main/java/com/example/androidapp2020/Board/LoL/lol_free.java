@@ -228,7 +228,7 @@ public class lol_free extends AppCompatActivity {
                 }
                 else {
                     taskMap.put("/Board_list/Free/" + key + "/views", ((ListVO) adapter.getItem(position)).getViews() + 1);
-                    views = ((ListVO)adapter.getItem(position)).getViews() + 1;
+                    views = ((ListVO)adapter.getItem(position)).getViews();
                 }
                 database.updateChildren(taskMap);
                 views = ((ListVO)adapter.getItem(position)).getViews();
