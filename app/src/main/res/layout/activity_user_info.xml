@@ -58,7 +58,7 @@
                 android:textSize="18sp" />
 
             <RadioGroup
-                android:id="@+id/radioGroup"
+                android:id="@+id/radioGroup_gender"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
@@ -80,27 +80,39 @@
             </RadioGroup>
         </LinearLayout>
 
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:orientation="horizontal">
+            android:layout_height="88dp"
+            android:layout_weight="1">
 
             <TextView
-                android:id="@+id/tv_dicord"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_mic"
+                android:layout_width="114dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="디스코드"
+                android:text="마이크"
                 android:textSize="18sp" />
 
-            <EditText
-                android:id="@+id/tn_discord"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="textPersonName" />
+            <RadioGroup
+                android:id="@+id/radioGroup_mic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/bt_yes"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="O" />
+
+                <RadioButton
+                    android:id="@+id/bt_no"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="X" />
+
+            </RadioGroup>
         </LinearLayout>
 
         <Button
@@ -109,6 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="등록" />
+
 
     </LinearLayout>
 

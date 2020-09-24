@@ -35,6 +35,6 @@
             android:id="@+id/bt_chat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="채팅" />
+            android:text="친구" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
