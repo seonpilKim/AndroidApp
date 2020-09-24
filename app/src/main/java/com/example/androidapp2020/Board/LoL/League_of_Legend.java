@@ -64,7 +64,7 @@ public class League_of_Legend extends AppCompatActivity {
     private String Key;
     private String search;
     private String id;
-    private String type;
+    private String myid;
     private String title;
     private String content;
     private String key;
@@ -107,6 +107,7 @@ public class League_of_Legend extends AppCompatActivity {
         btn_find = (Button) findViewById(R.id.btn_lol_notice_find);
         et_search = (EditText) findViewById(R.id.et_lol_notice_Search);
         id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+        myid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         search = "";
         ((ListViewAdapter)listView.getAdapter()).getFilter().filter(search);
 
@@ -223,10 +224,15 @@ public class League_of_Legend extends AppCompatActivity {
                 comments = ((ListVO)adapter.getItem(position)).getComments();
                 recommendations = ((ListVO)adapter.getItem(position)).getRecommendations();
                 number = ((ListVO)adapter.getItem(position)).getNum();
-
-                taskMap.put("/Board_list/Notice/" + key + "/views", ((ListVO)adapter.getItem(position)).getViews() + 1);
+                if(id.equals(myid)){
+                    taskMap.put("/Board_list/Notice/" + key + "/views", ((ListVO) adapter.getItem(position)).getViews());
+                    views = ((ListVO)adapter.getItem(position)).getViews();
+                }
+                else {
+                    taskMap.put("/Board_list/Notice/" + key + "/views", ((ListVO) adapter.getItem(position)).getViews() + 1);
+                    views = ((ListVO)adapter.getItem(position)).getViews() + 1;
+                }
                 database.updateChildren(taskMap);
-                views = ((ListVO)adapter.getItem(position)).getViews();
 
              Intent it_boardItem = new Intent(League_of_Legend.this, BoardItem.class);
                 it_boardItem.putExtra("title", title);

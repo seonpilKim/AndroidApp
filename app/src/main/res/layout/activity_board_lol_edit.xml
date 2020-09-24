@@ -60,9 +60,6 @@
         android:ems="100"
         android:inputType="textPersonName"
         android:hint="제목 (최대 30자)"
-        android:enabled="true"
-        android:selectAllOnFocus="true"
-        android:textColorHighlight="#DCDCDC"
         android:maxLength="30">
 
     </EditText>
@@ -77,9 +74,6 @@
         android:ems="100"
         android:inputType="textMultiLine"
         android:hint="내용 (최대 1000자)"
-        android:enabled="true"
-        android:selectAllOnFocus="true"
-        android:textColorHighlight="@color/colorPrimary"
         android:maxLength="1000">
     </EditText>
 </LinearLayout>

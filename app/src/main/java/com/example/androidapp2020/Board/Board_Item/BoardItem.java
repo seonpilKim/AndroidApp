@@ -172,7 +172,7 @@ public class BoardItem extends AppCompatActivity {
         tv_time = (TextView) findViewById(R.id.tv_lol_board_Time);
         tv_time.setText(intent.getStringExtra("time"));
         tv_views = (TextView) findViewById((R.id.tv_lol_board_Views));
-        tv_views.setText(""+(intent.getIntExtra("views", 0)+1));
+        tv_views.setText(""+(intent.getIntExtra("views", 0)));
         tv_comments = (TextView) findViewById(R.id.tv_lol_board_Comments);
         tv_comments.setText(""+(intent.getIntExtra("comments",0)));
         tv_recommendations = (TextView) findViewById(R.id.tv_lol_board_Recommendations);
@@ -189,7 +189,19 @@ public class BoardItem extends AppCompatActivity {
                 p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem menuItem) {
-                        return false;
+                        switch(menuItem.getItemId()) {
+                            case R.id.mn_pf_addFriend:
+                                return true;
+                            case R.id.mn_pf_Chat:
+                                return true;
+                            case R.id.mn_pf_Profile:
+                                intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                                intent.putExtra("friendID", userID);
+                                startActivity(intent);
+                                return true;
+                            default:
+                                return BoardItem.super.onOptionsItemSelected(menuItem);
+                        }
                     }
                 });
                 p.show();
@@ -451,15 +463,6 @@ public class BoardItem extends AppCompatActivity {
             case R.id.btn_game:
                 intent= new Intent(getApplicationContext(), Game.class);
                 startActivity(intent);
-                return true;
-            case R.id.mn_pf_addFriend:
-                return true;
-            case R.id.mn_pf_Chat:
-                return true;
-            case R.id.mn_pf_Profile:
-//                intent = new Intent(getApplicationContext(), ProfileActivity.class);
-//                intent.putExtra("friendID", userID);
-//                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
