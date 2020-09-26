@@ -24,14 +24,26 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.androidapp2020.Board.Adapter.CommViewAdapter;
+import com.example.androidapp2020.Board.Board_List.AmUs.AmongUs;
+import com.example.androidapp2020.Board.Board_List.AmUs.au_find;
+import com.example.androidapp2020.Board.Board_List.AmUs.au_free;
+import com.example.androidapp2020.Board.Board_List.AmUs.au_star;
 import com.example.androidapp2020.Board.Board_List.BG.BG_find;
 import com.example.androidapp2020.Board.Board_List.BG.BG_free;
 import com.example.androidapp2020.Board.Board_List.BG.BG_star;
 import com.example.androidapp2020.Board.Board_List.BG.BattleGrounds;
+import com.example.androidapp2020.Board.Board_List.ETC.ET_Cetera;
+import com.example.androidapp2020.Board.Board_List.ETC.etc_find;
+import com.example.androidapp2020.Board.Board_List.ETC.etc_free;
+import com.example.androidapp2020.Board.Board_List.ETC.etc_star;
 import com.example.androidapp2020.Board.Board_List.FIFA.FifaOnline4;
 import com.example.androidapp2020.Board.Board_List.FIFA.ff_find;
 import com.example.androidapp2020.Board.Board_List.FIFA.ff_free;
 import com.example.androidapp2020.Board.Board_List.FIFA.ff_star;
+import com.example.androidapp2020.Board.Board_List.HS.HearthStone;
+import com.example.androidapp2020.Board.Board_List.HS.hs_find;
+import com.example.androidapp2020.Board.Board_List.HS.hs_free;
+import com.example.androidapp2020.Board.Board_List.HS.hs_star;
 import com.example.androidapp2020.Board.Board_List.KR.KartRider;
 import com.example.androidapp2020.Board.Board_List.KR.kr_find;
 import com.example.androidapp2020.Board.Board_List.KR.kr_free;
@@ -44,6 +56,10 @@ import com.example.androidapp2020.Board.Board_List.OW.OverWatch;
 import com.example.androidapp2020.Board.Board_List.OW.ow_find;
 import com.example.androidapp2020.Board.Board_List.OW.ow_free;
 import com.example.androidapp2020.Board.Board_List.OW.ow_star;
+import com.example.androidapp2020.Board.Board_List.SC2.StarCraft2;
+import com.example.androidapp2020.Board.Board_List.SC2.sc_find;
+import com.example.androidapp2020.Board.Board_List.SC2.sc_free;
+import com.example.androidapp2020.Board.Board_List.SC2.sc_star;
 import com.example.androidapp2020.Board.Board_Write.board_edit;
 import com.example.androidapp2020.Chat.ChattingRoom;
 import com.example.androidapp2020.FriendAddActivity;
@@ -218,6 +234,14 @@ public class BoardItem extends AppCompatActivity {
             case "KartRider":
                 ab.setTitle("카트");
                 break;
+            case "AmongUs":
+                ab.setTitle("어몽어스");
+            case "StarCraft2":
+                ab.setTitle("스타2");
+            case "HearthStone":
+                ab.setTitle("하스스톤");
+            case"ET_Cetera":
+                ab.setTitle("기타");
             default:
         }
         tv_id.setOnClickListener(new View.OnClickListener() {
@@ -426,6 +450,90 @@ public class BoardItem extends AppCompatActivity {
                                             break;
                                             case "Star": {
                                                 intent = new Intent(getApplicationContext(), kr_star.class);
+                                            }
+                                            break;
+                                            default:
+                                        }
+                                    }break;
+                                    case "AmongUs": {
+                                        switch (board_type) {
+                                            case "Notice": {
+                                                intent = new Intent(getApplicationContext(), AmongUs.class);
+                                            }
+                                            break;
+                                            case "Find": {
+                                                intent = new Intent(getApplicationContext(), au_find.class);
+                                            }
+                                            break;
+                                            case "Free": {
+                                                intent = new Intent(getApplicationContext(), au_free.class);
+                                            }
+                                            break;
+                                            case "Star": {
+                                                intent = new Intent(getApplicationContext(), au_star.class);
+                                            }
+                                            break;
+                                            default:
+                                        }
+                                    }break;
+                                    case "StarCraft2": {
+                                        switch (board_type) {
+                                            case "Notice": {
+                                                intent = new Intent(getApplicationContext(), StarCraft2.class);
+                                            }
+                                            break;
+                                            case "Find": {
+                                                intent = new Intent(getApplicationContext(), sc_find.class);
+                                            }
+                                            break;
+                                            case "Free": {
+                                                intent = new Intent(getApplicationContext(), sc_free.class);
+                                            }
+                                            break;
+                                            case "Star": {
+                                                intent = new Intent(getApplicationContext(), sc_star.class);
+                                            }
+                                            break;
+                                            default:
+                                        }
+                                    }break;
+                                    case "HearthStone": {
+                                        switch (board_type) {
+                                            case "Notice": {
+                                                intent = new Intent(getApplicationContext(), HearthStone.class);
+                                            }
+                                            break;
+                                            case "Find": {
+                                                intent = new Intent(getApplicationContext(), hs_find.class);
+                                            }
+                                            break;
+                                            case "Free": {
+                                                intent = new Intent(getApplicationContext(), hs_free.class);
+                                            }
+                                            break;
+                                            case "Star": {
+                                                intent = new Intent(getApplicationContext(), hs_star.class);
+                                            }
+                                            break;
+                                            default:
+                                        }
+                                    }break;
+                                    case "ET_Cetera": {
+                                        switch (board_type) {
+                                            case "Notice": {
+                                                intent = new Intent(getApplicationContext(), ET_Cetera.class);
+                                            }
+                                            break;
+                                            case "Find": {
+                                                intent = new Intent(getApplicationContext(), etc_find.class);
+                                            }
+                                            break;
+                                            case "Free": {
+                                                intent = new Intent(getApplicationContext(), etc_free.class);
+                                            }
+                                            break;
+                                            case "Star": {
+                                                intent = new Intent(getApplicationContext(), etc_star.class);
                                             }
                                             break;
                                             default:
@@ -666,6 +774,90 @@ public class BoardItem extends AppCompatActivity {
                             break;
                             case "Star": {
                                 intent = new Intent(getApplicationContext(), kr_star.class);
+                            }
+                            break;
+                            default:
+                        }
+                    }break;
+                    case "AmongUs": {
+                        switch (board_type) {
+                            case "Notice": {
+                                intent = new Intent(getApplicationContext(), AmongUs.class);
+                            }
+                            break;
+                            case "Find": {
+                                intent = new Intent(getApplicationContext(), au_find.class);
+                            }
+                            break;
+                            case "Free": {
+                                intent = new Intent(getApplicationContext(), au_free.class);
+                            }
+                            break;
+                            case "Star": {
+                                intent = new Intent(getApplicationContext(), au_star.class);
+                            }
+                            break;
+                            default:
+                        }
+                    }break;
+                    case "StarCraft2": {
+                        switch (board_type) {
+                            case "Notice": {
+                                intent = new Intent(getApplicationContext(), StarCraft2.class);
+                            }
+                            break;
+                            case "Find": {
+                                intent = new Intent(getApplicationContext(), sc_find.class);
+                            }
+                            break;
+                            case "Free": {
+                                intent = new Intent(getApplicationContext(), sc_free.class);
+                            }
+                            break;
+                            case "Star": {
+                                intent = new Intent(getApplicationContext(), sc_star.class);
+                            }
+                            break;
+                            default:
+                        }
+                    }break;
+                    case "HearthStone": {
+                        switch (board_type) {
+                            case "Notice": {
+                                intent = new Intent(getApplicationContext(), HearthStone.class);
+                            }
+                            break;
+                            case "Find": {
+                                intent = new Intent(getApplicationContext(), hs_find.class);
+                            }
+                            break;
+                            case "Free": {
+                                intent = new Intent(getApplicationContext(), hs_free.class);
+                            }
+                            break;
+                            case "Star": {
+                                intent = new Intent(getApplicationContext(), hs_star.class);
+                            }
+                            break;
+                            default:
+                        }
+                    }break;
+                    case "ET_Cetera": {
+                        switch (board_type) {
+                            case "Notice": {
+                                intent = new Intent(getApplicationContext(), ET_Cetera.class);
+                            }
+                            break;
+                            case "Find": {
+                                intent = new Intent(getApplicationContext(), etc_find.class);
+                            }
+                            break;
+                            case "Free": {
+                                intent = new Intent(getApplicationContext(), etc_free.class);
+                            }
+                            break;
+                            case "Star": {
+                                intent = new Intent(getApplicationContext(), etc_star.class);
                             }
                             break;
                             default:

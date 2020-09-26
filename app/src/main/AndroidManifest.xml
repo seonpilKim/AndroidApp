@@ -12,17 +12,77 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Board.Board_List.ETC.etc_star">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Board.Board_List.ETC.etc_free" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Board.Board_List.ETC.etc_find" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Board.Board_List.HS.hs_star">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Board.Board_List.HS.hs_free">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Board.Board_List.HS.hs_find">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Board.Board_List.SC2.sc_star">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Board.Board_List.SC2.sc_free">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Board.Board_List.SC2.sc_find">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Board.Board_List.AmUs.au_star">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Board.Board_List.AmUs.au_free">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Board.Board_List.AmUs.au_find">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
         <activity android:name=".Board.Board_List.KR.kr_star">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Game" />
         </activity>
-        <activity android:name=".Board.Board_List.KR.kr_free" >
+        <activity android:name=".Board.Board_List.KR.kr_free">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Game" />
         </activity>
-        <activity android:name=".Board.Board_List.KR.kr_find" >
+        <activity android:name=".Board.Board_List.KR.kr_find">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Game" />

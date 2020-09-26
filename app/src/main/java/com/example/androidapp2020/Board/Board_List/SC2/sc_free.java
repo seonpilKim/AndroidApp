@@ -1,4 +1,9 @@
-package com.example.androidapp2020.Board.Board_List.HS;
+package com.example.androidapp2020.Board.Board_List.SC2;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,18 +18,12 @@ import android.widget.Filter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 import com.example.androidapp2020.Board.Adapter.ListViewAdapter;
 import com.example.androidapp2020.Board.Board_Item.BoardItem;
-import com.example.androidapp2020.Board.Board_List.KR.KartRider;
-import com.example.androidapp2020.Board.Board_List.KR.kr_find;
-import com.example.androidapp2020.Board.Board_List.KR.kr_free;
-import com.example.androidapp2020.Board.Board_List.KR.kr_star;
+import com.example.androidapp2020.Board.Board_List.OW.OverWatch;
+import com.example.androidapp2020.Board.Board_List.OW.ow_find;
+import com.example.androidapp2020.Board.Board_List.OW.ow_free;
+import com.example.androidapp2020.Board.Board_List.OW.ow_star;
 import com.example.androidapp2020.Board.Board_Write.board_write;
 import com.example.androidapp2020.Board.ListVO.ListVO;
 import com.example.androidapp2020.FriendAddActivity;
@@ -41,8 +40,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class HearthStone extends AppCompatActivity {
+public class sc_free extends AppCompatActivity {
     private ListView listView;
+    private ListView listView2;
+    private View header;
 
     private ListViewAdapter adapter;
 
@@ -68,7 +69,7 @@ public class HearthStone extends AppCompatActivity {
     private int recommendations;
     private int number;
     private int views;
-    private long time2= 0;
+    private long time2 = 0;
 
     private Button btn_search;
     private Button btn_write;
@@ -76,36 +77,36 @@ public class HearthStone extends AppCompatActivity {
     private Button btn_star;
     private Button btn_free;
     private Button btn_find;
-
     private EditText et_search;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hearth_stone);
-        ActionBar ab = getSupportActionBar();
-        ab.setTitle("하스스톤 공지사항");
+        setContentView(R.layout.activity_sc_free); ActionBar ab = getSupportActionBar();
+        ab.setTitle("스타2 자유게시판");
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
-
-        listView = (ListView) findViewById(R.id.lv_hs_notice);
+        header = getLayoutInflater().inflate(R.layout.activity_sc_star, null, false);
+        listView = (ListView) findViewById(R.id.lv_sc_free);
+        listView2 = (ListView) header.findViewById(R.id.lv_sc_star);
         adapter = new ListViewAdapter(listVO);
         listView.setAdapter(adapter);
+        listView2.setAdapter(adapter);
 
-        btn_search = (Button) findViewById(R.id.btn_hs_notice_Search);
-        btn_write = (Button) findViewById(R.id.btn_hs_notice_write);
-        btn_notice = (Button) findViewById(R.id.btn_hs_notice_notice);
-        btn_star = (Button) findViewById(R.id.btn_hs_notice_star);
-        btn_free = (Button) findViewById(R.id.btn_hs_notice_free);
-        btn_find = (Button) findViewById(R.id.btn_hs_notice_find);
-        et_search = (EditText) findViewById(R.id.et_hs_notice_Search);
+
+        btn_search = (Button) findViewById(R.id.btn_sc_free_Search);
+        btn_write = (Button) findViewById(R.id.btn_sc_free_write);
+        btn_notice = (Button) findViewById(R.id.btn_sc_free_notice);
+        btn_star = (Button) findViewById(R.id.btn_sc_free_star);
+        btn_free = (Button) findViewById(R.id.btn_sc_free_free);
+        btn_find = (Button) findViewById(R.id.btn_sc_free_find);
+        et_search = (EditText) findViewById(R.id.et_sc_free_Search);
+
         id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         myid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         search = "";
         ((ListViewAdapter)listView.getAdapter()).getFilter().filter(search);
 
-// 검색
+        // 검색
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,7 +132,7 @@ public class HearthStone extends AppCompatActivity {
         btn_notice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent = new Intent(getApplicationContext(), HearthStone.class);
+                intent = new Intent(getApplicationContext(), StarCraft2.class);
                 startActivity(intent);
             }
         });
@@ -139,42 +140,36 @@ public class HearthStone extends AppCompatActivity {
         btn_find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent = new Intent(getApplicationContext(), hs_find.class);
+                intent = new Intent(getApplicationContext(), sc_find.class);
                 startActivity(intent);
             }
         });
         btn_free.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent = new Intent(getApplicationContext(), hs_free.class);
+                intent = new Intent(getApplicationContext(), sc_free.class);
                 startActivity(intent);
             }
         });
         btn_star.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent = new Intent(getApplicationContext(), hs_star.class);
+                intent = new Intent(getApplicationContext(), sc_star.class);
                 startActivity(intent);
             }
         });
 
-// 작성
         btn_write.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(id.equals("228bc064cfc41a98")) {
-                    Intent it_board_LoL = new Intent(getApplicationContext(), board_write.class);
-                    it_board_LoL.putExtra("board_type", "Notice");
-                    it_board_LoL.putExtra("game_type", "HearthStone");
-                    startActivity(it_board_LoL);
-                }
-                else{
-                    Toast.makeText(getApplicationContext(),"권한이 없습니다.", Toast.LENGTH_SHORT).show();
-                }
+                intent = new Intent(sc_free.this, board_write.class);
+                intent.putExtra("board_type", "Free");
+                intent.putExtra("game_type", "StarCraft2");
+                startActivity(intent);
             }
         });
 
-        database.child("Board_list").child("HearthStone").child("Notice").addChildEventListener(new ChildEventListener() {
+        database.child("Board_list").child("StarCraft2").child("Free").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String previousChildName) {
                 ListVO listVO = dataSnapshot.getValue(ListVO.class);
@@ -183,7 +178,14 @@ public class HearthStone extends AppCompatActivity {
                         listVO.getuserID(), listVO.getViews(), listVO.getComments(), listVO.getRecommendations(), listVO.getNum());
                 adapter.notifyDataSetChanged();
                 listView.setAdapter(adapter);
-
+                for(DataSnapshot s : dataSnapshot.getChildren()){
+                    if(s.getKey().equals("recommendations")){
+                        if(s.getValue(Integer.class) >= 1){
+                            adapter.notifyDataSetChanged();
+                            listView2.setAdapter(adapter);
+                        }
+                    }
+                }
             }
 
             @Override
@@ -219,17 +221,17 @@ public class HearthStone extends AppCompatActivity {
                 comments = ((ListVO)adapter.getItem(position)).getComments();
                 recommendations = ((ListVO)adapter.getItem(position)).getRecommendations();
                 number = ((ListVO)adapter.getItem(position)).getNum();
+
                 if(id.equals(myid)){
-                    taskMap.put("/Board_list/HearthStone/Notice/" + key + "/views", ((ListVO) adapter.getItem(position)).getViews());
-                    views = ((ListVO)adapter.getItem(position)).getViews();
+                    taskMap.put("/Board_list/StarCraft2/Free/" + key + "/views", ((ListVO) adapter.getItem(position)).getViews());
                 }
                 else {
-                    taskMap.put("/Board_list/HearthStone/Notice/" + key + "/views", ((ListVO) adapter.getItem(position)).getViews() + 1);
-                    views = ((ListVO)adapter.getItem(position)).getViews();
+                    taskMap.put("/Board_list/StarCraft2/Free/" + key + "/views", ((ListVO) adapter.getItem(position)).getViews() + 1);
                 }
                 database.updateChildren(taskMap);
+                views = ((ListVO)adapter.getItem(position)).getViews();
 
-                Intent it_boardItem = new Intent(HearthStone.this, BoardItem.class);
+                Intent it_boardItem = new Intent(sc_free.this, BoardItem.class);
                 it_boardItem.putExtra("title", title);
                 it_boardItem.putExtra("content", content);
                 it_boardItem.putExtra("key", key);
@@ -240,23 +242,11 @@ public class HearthStone extends AppCompatActivity {
                 it_boardItem.putExtra("comments", comments);
                 it_boardItem.putExtra("recommendations", recommendations);
                 it_boardItem.putExtra("number", number);
-                it_boardItem.putExtra("board_type", "Notice");
-                it_boardItem.putExtra("game_type", "HearthStone");
+                it_boardItem.putExtra("board_type", "Free");
+                it_boardItem.putExtra("game_type", "StarCraft2");;
                 startActivity(it_boardItem);
             }
         });
-    }
-
-    @Override
-    public void onBackPressed(){
-        if(System.currentTimeMillis() - time2 >= 2000){
-            time2=System.currentTimeMillis();
-            Toast.makeText(getApplicationContext(),"한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
-        }
-        else if(System.currentTimeMillis() - time2 < 2000 ){
-            ActivityCompat.finishAffinity(this);
-            System.exit(0);
-        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
