@@ -1,106 +1,99 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="match_parent"
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="10"
+        >
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="친구리스트"
+            android:layout_weight="8"
+            android:id="@+id/friend_name">
+        </EditText>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:id="@+id/friend_add"
+            android:text="친구 추가"/>
+
+    </LinearLayout>
 
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="10">
-
-            <EditText
-                android:id="@+id/friend_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="8"
-                android:hint="친구리스트">
-            </EditText>
-
-            <Button
-                android:id="@+id/friend_add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="친구 추가"
-                ></Button>
-
-        </LinearLayout>
-
-
-    <LinearLayout
-        android:id="@+id/layer_friend_view"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="친구 리스트"
-        android:textSize="25dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal">
-    </TextView>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="삭제하려면 길게 누르세요."
-            android:textSize="15dp"
-            android:gravity="left">
-        </TextView>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        android:fillViewport="true"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
-
-
-
-        <ListView
-            android:id="@+id/friend_name_list"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </ListView>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/layer_friend_view">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="친구 리스트"
+                    android:gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:textSize="25dp"> </TextView>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="삭제하려면 길게 누르세요."
+                    android:gravity="left"
+                    android:textSize="15dp"></TextView>
+
+                <ListView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/friend_name_list"> </ListView>
+
+            </LinearLayout>
 
 
-
-    </ScrollView>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/layer_user_view"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
+            -<LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="검색된 사용자"
-            android:textSize="25dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_horizontal">
-        </TextView>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+            android:id="@+id/layer_user_view">
 
-        android:fillViewport="true"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
-    <ListView
-        android:id="@+id/user_name_list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="검색된 사용자"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:textSize="25dp"> </TextView>
 
-    </ListView>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/user_name_list"> </ListView>
+
+        </LinearLayout>
+
+        </LinearLayout>
+
     </ScrollView>
-    </LinearLayout>
 
 </LinearLayout>

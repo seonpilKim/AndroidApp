@@ -54,15 +54,9 @@ public class FriendListAdapter extends ArrayAdapter {
         viewHolder.button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), viewHolder.textName.getText().toString()+"2", Toast.LENGTH_LONG).show();
-//                Toast.makeText(getContext(), "Textview= " + viewHolder.textName.getText().toString(), Toast.LENGTH_LONG).show();
-//                bundle=new Bundle();
-//                bundle.putString("ITEMNAME", viewHolder.textName.getText().toString());
-//                Intent intent=new Intent(getContext(), CallingActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                intent.putExtras(bundle);
-//                mCtx.startActivity(intent);
-    }});
+                Toast.makeText(getContext(), viewHolder.textName.getText().toString(), Toast.LENGTH_LONG).show();
+
+            }});
 
 
         return convertView;

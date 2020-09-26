@@ -9,11 +9,13 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.Toast;
@@ -45,7 +47,6 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
     String friend_name;
 
     LinearLayout layer_friend_view;
-    LinearLayout layer_user_view;
 
     String ID="testUser";
     //String ID = SharedProperty.getUserID();
@@ -76,55 +77,23 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
         friend_add_button.setOnClickListener(this);
         friend_edit_view = (EditText) findViewById(R.id.friend_name);
 
- //       arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        //       arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         arrayAdapter = new FriendListAdapter(friendList, this);
         friend_names = (ListView) findViewById(R.id.friend_name_list);
         friend_names.setAdapter(arrayAdapter);
-        friend_names.setOnItemClickListener(onClickListener);
         friend_names.setOnItemLongClickListener(longClickListener);
 
-        userAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         user_names = (ListView) findViewById(R.id.user_name_list);
-        user_names.setAdapter(userAdapter);
-        user_names.setTextFilterEnabled(true);
+        user_names.setOnItemClickListener(userOnClickListener);
 
         friend_edit_view.addTextChangedListener(this);
 
         layer_friend_view = (LinearLayout) findViewById(R.id.layer_friend_view);
-        layer_user_view = (LinearLayout) findViewById(R.id.layer_user_view);
 
-        layer_friend_view.setVisibility(View.VISIBLE);
-        layer_user_view.setVisibility(View.GONE);
-
-        getRegisteredUserList();
-        getFriendList(ID);
+        getFriendListFromServer(ID);
 
         friend_add_button.setEnabled(true);
     }
-
-
-    private AdapterView.OnItemClickListener onClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//            Log.e("On Click", "position = " + position);
-//            Log.e("On Click", "Data: " + arrayData.get(position));
-//            String[] tempData = arrayData.get(position).split("\\s+");
-//            Log.e("On Click", "Split Result = " + tempData);
-//            edit_ID.setText(tempData[0].trim());
-//            edit_Name.setText(tempData[1].trim());
-//            edit_Age.setText(tempData[2].trim());
-//            if(tempData[3].trim().equals("Man")){
-//                check_Man.setChecked(true);
-//                gender = "Man";
-//            }else{
-//                check_Woman.setChecked(true);
-//                gender = "Woman";
-//            }
-//            edit_ID.setEnabled(false);
-//            btn_Insert.setEnabled(false);
-//            btn_Update.setEnabled(true);
-        }
-    };
 
     private AdapterView.OnItemLongClickListener longClickListener = new AdapterView.OnItemLongClickListener() {
         @Override
@@ -139,8 +108,8 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             friend_data.friend_names.remove(user_name);
-                            postFirebaseDatabase(ID);
-                            getFriendList(ID);
+                            putFriendListToServer(ID);
+                            getFriendListFromServer(ID);
                             Toast.makeText(FriendAddActivity.this, "친구를 삭제했습니다.", Toast.LENGTH_SHORT).show();
                         }
                     })
@@ -156,6 +125,14 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
         }
     };
 
+    private AdapterView.OnItemClickListener userOnClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            String user_name = userList.get(position).toString();
+            friend_edit_view.setText(user_name);
+        }
+    };
+
     public boolean IsExistID(String name){
         return userList.contains(name);
     }
@@ -164,7 +141,7 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
         return friendList.contains(name);
     }
 
-    public void postFirebaseDatabase(String ID){
+    public void putFriendListToServer(String ID){
         //mPostReference = FirebaseDatabase.getInstance().getReference();
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
@@ -181,14 +158,19 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.e("getFirebaseDatabase", "key: " + dataSnapshot.getChildrenCount());
                 userList.clear();
-                userAdapter.clear();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     String key = postSnapshot.getKey();
-                    userList.add(key);
-                    userAdapter.add(key);
-                    Log.d("getFirebaseDatabase", "key: " + key);
+                    if (!IsExistFriend(key) && !ID.equals(key)) { //TODO userAdapter bug
+                        Log.d("getFirebaseDatabase", "Add key: " + key);
+                        userList.add(key);
+                    }
+                    //Log.d("getFirebaseDatabase", "key: " + key);
                 }
+                userAdapter = new ArrayAdapter<String>(FriendAddActivity.this, android.R.layout.simple_list_item_1);
+                userAdapter.addAll(userList);
+                user_names.setAdapter(userAdapter);
                 userAdapter.notifyDataSetChanged();
+                setListViewHeightBasedOnItems(user_names);
             }
 
             @Override
@@ -200,7 +182,7 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
         sortbyAge.addListenerForSingleValueEvent(postListener);
     }
 
-    public void getFriendList(String id){
+    public void getFriendListFromServer(String id){
         ValueEventListener postListener2 = new ValueEventListener() {
 
             @Override
@@ -211,16 +193,20 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
                 if (get == null) {
                     friendList.clear();
                     arrayAdapter.notifyDataSetChanged();
+                    setListViewHeightBasedOnItems(friend_names);
+                    getRegisteredUserList();
                     return;
                 }
                 friend_data = get;
 
                 friendList.clear();
                 for (String friend : friend_data.friend_names) {
-                        friendList.add(friend);
+                    friendList.add(friend);
                 }
 
                 arrayAdapter.notifyDataSetChanged();
+                setListViewHeightBasedOnItems(friend_names);
+                getRegisteredUserList();
             }
 
             @Override
@@ -248,8 +234,8 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
                     } else {
                         friend_data.friend_names.add(0, friend_name);
                         friend_edit_view.getText().clear();
-                        postFirebaseDatabase(ID);
-                        getFriendList(ID);
+                        putFriendListToServer(ID);
+                        getFriendListFromServer(ID);
                     }
                 }
                 break;
@@ -274,18 +260,54 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        user_names.setFilterText(friend_edit_view.getText().toString());
+
     }
 
     @Override
     public void afterTextChanged(Editable editable) {
         if(friend_edit_view.getText().length() == 0) {
-            layer_friend_view.setVisibility(View.VISIBLE);
-            layer_user_view.setVisibility(View.GONE);
             user_names.clearTextFilter();
+            user_names.setTextFilterEnabled(false);
+            layer_friend_view.setVisibility(View.VISIBLE);
         } else if (friend_edit_view.getText().length() >= 1) {
+            user_names.setTextFilterEnabled(true);
+            user_names.setFilterText(friend_edit_view.getText().toString());
             layer_friend_view.setVisibility(View.GONE);
-            layer_user_view.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public boolean setListViewHeightBasedOnItems(ListView listView) {
+
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter != null) {
+
+            int numberOfItems = listAdapter.getCount();
+
+            // Get total height of all items.
+            int totalItemsHeight = 0;
+            for (int itemPos = 0; itemPos < numberOfItems; itemPos++) {
+                View item = listAdapter.getView(itemPos, null, listView);
+                float px = 500 * (listView.getResources().getDisplayMetrics().density);
+                item.measure(View.MeasureSpec.makeMeasureSpec((int) px, View.MeasureSpec.AT_MOST), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+                totalItemsHeight += item.getMeasuredHeight();
+            }
+
+            // Get total height of all item dividers.
+            int totalDividersHeight = listView.getDividerHeight() *
+                    (numberOfItems - 1);
+            // Get paddingdfd
+            int totalPadding = listView.getPaddingTop() + listView.getPaddingBottom();
+
+            // Set list height.
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
+            params.height = totalItemsHeight + totalDividersHeight + totalPadding;
+            listView.setLayoutParams(params);
+            listView.requestLayout();
+            //setDynamicHeight(listView);
+            return true;
+
+        } else {
+            return false;
         }
     }
 }

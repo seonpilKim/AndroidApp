@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -47,6 +48,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     CheckBox check_star2;
     CheckBox check_amongus;
 
+
+    TextView user_age;
+    TextView user_gender;
+    TextView user_dico;
 
 
     //  포지션 체크박스 용
@@ -98,16 +103,29 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     RelativeLayout hidden7;
     RelativeLayout hidden8;
 
-
+    Spinner lol_spinner1;
+    Spinner lol_spinner2;
+    Spinner battle_spinner;
+    Spinner over_spinner;
+    Spinner fifa4_spinner;
+    Spinner kart_spinner1;
+    Spinner kart_spinner2;
+    Spinner hearth_spinner1;
+    Spinner hearth_spinner2;
+    Spinner star_spinner1;
+    Spinner star_spinner2;
 
     ///////// 화면 UI ////////////////////////////////////////////////////////////////////////////////
     // 화면에 설정되고 있는 사용자 프로파일
     ProfileData pro_data = new ProfileData();
+    String loginID;
+    String friendID;
     String ID = "testUser";
-    //String ID = SharedProperty.getUserID();
+
+    Boolean profileEditable; // 내것만 편집가능, 남의 것은 편집안됨.
+    Boolean editState;    // 내것에서 편집모드
 
     String sort = "id"; // 아이디로 처음에 설정
-    Boolean profileEditable = true;
 
     ArrayAdapter<String> arrayAdapter;
 
@@ -122,37 +140,39 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         ActionBar ab = getSupportActionBar();
         ab.setTitle("프로필");
         ab.setDisplayHomeAsUpEnabled(true);
-       // ab.setDisplayShowHomeEnabled(true);
-
+        // ab.setDisplayShowHomeEnabled(true);
 
         SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
-        ID = pref.getString("loginID", "testUser");
-
+        loginID = pref.getString("loginID", "testUser");
 
         Intent intent = getIntent();
-        // TODO  id 방식이 결정되면 변경.
-        String fromFriendID = intent.getStringExtra( "friendID");
-        if (fromFriendID == null) {
+        friendID = intent.getStringExtra( "friendID");
+
+        if (friendID == null) {  // 내 프로필
+            ID = loginID;
             profileEditable = true;
-        } else {
-            ID = fromFriendID;
+            editState = false;
+        } else {                 // 친구 프로필
+            ID = friendID;
             profileEditable = false;
+            editState = false;
         }
+        ab.setSubtitle(ID);
 
         btn_Update = (Button) findViewById(R.id.btn_update);
         btn_Update.setOnClickListener(this);
 
-        final Spinner lol_spinner1 = (Spinner)findViewById(R.id.freerank);
-        final Spinner lol_spinner2 = (Spinner)findViewById(R.id.sololank);
-        final Spinner battle_spinner = (Spinner)findViewById(R.id.battle_tier);
-        final Spinner over_spinner = (Spinner)findViewById(R.id.over_lank);
-        final Spinner fifa4_spinner = (Spinner)findViewById(R.id.fifa4_tiers);
-        final Spinner kart_spinner1 = (Spinner)findViewById(R.id.kartrider_tier1);
-        final Spinner kart_spinner2 = (Spinner)findViewById(R.id.kartrider_tier2);
-        final Spinner hearth_spinner1 = (Spinner)findViewById(R.id.hearthstone_lank);
-        final Spinner hearth_spinner2 = (Spinner)findViewById(R.id.hearthstone_dack);
-        final Spinner star_spinner1 = (Spinner)findViewById(R.id.star2_triber);
-        final Spinner star_spinner2 = (Spinner)findViewById(R.id.star2_tiers);
+        lol_spinner1 = (Spinner)findViewById(R.id.freerank);
+        lol_spinner2 = (Spinner)findViewById(R.id.sololank);
+        battle_spinner = (Spinner)findViewById(R.id.battle_tier);
+        over_spinner = (Spinner)findViewById(R.id.over_lank);
+        fifa4_spinner = (Spinner)findViewById(R.id.fifa4_tiers);
+        kart_spinner1 = (Spinner)findViewById(R.id.kartrider_tier1);
+        kart_spinner2 = (Spinner)findViewById(R.id.kartrider_tier2);
+        hearth_spinner1 = (Spinner)findViewById(R.id.hearthstone_lank);
+        hearth_spinner2 = (Spinner)findViewById(R.id.hearthstone_dack);
+        star_spinner1 = (Spinner)findViewById(R.id.star2_triber);
+        star_spinner2 = (Spinner)findViewById(R.id.star2_tiers);
 
         AdapterView.OnItemSelectedListener item_listener =  new AdapterView.OnItemSelectedListener() {
             @Override
@@ -213,6 +233,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         star_spinner2.setOnItemSelectedListener(item_listener);
         star_spinner1.setOnItemSelectedListener(item_listener);
+
+
+        user_age = (TextView) findViewById(R.id.user_age);
+
+        user_dico = (TextView) findViewById(R.id.user_dico);
+        user_gender = (TextView) findViewById(R.id.user_gender);
+
 
         check_lol = (CheckBox) findViewById(R.id.check_lol);
         check_lol.setOnClickListener(this);
@@ -358,9 +385,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 ProfileData get = dataSnapshot.getValue(ProfileData.class);
 
                 if (get == null) {
-                    if (profileEditable == false) {
-                        setProfileEditable(false);
-                    }
+
+                    setProfileEditable(profileEditable, editState);
+
                     hidden2.setVisibility(View.GONE);
                     hidden3.setVisibility(View.GONE);
                     hidden4.setVisibility(View.GONE);
@@ -390,7 +417,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         hidden4.setVisibility(View.VISIBLE);
                     } else {
                         hidden4.setVisibility(View.GONE);
-                        }
+                    }
                     if (get.game_selected.get("피파4") != null && get.game_selected.get("피파4").booleanValue() == true){
                         check_fifa4.setChecked(true);
                         hidden5.setVisibility(View.VISIBLE);
@@ -440,7 +467,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 if (get.battle_selected != null) {
                     battle_spinner.setSelection(get.battle_selected.intValue());
-                   // check_battle.setChecked(true);
+                    // check_battle.setChecked(true);
                 }
                 if (get.battle_map != null) {
                     if (get.battle_map.get("사녹") != null && get.battle_map.get("사녹").booleanValue() == true)
@@ -474,11 +501,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 if (get.over_position != null) {
                     if (get.over_position.get("탱커") != null && get.over_position.get("탱커").booleanValue() == true)
-                        battle_1.setChecked(true);
+                        over_tanker.setChecked(true);
                     if (get.over_position.get("딜러") != null && get.over_position.get("딜러").booleanValue() == true)
-                        battle_2.setChecked(true);
+                        over_dps.setChecked(true);
                     if (get.over_position.get("힐러") != null && get.over_position.get("힐러").booleanValue() == true)
-                        battle_3.setChecked(true);
+                        over_healer.setChecked(true);
                 }
                 if (get.fifa4_game != null) {
                     if (get.fifa4_game.get("공식경기") != null && get.fifa4_game.get("공식경기").booleanValue() == true)
@@ -514,9 +541,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     star_spinner2.setSelection(get.star2_selected2.intValue());
                 }
 
-                if (profileEditable == false) {
-                    setProfileEditable(false);
-                }
+                setProfileEditable(profileEditable, editState);
+
             }
 
             @Override
@@ -527,14 +553,84 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         Query data = mPostReference.child("Profile_list").child(ID).orderByKey();
         data.addListenerForSingleValueEvent(dataListener);
 
+        ValueEventListener dataListener0 = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserData0 userData = snapshot.getValue(UserData0.class);
+                user_age.setText(userData.Age);
+                user_gender.setText(userData.Gender);
+                user_dico.setText(userData.Discord);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
+        };
+
+        Query data0 = mPostReference.child("User_list").child(ID).orderByKey();
+        data0.addListenerForSingleValueEvent(dataListener0);
+
+
     }
 
-    private void setProfileEditable(boolean editable) {
-        btn_Update.setEnabled(editable);
-//            check_lol.setEnabled(editable);
-//            check_battle.setEnabled(editable);
-//            star_spinner2.setEnabled(editable);
-        // TODO
+    private void setProfileEditable(Boolean profileEditable, Boolean editable) {
+        if (profileEditable) {
+            if (editable) {
+                btn_Update.setText("저장");
+            } else {
+                btn_Update.setText("수정");
+            }
+        } else {
+            btn_Update.setVisibility(View.GONE);
+        }
+        check_lol.setEnabled(editable);
+        check_battle.setEnabled(editable);
+        check_over.setEnabled(editable);
+        check_fifa4.setEnabled(editable);
+        check_kart.setEnabled(editable);
+        check_hearth.setEnabled(editable);
+        check_star2.setEnabled(editable);
+        check_amongus.setEnabled(editable);
+        lol_spinner1.setEnabled(editable);
+        lol_spinner2.setEnabled(editable);
+
+        lol_top.setEnabled(editable);
+        lol_bottom.setEnabled(editable);
+        lol_jungle.setEnabled(editable);
+        lol_mid.setEnabled(editable);
+        lol_support.setEnabled(editable);
+
+        battle_spinner.setEnabled(editable);
+
+        battle_sa.setEnabled(editable);
+        battle_eran.setEnabled(editable);
+        battle_mi.setEnabled(editable);
+        battle_ka.setEnabled(editable);
+        battle_bi.setEnabled(editable);
+
+        battle_1.setEnabled(editable);
+        battle_2.setEnabled(editable);
+        battle_3.setEnabled(editable);
+        battle_4.setEnabled(editable);
+        battle_5.setEnabled(editable);
+        battle_6.setEnabled(editable);
+
+        over_spinner.setEnabled(editable);
+        over_dps.setEnabled(editable);
+        over_tanker.setEnabled(editable);
+        over_healer.setEnabled(editable);
+
+        fifa4_gon.setEnabled(editable);
+        fifa4_chi.setEnabled(editable);
+        fifa4_onebyone.setEnabled(editable);
+        fifa4_twobytwo.setEnabled(editable);
+        fifa4_bol.setEnabled(editable);
+        fifa4_spinner.setEnabled(editable);
+        kart_spinner1.setEnabled(editable);
+        kart_spinner2.setEnabled(editable);
+        hearth_spinner1.setEnabled(editable);
+        hearth_spinner2.setEnabled(editable);
+        star_spinner1.setEnabled(editable);
+        star_spinner2.setEnabled(editable);
     }
 
     public void postFirebaseDatabase(boolean add){
@@ -551,9 +647,16 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_update:
-                postFirebaseDatabase(true);
-                Toast.makeText(this.getApplicationContext(),"사용자 프로필이 수정되었습니다.", Toast.LENGTH_SHORT).show();
+            case R.id.btn_update: // 내 프로필에서만 올수 있다.
+                if (editState) {
+                    postFirebaseDatabase(true);
+                    Toast.makeText(this.getApplicationContext(),"사용자 프로필이 수정되었습니다.", Toast.LENGTH_SHORT).show();
+                    editState = false;
+                    setProfileEditable(profileEditable, editState);
+                } else {
+                    editState = true;
+                    setProfileEditable(profileEditable, editState);
+                }
                 break;
 
             //////////////
@@ -572,7 +675,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 {pro_data.game_selected.put("배그", true);
                     hidden3.setVisibility(View.VISIBLE);}
                 else{
-                pro_data.game_selected.put("배그", false);
+                    pro_data.game_selected.put("배그", false);
                     hidden3.setVisibility(View.GONE);
                 }
                 break;
@@ -580,10 +683,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.check_over:
                 if (check_over.isChecked())
                 {pro_data.game_selected.put("오버워치", true);
-                hidden4.setVisibility(View.VISIBLE);}
+                    hidden4.setVisibility(View.VISIBLE);}
                 else
                 {    pro_data.game_selected.put("오버워치", false);
-                hidden4.setVisibility(View.GONE);}
+                    hidden4.setVisibility(View.GONE);}
                 break;
 
             case R.id.check_fifa4:
@@ -822,3 +925,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 }
 
+class UserData0 {
+    public String Age;
+    public String Discord;
+    public String Gender;
+}
