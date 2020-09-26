@@ -1,8 +1,6 @@
 package com.example.androidapp2020.Chat;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.TimeZone;
 
 public class ListCard {
     private String userName;
@@ -12,10 +10,8 @@ public class ListCard {
     public ListCard (String userName, String recentMsg, long time) {
         this.userName = userName;
         this.recentMsg = recentMsg;
-        this.time = time;
+        time = new Date().getTime();
     }
-
-    public ListCard() {}
 
     public String getUserName() {
         return userName;
