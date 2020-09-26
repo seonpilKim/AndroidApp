@@ -18,6 +18,13 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
     private ArrayList<ListVO> listVO = new ArrayList<ListVO>();
     private Filter listFilter;
     private ArrayList<ListVO> filteredItemList = listVO;
+    private TextView id;
+    private TextView t;
+    private TextView title;
+    private TextView views;
+    private TextView comments;
+    private TextView recommendations;
+    private TextView recommendations2;
 
     public ListViewAdapter(ArrayList<ListVO> listVO){
         this.listVO = listVO;
@@ -49,13 +56,13 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
             convertView = inflater.inflate(R.layout.custom_listview, parent, false);
         }
 
-        TextView id = (TextView) convertView.findViewById(R.id.tv_lol_board_item_Id);
-        TextView t = (TextView) convertView.findViewById(R.id.tv_lol_board_item_T);
-        TextView title = (TextView) convertView.findViewById(R.id.tv_lol_board_item_Title);
-        TextView views = (TextView) convertView.findViewById(R.id.tv_lol_board_item_Views);
-        TextView comments = (TextView) convertView.findViewById(R.id.tv_lol_board_item_Comments);
-        TextView recommendations = (TextView) convertView.findViewById(R.id.tv_lol_board_item_Recommendations);
-        TextView recommendations2 = (TextView) convertView.findViewById(R.id.tv_lol_board_item_Recommendations2);
+       id = (TextView) convertView.findViewById(R.id.tv_board_item_Id);
+       t = (TextView) convertView.findViewById(R.id.tv_board_item_T);
+       title = (TextView) convertView.findViewById(R.id.tv_board_item_Title);
+       views = (TextView) convertView.findViewById(R.id.tv_board_item_Views);
+       comments = (TextView) convertView.findViewById(R.id.tv_board_item_Comments);
+       recommendations = (TextView) convertView.findViewById(R.id.tv_board_item_Recommendations);
+       recommendations2 = (TextView) convertView.findViewById(R.id.tv_board_item_Recommendations2);
 
         comments.setText(""+listViewItem.getComments());
         if(listViewItem.getRecommendations() != -1) {

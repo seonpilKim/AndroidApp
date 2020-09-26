@@ -1,6 +1,5 @@
 package com.example.androidapp2020.Board.Board_Item;
 
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,15 +24,31 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import com.example.androidapp2020.Board.Adapter.CommViewAdapter;
-import com.example.androidapp2020.Board.LoL.League_of_Legend;
-import com.example.androidapp2020.Board.Board_Write.board_LoL_edit;
-import com.example.androidapp2020.Board.LoL.lol_find;
-import com.example.androidapp2020.Board.LoL.lol_free;
-import com.example.androidapp2020.Board.LoL.lol_star;
+import com.example.androidapp2020.Board.Board_List.BG.BG_find;
+import com.example.androidapp2020.Board.Board_List.BG.BG_free;
+import com.example.androidapp2020.Board.Board_List.BG.BG_star;
+import com.example.androidapp2020.Board.Board_List.BG.BattleGrounds;
+import com.example.androidapp2020.Board.Board_List.FIFA.FifaOnline4;
+import com.example.androidapp2020.Board.Board_List.FIFA.ff_find;
+import com.example.androidapp2020.Board.Board_List.FIFA.ff_free;
+import com.example.androidapp2020.Board.Board_List.FIFA.ff_star;
+import com.example.androidapp2020.Board.Board_List.KR.KartRider;
+import com.example.androidapp2020.Board.Board_List.KR.kr_find;
+import com.example.androidapp2020.Board.Board_List.KR.kr_free;
+import com.example.androidapp2020.Board.Board_List.KR.kr_star;
+import com.example.androidapp2020.Board.Board_List.LoL.League_of_Legend;
+import com.example.androidapp2020.Board.Board_List.LoL.lol_find;
+import com.example.androidapp2020.Board.Board_List.LoL.lol_free;
+import com.example.androidapp2020.Board.Board_List.LoL.lol_star;
+import com.example.androidapp2020.Board.Board_List.OW.OverWatch;
+import com.example.androidapp2020.Board.Board_List.OW.ow_find;
+import com.example.androidapp2020.Board.Board_List.OW.ow_free;
+import com.example.androidapp2020.Board.Board_List.OW.ow_star;
+import com.example.androidapp2020.Board.Board_Write.board_edit;
+import com.example.androidapp2020.Chat.ChattingRoom;
 import com.example.androidapp2020.FriendAddActivity;
 import com.example.androidapp2020.Game;
 import com.example.androidapp2020.Board.ListVO.CommVO;
-import com.example.androidapp2020.MainActivity;
 import com.example.androidapp2020.MenuActivity;
 import com.example.androidapp2020.ProfileActivity;
 import com.example.androidapp2020.R;
@@ -58,7 +73,8 @@ public class BoardItem extends AppCompatActivity {
     private String key;
     private String id;
     private String recommended;
-    private String type;
+    private String board_type;
+    private String game_type;
     private String userID;
     private String cm_userID;
 
@@ -141,7 +157,7 @@ public class BoardItem extends AppCompatActivity {
         setContentView(R.layout.activity_board_item);
 
         ActionBar ab = getSupportActionBar();
-        ab.setTitle("롤");
+
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
 
@@ -161,7 +177,8 @@ public class BoardItem extends AppCompatActivity {
         listView.setAdapter(adapter);
         number = intent.getIntExtra("number",0);
         alert = new AlertDialog.Builder(this);
-        type = intent.getStringExtra("type");
+        board_type = intent.getStringExtra("board_type");
+        game_type = intent.getStringExtra("game_type");
 
         tv_title = (TextView) findViewById(R.id.tv_lol_board_Title);
         tv_title.setText(intent.getStringExtra("title"));
@@ -185,7 +202,24 @@ public class BoardItem extends AppCompatActivity {
         tv_recommendations2 = (TextView) findViewById(R.id.tv_lol_board_Recommendations2);
 
         userID = tv_id.getText().toString();
-
+        switch (game_type) {
+            case "League_of_Legend":
+                ab.setTitle("롤");
+                break;
+            case "BattleGrounds":
+                ab.setTitle("배그");
+                break;
+            case "OverWatch":
+                ab.setTitle("오버워치");
+                break;
+            case "FifaOnlione4":
+                ab.setTitle("피파4");
+                break;
+            case "KartRider":
+                ab.setTitle("카트");
+                break;
+            default:
+        }
         tv_id.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -198,6 +232,10 @@ public class BoardItem extends AppCompatActivity {
                             case R.id.mn_pf_addFriend:
                                 return true;
                             case R.id.mn_pf_Chat:
+                                intent = new Intent(getApplicationContext(), ChattingRoom.class);
+                                intent.putExtra("myID", cm_userID);
+                                intent.putExtra("otherID", tv_id.getText().toString());
+                                startActivity(intent);
                                 return true;
                             case R.id.mn_pf_Profile:
                                 intent = new Intent(getApplicationContext(), ProfileActivity.class);
@@ -243,7 +281,7 @@ public class BoardItem extends AppCompatActivity {
             }
         });
 
-        if(type.equals("Find")){
+        if(board_type.equals("Find")){
             btn_recommendation.setVisibility(View.GONE);
             tv_recommendations.setVisibility(View.GONE);
             tv_recommendations2.setVisibility(View.GONE);
@@ -264,11 +302,12 @@ public class BoardItem extends AppCompatActivity {
         btn_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                intent = new Intent(getApplicationContext(), board_LoL_edit.class);
+                intent = new Intent(getApplicationContext(), board_edit.class);
                 intent.putExtra("title", tv_title.getText().toString());
                 intent.putExtra("content", tv_content.getText().toString());
                 intent.putExtra("key", key);
-                intent.putExtra("type", type);
+                intent.putExtra("game_type", game_type);
+                intent.putExtra("board_type", board_type);
                 finish();
                 startActivity(intent);
             }
@@ -282,22 +321,115 @@ public class BoardItem extends AppCompatActivity {
                 alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        database.child("Board_list").child(type).child(key).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        database.child("Board_list").child(game_type).child(board_type).child(key).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 Toast.makeText(getApplicationContext(), "게시글이 삭제되었습니다.", Toast.LENGTH_LONG).show();
-                                switch(type){
-                                    case "Notice" :{
-                                        intent = new Intent(getApplicationContext(), League_of_Legend.class);
+                                switch(game_type){
+                                    case "League_of_Legend": {
+                                        switch (board_type) {
+                                            case "Notice": {
+                                                intent = new Intent(getApplicationContext(), League_of_Legend.class);
+                                            }
+                                            break;
+                                            case "Find": {
+                                                intent = new Intent(getApplicationContext(), lol_find.class);
+                                            }
+                                            break;
+                                            case "Free": {
+                                                intent = new Intent(getApplicationContext(), lol_free.class);
+                                            }
+                                            break;
+                                            case "Star": {
+                                                intent = new Intent(getApplicationContext(), lol_star.class);
+                                            }
+                                            break;
+                                            default:
+                                        }
                                     }break;
-                                    case "Find" :{
-                                        intent = new Intent(getApplicationContext(), lol_find.class);
+                                    case "BattleGrounds" :{
+                                        switch (board_type) {
+                                            case "Notice": {
+                                                intent = new Intent(getApplicationContext(), BattleGrounds.class);
+                                            }
+                                            break;
+                                            case "Find": {
+                                                intent = new Intent(getApplicationContext(), BG_find.class);
+                                            }
+                                            break;
+                                            case "Free": {
+                                                intent = new Intent(getApplicationContext(), BG_free.class);
+                                            }
+                                            break;
+                                            case "Star": {
+                                                intent = new Intent(getApplicationContext(), BG_star.class);
+                                            }
+                                            break;
+                                            default:
+                                        }
                                     }break;
-                                    case "Free" :{
-                                        intent = new Intent(getApplicationContext(), lol_free.class);
+                                    case "OverWatch" :{
+                                        switch (board_type) {
+                                            case "Notice": {
+                                                intent = new Intent(getApplicationContext(), OverWatch.class);
+                                            }
+                                            break;
+                                            case "Find": {
+                                                intent = new Intent(getApplicationContext(), ow_find.class);
+                                            }
+                                            break;
+                                            case "Free": {
+                                                intent = new Intent(getApplicationContext(), ow_free.class);
+                                            }
+                                            break;
+                                            case "Star": {
+                                                intent = new Intent(getApplicationContext(), ow_star.class);
+                                            }
+                                            break;
+                                            default:
+                                        }
                                     }break;
-                                    case "Star" :{
-                                        intent = new Intent(getApplicationContext(), lol_star.class);
+                                    case "FifaOnline4" :{
+                                        switch (board_type) {
+                                            case "Notice": {
+                                                intent = new Intent(getApplicationContext(), FifaOnline4.class);
+                                            }
+                                            break;
+                                            case "Find": {
+                                                intent = new Intent(getApplicationContext(), ff_find.class);
+                                            }
+                                            break;
+                                            case "Free": {
+                                                intent = new Intent(getApplicationContext(), ff_free.class);
+                                            }
+                                            break;
+                                            case "Star": {
+                                                intent = new Intent(getApplicationContext(), ff_star.class);
+                                            }
+                                            break;
+                                            default:
+                                        }
+                                    }break;
+                                    case "KartRider": {
+                                        switch (board_type) {
+                                            case "Notice": {
+                                                intent = new Intent(getApplicationContext(), KartRider.class);
+                                            }
+                                            break;
+                                            case "Find": {
+                                                intent = new Intent(getApplicationContext(), kr_find.class);
+                                            }
+                                            break;
+                                            case "Free": {
+                                                intent = new Intent(getApplicationContext(), kr_free.class);
+                                            }
+                                            break;
+                                            case "Star": {
+                                                intent = new Intent(getApplicationContext(), kr_star.class);
+                                            }
+                                            break;
+                                            default:
+                                        }
                                     }break;
                                     default:
                                 }
@@ -317,7 +449,7 @@ public class BoardItem extends AppCompatActivity {
             }
         });
 // 추천
-        database.child("Board_list").child(type).child(key).child("recommended").addListenerForSingleValueEvent(new ValueEventListener() {
+        database.child("Board_list").child(game_type).child(board_type).child(key).child("recommended").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 recommendations = (int)dataSnapshot.getChildrenCount();
@@ -326,7 +458,7 @@ public class BoardItem extends AppCompatActivity {
                    recommended = recSnapshot.getValue(String.class);
                    recommendeds.add(recommended);
                 }
-                taskMap.put("/Board_list/" + type + "/" + key + "/recommendations", recommendations);
+                taskMap.put("/Board_list/" + game_type + "/" + board_type + "/" + key + "/recommendations", recommendations);
                 database.updateChildren(taskMap);
                 tv_recommendations.setText("" + recommendations);
             }
@@ -338,7 +470,7 @@ public class BoardItem extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (!IsExist(id)) {
-                    database.child("Board_list").child(type).child(key).child("recommended").push().setValue(id);
+                    database.child("Board_list").child(game_type).child(board_type).child(key).child("recommended").push().setValue(id);
                     Toast.makeText(getApplicationContext(), "이 게시글을 추천하였습니다.", Toast.LENGTH_LONG).show();
                     // 화면 새로고침
                     intent = getIntent();
@@ -351,11 +483,11 @@ public class BoardItem extends AppCompatActivity {
             }
         });
 
-        database.child("Board_list").child(type).child(key).child("commented").addListenerForSingleValueEvent(new ValueEventListener() {
+        database.child("Board_list").child(game_type).child(board_type).child(key).child("commented").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 comments = (int)dataSnapshot.getChildrenCount();
-                taskMap.put("/Board_list/" + type + "/" + key + "/comments", comments);
+                taskMap.put("/Board_list/" + game_type + "/" + board_type + "/" + key + "/comments", comments);
                 database.updateChildren(taskMap);
                 tv_comments.setText("" + comments);
             }
@@ -372,7 +504,7 @@ public class BoardItem extends AppCompatActivity {
                 SimpleDateFormat simpleDate = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
                 simpleDate.setTimeZone(zone);
                 Comment com = new Comment(id, cm_userID, et_comment.getText().toString(), simpleDate.format(mDate));
-                database.child("Board_list").child(type).child(key).child("commented").push().setValue(com);
+                database.child("Board_list").child(game_type).child(board_type).child(key).child("commented").push().setValue(com);
                 Toast.makeText(getApplicationContext(), "댓글이 작성되었습니다.", Toast.LENGTH_LONG).show();
                 intent = getIntent();
                 finish();
@@ -380,7 +512,7 @@ public class BoardItem extends AppCompatActivity {
             }
         });
 
-        database.child("Board_list").child(type).child(key).child("commented").addChildEventListener(new ChildEventListener() {
+        database.child("Board_list").child(game_type).child(board_type).child(key).child("commented").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String previousChildName) {
                 CommVO commVO = dataSnapshot.getValue(CommVO.class);
@@ -433,18 +565,111 @@ public class BoardItem extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case android.R.id.home: {
-                switch(type){
-                    case "Notice" :{
-                        intent = new Intent(getApplicationContext(), League_of_Legend.class);
+                switch(game_type) {
+                    case "League_of_Legend": {
+                        switch (board_type) {
+                            case "Notice": {
+                                intent = new Intent(getApplicationContext(), League_of_Legend.class);
+                            }
+                            break;
+                            case "Find": {
+                                intent = new Intent(getApplicationContext(), lol_find.class);
+                            }
+                            break;
+                            case "Free": {
+                                intent = new Intent(getApplicationContext(), lol_free.class);
+                            }
+                            break;
+                            case "Star": {
+                                intent = new Intent(getApplicationContext(), lol_star.class);
+                            }
+                            break;
+                            default:
+                        }
                     }break;
-                    case "Find" :{
-                        intent = new Intent(getApplicationContext(), lol_find.class);
+                    case "BattleGrounds" :{
+                        switch (board_type) {
+                            case "Notice": {
+                                intent = new Intent(getApplicationContext(), BattleGrounds.class);
+                            }
+                            break;
+                            case "Find": {
+                                intent = new Intent(getApplicationContext(), BG_find.class);
+                            }
+                            break;
+                            case "Free": {
+                                intent = new Intent(getApplicationContext(), BG_free.class);
+                            }
+                            break;
+                            case "Star": {
+                                intent = new Intent(getApplicationContext(), BG_star.class);
+                            }
+                            break;
+                            default:
+                        }
                     }break;
-                    case "Free" :{
-                        intent = new Intent(getApplicationContext(), lol_free.class);
+                    case "OverWatch" :{
+                        switch (board_type) {
+                            case "Notice": {
+                                intent = new Intent(getApplicationContext(), OverWatch.class);
+                            }
+                            break;
+                            case "Find": {
+                                intent = new Intent(getApplicationContext(), ow_find.class);
+                            }
+                            break;
+                            case "Free": {
+                                intent = new Intent(getApplicationContext(), ow_free.class);
+                            }
+                            break;
+                            case "Star": {
+                                intent = new Intent(getApplicationContext(), ow_star.class);
+                            }
+                            break;
+                            default:
+                        }
                     }break;
-                    case "Star" :{
-                        intent = new Intent(getApplicationContext(), lol_star.class);
+                    case "FifaOnline4" :{
+                        switch (board_type) {
+                            case "Notice": {
+                                intent = new Intent(getApplicationContext(), FifaOnline4.class);
+                            }
+                            break;
+                            case "Find": {
+                                intent = new Intent(getApplicationContext(), ff_find.class);
+                            }
+                            break;
+                            case "Free": {
+                                intent = new Intent(getApplicationContext(), ff_free.class);
+                            }
+                            break;
+                            case "Star": {
+                                intent = new Intent(getApplicationContext(), ff_star.class);
+                            }
+                            break;
+                            default:
+                        }
+                    }break;
+                    case "KartRider": {
+                        switch (board_type) {
+                            case "Notice": {
+                                intent = new Intent(getApplicationContext(), KartRider.class);
+                            }
+                            break;
+                            case "Find": {
+                                intent = new Intent(getApplicationContext(), kr_find.class);
+                            }
+                            break;
+                            case "Free": {
+                                intent = new Intent(getApplicationContext(), kr_free.class);
+                            }
+                            break;
+                            case "Star": {
+                                intent = new Intent(getApplicationContext(), kr_star.class);
+                            }
+                            break;
+                            default:
+                        }
                     }break;
                     default:
                 }
@@ -468,6 +693,15 @@ public class BoardItem extends AppCompatActivity {
             case R.id.btn_game:
                 intent= new Intent(getApplicationContext(), Game.class);
                 startActivity(intent);
+                return true;
+            case R.id.mn_pf_addFriend:
+                item.setVisible(false);
+                return true;
+            case R.id.mn_pf_Chat:
+                item.setVisible(false);
+                return true;
+            case R.id.mn_pf_Profile:
+                item.setVisible(false);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

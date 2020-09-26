@@ -30,7 +30,7 @@
             <TextView
                 android:textStyle="bold"
                 android:textColor="#000000"
-                android:id="@+id/tv_lol_board_item_Title"
+                android:id="@+id/tv_board_item_Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="15dp"
@@ -45,14 +45,14 @@
             android:orientation="horizontal">
             <TextView
                 android:layout_marginRight="5dp"
-                android:id="@+id/tv_lol_board_item_Id"
+                android:id="@+id/tv_board_item_Id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10dp"
                 android:text="닉네임"></TextView>
             <TextView
                 android:layout_marginRight="5dp"
-                android:id="@+id/tv_lol_board_item_T"
+                android:id="@+id/tv_board_item_T"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="10dp"
@@ -65,7 +65,7 @@
                 android:text="조회수"></TextView>
             <TextView
                 android:layout_marginRight="5dp"
-                android:id="@+id/tv_lol_board_item_Views"
+                android:id="@+id/tv_board_item_Views"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
@@ -78,14 +78,14 @@
                 android:text="댓글수"></TextView>
             <TextView
                 android:layout_marginRight="5dp"
-                android:id="@+id/tv_lol_board_item_Comments"
+                android:id="@+id/tv_board_item_Comments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
                 android:textSize="10dp"></TextView>
             <TextView
                 android:layout_marginRight="5dp"
-                android:id="@+id/tv_lol_board_item_Recommendations2"
+                android:id="@+id/tv_board_item_Recommendations2"
                 android:visibility="invisible"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -93,7 +93,7 @@
                 android:text="추천수"></TextView>
             <TextView
                 android:layout_marginRight="5dp"
-                android:id="@+id/tv_lol_board_item_Recommendations"
+                android:id="@+id/tv_board_item_Recommendations"
                 android:visibility="invisible"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

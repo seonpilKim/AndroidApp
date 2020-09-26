@@ -12,78 +12,134 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Board.LoL.lol_find">
+        <activity android:name=".Board.Board_List.KR.kr_star">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Game" />
         </activity>
-        <activity android:name=".Board.LoL.lol_free">
+        <activity android:name=".Board.Board_List.KR.kr_free" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Game" />
         </activity>
-        <activity android:name=".Board.LoL.lol_star">
+        <activity android:name=".Board.Board_List.KR.kr_find" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Game" />
         </activity>
-        <activity android:name=".Board.Board_Item.BoardItem">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Board.LoL.League_of_Legend" />
-        </activity>
-        <activity android:name=".Board.Board_Write.board_LoL" />
-        <activity android:name=".Board.ET_Cetera">
+        <activity android:name=".Board.Board_List.FIFA.ff_star">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Game" />
         </activity>
-        <activity android:name=".Board.HearthStone">
+        <activity android:name=".Board.Board_List.FIFA.ff_free">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Game" />
         </activity>
-        <activity android:name=".Board.StarCraft2">
+        <activity android:name=".Board.Board_List.FIFA.ff_find">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Game" />
         </activity>
-        <activity android:name=".Board.AmongUs">
+        <activity android:name=".Board.Board_List.OW.ow_star">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Game" />
         </activity>
-        <activity android:name=".Board.KartRider">
+        <activity android:name=".Board.Board_List.OW.ow_free">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Game" />
         </activity>
-        <activity android:name=".Board.FifaOnline4">
+        <activity android:name=".Board.Board_List.OW.ow_find">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Game" />
         </activity>
-        <activity android:name=".Board.OverWatch">
+        <activity android:name=".Board.Board_List.BG.BG_star">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Game" />
         </activity>
-        <activity android:name=".Board.BattleGrounds">
+        <activity android:name=".Board.Board_List.BG.BG_free">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Game" />
         </activity>
-        <activity android:name=".Board.LoL.League_of_Legend">
+        <activity android:name=".Board.Board_List.BG.BG_find">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Game" />
         </activity>
-        <activity android:name=".Game" >
+        <activity android:name=".Board.Board_List.LoL.lol_find">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Board.Board_List.LoL.lol_free">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Board.Board_List.LoL.lol_star">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Board.Board_Item.BoardItem" />
+        <activity android:name=".Board.Board_Write.board_write" />
+        <activity android:name=".Board.Board_List.ETC.ET_Cetera">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Board.Board_List.HS.HearthStone">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Board.Board_List.SC2.StarCraft2">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Board.Board_List.AmUs.AmongUs">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Board.Board_List.KR.KartRider">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Board.Board_List.FIFA.FifaOnline4">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Board.Board_List.OW.OverWatch">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Board.Board_List.BG.BattleGrounds">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Board.Board_List.LoL.League_of_Legend">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Game" />
+        </activity>
+        <activity android:name=".Game">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MenuActivity" />
         </activity>
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".LoadingActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -95,8 +151,9 @@
         <activity android:name=".FriendAddActivity" />
         <activity android:name=".MenuActivity" />
         <activity android:name=".UserProfileActivity" />
-        <activity android:name=".Board.Board_Write.board_LoL_edit" />
+        <activity android:name=".Board.Board_Write.board_edit" />
         <activity android:name=".Chat.ChattingRoom" />
+        <activity android:name=".Chat.ChattingChannel" />
     </application>
 
 </manifest>

@@ -35,6 +35,13 @@
             android:id="@+id/bt_chat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="친구" />
+            android:text="채팅" />
+        
+        <Button
+            android:id="@+id/btn_friend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="친구"></Button>
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,11 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.example.androidapp2020.Board.LoL.League_of_Legend;
+import com.example.androidapp2020.Chat.ChattingChannel;
 
 public class MenuActivity extends AppCompatActivity {
     private Intent intent;
@@ -42,6 +41,15 @@ public class MenuActivity extends AppCompatActivity {
 
         Button _bt_chat = (Button) findViewById(R.id.bt_chat);
         _bt_chat.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(getApplicationContext(), ChattingChannel.class);
+                startActivity(intent);
+            }
+        });
+
+        Button _bt_freind = (Button) findViewById(R.id.btn_friend);
+        _bt_freind.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(getApplicationContext(), FriendAddActivity.class);

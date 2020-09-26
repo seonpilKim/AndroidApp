@@ -1,6 +1,8 @@
 package com.example.androidapp2020.Chat;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class chatMsg {
     private String text;
@@ -8,11 +10,11 @@ public class chatMsg {
     private long time;
     private boolean isMine;
 
-    public chatMsg(String text, String user, boolean isMine) {
+    public chatMsg(String text, String user, boolean isMine, long time) {
         this.text = text;
         this.user = user;
         this.isMine = isMine;
-        time = new Date().getTime();
+        this.time = time;
     }
 
     public chatMsg() {}
