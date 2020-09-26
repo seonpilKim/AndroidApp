@@ -10,8 +10,11 @@ import android.widget.TextView;
 
 import com.example.androidapp2020.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class chattingAdapter extends BaseAdapter {
     List<chatMsg> msgList = new ArrayList<chatMsg>();
@@ -24,6 +27,7 @@ public class chattingAdapter extends BaseAdapter {
     public chattingAdapter() {}
 
     public void add(chatMsg msg) {
+
         this.msgList.add(msg);
         notifyDataSetChanged();
     }
@@ -49,20 +53,31 @@ public class chattingAdapter extends BaseAdapter {
         LayoutInflater msgInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         chatMsg msg = msgList.get(i);
 
+        long now = msg.getTime();
+        Date date = new Date(now);
+        SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+        TimeZone zone = TimeZone.getTimeZone("Asia/Seoul");
+        time.setTimeZone(zone);
+        String strTime = time.format(date);
+
         if(msg.getIsMine()) {   // my msg
             view = msgInflater.inflate(R.layout.my_msg, null);
             holder.msgBody = (TextView) view.findViewById(R.id.message_body);
+            holder.time = (TextView) view.findViewById(R.id.message_time);
             view.setTag(holder);
             holder.msgBody.setText(msg.getText());
+            holder.time.setText(strTime);
         }
         else {  // other msg
             view = msgInflater.inflate(R.layout.other_msg, null);
             holder.avatar = (View) view.findViewById(R.id.avatar);
             holder.name = (TextView) view.findViewById(R.id.name);
             holder.msgBody = (TextView) view.findViewById(R.id.message_body);
+            holder.time = (TextView) view.findViewById(R.id.message_time);
             view.setTag(holder);
             holder.name.setText(msg.getUser());
             holder.msgBody.setText(msg.getText());
+            holder.time.setText(strTime);
         }
         return view;
     }
@@ -72,4 +87,5 @@ class MessageViewHolder {
     public View avatar;
     public TextView name;
     public TextView msgBody;
+    public TextView time;
 }

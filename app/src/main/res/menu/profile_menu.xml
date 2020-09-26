@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/mn_pf_Profile"
-        android:title="프로필보기"></item>
+        android:title="프로필보기"
+        app:showAsAction="never"></item>
     <item
         android:id="@+id/mn_pf_addFriend"
-        android:title="친구추가"></item>
+        android:title="친구추가"
+        app:showAsAction="never"></item>
     <item
         android:id="@+id/mn_pf_Chat"
-        android:title="채팅하기"></item>
+        android:title="채팅하기"
+        app:showAsAction="never"></item>
 </menu>

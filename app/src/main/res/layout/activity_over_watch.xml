@@ -3,14 +3,101 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-    <TextView
-        android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#FFFFFF">
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="OverWatch"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="horizontal"
+        android:weightSum="4">
+        <Button
+            android:id="@+id/btn_ow_notice_notice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="공지사항"
+            android:layout_weight="1"
+            ></Button>
+        <Button
+            android:id="@+id/btn_ow_notice_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="인기 게시판"
+            android:layout_weight="1"
+            ></Button>
+        <Button
+            android:id="@+id/btn_ow_notice_free"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="자유 게시판"
+            android:layout_weight="1"
+            ></Button>
+        <Button
+            android:id="@+id/btn_ow_notice_find"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="팀원/상대 모집"
+            android:layout_weight="1"
+            ></Button>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="5">
+
+        <EditText
+            android:id="@+id/et_ow_notice_Search"
+            android:layout_weight="3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:hint="검색(10자 이내)"
+            android:enabled="true"
+            android:selectAllOnFocus="true"
+            android:textColorHighlight="@color/colorPrimary"
+            android:inputType="textPersonName"
+            android:maxLength="10"></EditText>
+        <Button
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:id="@+id/btn_ow_notice_Search"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:text="검색"></Button>
+        <Button
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:id="@+id/btn_ow_notice_write"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="글 쓰기"
+            ></Button>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_centerInParent="true"
+        android:background="#E6E6E6"></View>
+    <LinearLayout
+        android:id="@+id/ll_ow_notice"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ListView
+            android:id="@+id/lv_ow_notice"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></ListView>
+    </LinearLayout>
 </LinearLayout>

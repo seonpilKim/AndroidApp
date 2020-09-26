@@ -84,9 +84,9 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="color" value="cd0203" />
-                                                <entry key="imagePath" value="C:\Users\김선필\AppData\Local\Temp\baseline_favorite_24.xml" />
-                                                <entry key="scalingPercent" value="75" />
+                                                <entry key="color" value="afafaf" />
+                                                <entry key="imagePath" value="C:\Users\김선필\AppData\Local\Temp\baseline_refresh_24.xml" />
+                                                <entry key="scalingPercent" value="70" />
                                                 <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
@@ -98,7 +98,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/favorite/baseline_favorite_24.xml" />
+                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/refresh/baseline_refresh_24.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -147,7 +147,7 @@
                                       <entry key="generateLegacyIcon" value="false" />
                                       <entry key="generatePlayStoreIcon" value="false" />
                                       <entry key="generateRoundIcon" value="false" />
-                                      <entry key="outputName" value="heart" />
+                                      <entry key="outputName" value="refresh" />
                                     </map>
                                   </option>
                                 </PersistentState>

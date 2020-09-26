@@ -8,6 +8,85 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
+        <TextView
+            android:id="@+id/user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#CCCCCC"
+            android:text="User"
+            android:textSize="30dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:text="성별 :  "
+                android:id="@+id/gender">
+            </TextView>
+
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textSize="25dp"
+                android:layout_toRightOf="@+id/gender"
+                android:id="@+id/user_gender"
+                ></TextView>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:text="나이 :  "
+                android:id="@+id/age">
+            </TextView>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:layout_toRightOf="@+id/age"
+                android:id="@+id/user_age"> </TextView>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:text="디스코드 : "
+                android:id="@+id/dico">
+            </TextView>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="25dp"
+                android:layout_toRightOf="@id/dico"
+                android:id="@+id/user_dico"> </TextView>
+
+        </RelativeLayout>
+
+
+
+
         <TextView
             android:id="@+id/game"
             android:layout_width="wrap_content"
@@ -38,7 +117,7 @@
                 android:id="@+id/check_battle"
                 android:layout_toRightOf="@+id/check_lol"
                 android:layout_marginLeft="10dp"
-                 />
+                />
 
             <CheckBox
                 android:layout_width="wrap_content"
@@ -48,7 +127,7 @@
                 android:id="@+id/check_over"
                 android:layout_toRightOf="@+id/check_battle"
                 android:layout_marginLeft="10dp"
-                 />
+                />
 
             <CheckBox
                 android:layout_width="wrap_content"
@@ -68,7 +147,7 @@
                 android:id="@+id/check_kartrider"
                 android:layout_below="@id/check_lol"
                 android:layout_alignLeft="@id/check_lol"
-                 />
+                />
 
             <CheckBox
                 android:layout_width="wrap_content"
@@ -167,15 +246,15 @@
 
 
 
-        <TextView
-            android:id="@+id/text_position"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/freerank"
-            android:text="포지션"
-            android:textSize="20dp"></TextView>
+            <TextView
+                android:id="@+id/text_position"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/freerank"
+                android:text="포지션"
+                android:textSize="20dp"></TextView>
 
 
 
@@ -245,47 +324,47 @@
 
 
             <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="#CCCCCC"
-            android:text="배틀그라운드"
-            android:id="@+id/battle"
-            android:textSize="25dp"
-           />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="#CCCCCC"
+                android:text="배틀그라운드"
+                android:id="@+id/battle"
+                android:textSize="25dp"
+                />
 
 
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="티어"
-            android:layout_below="@+id/battle"
-            android:id="@+id/tier"
-            android:textSize="20dp"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="티어"
+                android:layout_below="@+id/battle"
+                android:id="@+id/tier"
+                android:textSize="20dp"></TextView>
 
 
-        <Spinner
-            android:id="@+id/battle_tier"
-            android:layout_width="150dp"
-            android:layout_height="40dp"
-            android:layout_marginTop="3dp"
-            android:layout_below="@+id/battle"
-            android:layout_toRightOf="@+id/tier"
-            android:entries="@array/battle"></Spinner>
+            <Spinner
+                android:id="@+id/battle_tier"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="3dp"
+                android:layout_below="@+id/battle"
+                android:layout_toRightOf="@+id/tier"
+                android:entries="@array/battle"></Spinner>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="맵"
-            android:id="@+id/text_map"
-            android:layout_below="@+id/tier"
-            android:textSize="20dp"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="맵"
+                android:id="@+id/text_map"
+                android:layout_below="@+id/tier"
+                android:textSize="20dp"></TextView>
 
 
 
@@ -342,15 +421,15 @@
 
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="인원"
-            android:layout_below="@+id/check_sa"
-            android:id="@+id/text_people"
-            android:textSize="20dp"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="인원"
+                android:layout_below="@+id/check_sa"
+                android:id="@+id/text_people"
+                android:textSize="20dp"></TextView>
 
 
 
@@ -624,36 +703,36 @@
                 />
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:id="@+id/opop"
-            android:layout_below="@+id/kartrider"
-            android:text="엠블럼"
-            android:textSize="20dp"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/opop"
+                android:layout_below="@+id/kartrider"
+                android:text="엠블럼"
+                android:textSize="20dp"></TextView>
 
 
-        <Spinner
-            android:id="@+id/kartrider_tier1"
-            android:layout_width="100dp"
+            <Spinner
+                android:id="@+id/kartrider_tier1"
+                android:layout_width="100dp"
 
-            android:layout_below="@+id/kartrider"
-            android:layout_height="40dp"
-            android:layout_toRightOf="@id/opop"
-            android:layout_marginTop="10dp"
-            android:entries="@array/kartrider_1"></Spinner>
+                android:layout_below="@+id/kartrider"
+                android:layout_height="40dp"
+                android:layout_toRightOf="@id/opop"
+                android:layout_marginTop="10dp"
+                android:entries="@array/kartrider_1"></Spinner>
 
-        <Spinner
-            android:id="@+id/kartrider_tier2"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
+            <Spinner
+                android:id="@+id/kartrider_tier2"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
 
-            android:layout_below="@+id/kartrider"
-            android:layout_toRightOf="@id/kartrider_tier1"
-            android:layout_marginTop="10dp"
-            android:entries="@array/kartrider_2"></Spinner>
+                android:layout_below="@+id/kartrider"
+                android:layout_toRightOf="@id/kartrider_tier1"
+                android:layout_marginTop="10dp"
+                android:entries="@array/kartrider_2"></Spinner>
 
         </RelativeLayout>
 
@@ -683,48 +762,48 @@
 
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/wqwq"
-                    android:text="랭크"
-                    android:layout_below="@+id/hearthstone"
-                    android:textSize="20dp"></TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/wqwq"
+                android:text="랭크"
+                android:layout_below="@+id/hearthstone"
+                android:textSize="20dp"></TextView>
 
 
-                <Spinner
-                    android:id="@+id/hearthstone_lank"
-                    android:layout_width="140dp"
-                    android:layout_height="40dp"
-                    android:layout_toRightOf="@id/wqwq"
+            <Spinner
+                android:id="@+id/hearthstone_lank"
+                android:layout_width="140dp"
+                android:layout_height="40dp"
+                android:layout_toRightOf="@id/wqwq"
 
-                    android:layout_below="@+id/hearthstone"
-                    android:layout_marginTop="10dp"
-                    android:entries="@array/hearthstone"></Spinner>
+                android:layout_below="@+id/hearthstone"
+                android:layout_marginTop="10dp"
+                android:entries="@array/hearthstone"></Spinner>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/qqqq"
-                    android:layout_toRightOf="@id/hearthstone_lank"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/qqqq"
+                android:layout_toRightOf="@id/hearthstone_lank"
 
-                    android:layout_below="@+id/hearthstone"
-                    android:text="주 덱"
-                    android:textSize="20dp"></TextView>
+                android:layout_below="@+id/hearthstone"
+                android:text="주 덱"
+                android:textSize="20dp"></TextView>
 
-                <Spinner
-                    android:id="@+id/hearthstone_dack"
-                    android:layout_width="140dp"
-                    android:layout_height="40dp"
-                    android:layout_toRightOf="@id/qqqq"
-                    android:layout_marginTop="10dp"
+            <Spinner
+                android:id="@+id/hearthstone_dack"
+                android:layout_width="140dp"
+                android:layout_height="40dp"
+                android:layout_toRightOf="@id/qqqq"
+                android:layout_marginTop="10dp"
 
-                    android:layout_below="@+id/hearthstone"
-                    android:entries="@array/hearthstone_dack"></Spinner>
+                android:layout_below="@+id/hearthstone"
+                android:entries="@array/hearthstone_dack"></Spinner>
 
         </RelativeLayout>
 
@@ -806,18 +885,18 @@
             android:layout_height="1dp"
             android:background="#AAAAAA" />
 
-                    <Button
-                        android:id="@+id/btn_update"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="Update"
-                        android:background="#CCCCCC"
-                        android:layout_marginTop="10dp" />
+        <Button
+            android:id="@+id/btn_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Update"
+            android:background="#CCCCCC"
+            android:layout_marginTop="10dp" />
 
     </LinearLayout>
 
 
 
 
-    </ScrollView>
+</ScrollView>
