@@ -29,15 +29,11 @@ import java.util.Map;
 public class ChattingRoom extends AppCompatActivity {
     private Map<String, Object> taskMap = new HashMap<String, Object>();
     public BaseAdapter bAdapter;
-    public BaseAdapter channelAdapter;
-    private List<chatMsg> msgList;
-    private ListView channelListView;
     private EditText editText;
     private ListView listView;
     private ImageButton sendBtn;
     private FirebaseDatabase fbDB = FirebaseDatabase.getInstance();
     private DatabaseReference dbRef = fbDB.getReference();
-    private chatMsg chatting;
     private String otherID = "a";
     private String myID = "b";
     private long now;
@@ -60,12 +56,12 @@ public class ChattingRoom extends AppCompatActivity {
 
                 if(str.length() > 0) {
                     now = System.currentTimeMillis();
-                    chatMsg c = new chatMsg(str, otherID, true, now);
+                    chatMsg c = new chatMsg(str, myID, true, now);
                     taskMap.put("/ChattingList/" + myID + "/" + otherID + "/" + myID + "/" + bAdapter.getCount(), c);
                     dbRef.updateChildren(taskMap);
                     taskMap.put("/ChattingList/" + myID + "/" + otherID + "/recentMsg", str);
                     dbRef.updateChildren(taskMap);
-                    chatMsg c1 = new chatMsg(str, otherID, false, now);
+                    chatMsg c1 = new chatMsg(str, myID, false, now);
                     taskMap.put("/ChattingList/" + otherID + "/" + myID + "/" + myID + "/" + bAdapter.getCount(), c1);
                     dbRef.updateChildren(taskMap);
                     taskMap.put("/ChattingList/" + otherID + "/" + myID + "/recentMsg", str);
@@ -87,8 +83,6 @@ public class ChattingRoom extends AppCompatActivity {
 
 
         listView = findViewById(R.id.message_view);
-        msgList = new ArrayList<>();
-        chatting = new chatMsg();
         bAdapter = new chattingAdapter();
 
         bAdapter = new chattingAdapter(this);
