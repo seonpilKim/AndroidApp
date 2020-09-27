@@ -84,9 +84,9 @@ public class ChattingRoom extends AppCompatActivity {
 
         listView = findViewById(R.id.message_view);
         bAdapter = new chattingAdapter();
-
         bAdapter = new chattingAdapter(this);
         listView.setAdapter(bAdapter);
+
         fbDB = FirebaseDatabase.getInstance();
         dbRef = fbDB.getReference();
 
@@ -123,7 +123,6 @@ public class ChattingRoom extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 chatMsg c = snapshot.getValue(chatMsg.class);
                 ((chattingAdapter) bAdapter).add(c);
-
             }
 
             @Override

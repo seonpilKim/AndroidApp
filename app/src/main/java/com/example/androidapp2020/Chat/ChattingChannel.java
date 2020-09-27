@@ -20,6 +20,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Date;
 
@@ -31,6 +32,7 @@ public class ChattingChannel extends AppCompatActivity {
     private FirebaseDatabase fbDB;
     private DatabaseReference dbRef;
     private Intent intent;
+    private String recentMsg = "s";
     private long time;
 
     @Override
@@ -55,12 +57,11 @@ public class ChattingChannel extends AppCompatActivity {
         dbRef.child("ChattingList").child(myID).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-//                chatMsg c = snapshot.getValue(chatMsg.class);
                 time = System.currentTimeMillis();
-//                ListCard card = new ListCard(c.getUser(), c.getText(), time);
-
+                
                 String user = snapshot.getKey();
-                ListCard card = new ListCard(user ,"s" , time);
+                recentMsg = snapshot.child("recentMsg").getValue(String.class);
+                ListCard card = new ListCard(user ,recentMsg , time);
                 ((ChattingChannelAdapter) adapter).add(card);
             }
 
