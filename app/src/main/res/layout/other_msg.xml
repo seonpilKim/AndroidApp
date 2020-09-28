@@ -48,6 +48,5 @@
         android:layout_marginBottom="2dp"
         android:layout_toEndOf="@+id/message_body"
         android:layout_toRightOf="@+id/message_body"
-        android:background="@drawable/other_msg"
         android:text="00:00" />
 </RelativeLayout>
