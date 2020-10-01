@@ -6,28 +6,26 @@ import java.util.TimeZone;
 
 public class chatMsg {
     private String text;
-    private String user;
+    private String sentBy;
     private long time;
     private boolean isMine;
 
-    public chatMsg(String text, String user, boolean isMine, long time) {
+    public chatMsg(String text, String sentBy, boolean isMine, long time) {
         this.text = text;
-        this.user = user;
+        this.sentBy = sentBy;
         this.isMine = isMine;
         this.time = time;
     }
 
     public chatMsg() {}
 
-    public chatMsg(String toString, String displayName) {
-    }
 
     public String getText() {
         return text;
     }
 
-    public String getUser() {
-        return user;
+    public String getSentBy() {
+        return sentBy;
     }
 
     public long getTime() {
@@ -42,15 +40,19 @@ public class chatMsg {
         this.time = time;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+
+    public void setSentBy(String sentBy) {
+        this.sentBy = sentBy;
     }
 
     public void setText(String text) {
         this.text = text;
     }
 
-    public void setIsMine(boolean isMine) {
-        this.isMine = isMine;
+    public void setIsMine(String myID) {
+        if(this.sentBy == myID)
+            this.isMine = true;
+        else
+            this.isMine = false;
     }
 }

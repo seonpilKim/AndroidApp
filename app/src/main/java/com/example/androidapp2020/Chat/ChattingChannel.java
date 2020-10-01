@@ -15,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.androidapp2020.R;
+import com.example.androidapp2020.UserData;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,9 +32,11 @@ public class ChattingChannel extends AppCompatActivity {
     private String myID = "b";
     private FirebaseDatabase fbDB;
     private DatabaseReference dbRef;
+    private DatabaseReference uidRef;
     private Intent intent;
     private String recentMsg = "s";
     private long time;
+    private UserData myUID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,14 +57,12 @@ public class ChattingChannel extends AppCompatActivity {
         dbRef = fbDB.getReference();
 
         // if new message
-        dbRef.child("ChattingList").child(myID).addChildEventListener(new ChildEventListener() {
+        dbRef.child("UserChats").child(myID).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                time = System.currentTimeMillis();
-                
+                LastMsg l = snapshot.child(snapshot.getKey()).getValue(LastMsg.class);
                 String user = snapshot.getKey();
-                recentMsg = snapshot.child("recentMsg").getValue(String.class);
-                ListCard card = new ListCard(user ,recentMsg , time);
+                ListCard card = new ListCard(user ,l.getText() , l.getTime());
                 ((ChattingChannelAdapter) adapter).add(card);
             }
 

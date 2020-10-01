@@ -75,7 +75,7 @@ public class chattingAdapter extends BaseAdapter {
             holder.msgBody = (TextView) view.findViewById(R.id.message_body);
             holder.time = (TextView) view.findViewById(R.id.message_time);
             view.setTag(holder);
-            holder.name.setText(msg.getUser());
+            holder.name.setText(msg.getSentBy());
             holder.msgBody.setText(msg.getText());
             holder.time.setText(strTime);
         }
