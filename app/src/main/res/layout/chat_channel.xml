@@ -21,7 +21,7 @@
         android:id="@+id/list_time"
         android:text="00:00"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/recentMsg"
+        android:layout_alignTop="@+id/name_textView"
         />
 
     <TextView
@@ -40,6 +40,8 @@
         android:id="@+id/recentMsg"
         android:layout_below="@+id/name_textView"
         android:layout_alignLeft="@+id/name_textView"
-        android:text="Recent Text Message ..." />
+        android:text="Recent Text Message ..."
+        android:ellipsize="end"
+        android:maxLines="1"/>
 
 </RelativeLayout>

@@ -25,10 +25,29 @@ public class ChattingChannelAdapter extends BaseAdapter {
     public  ChattingChannelAdapter() {}
 
     public void add(ListCard card) {
-        this.cardList.add(card);
+        this.cardList.add(0, card);
         notifyDataSetChanged();
     }
 
+    public void update(ListCard card, int i) {
+        this.cardList.remove(i);
+        this.cardList.add(0,card);
+        notifyDataSetChanged();
+    }
+
+    public boolean checkToday(ListCard card) {
+        long now = System.currentTimeMillis();
+        Date msgDate = new Date(card.getTime());
+        Date date = new Date(now);
+        SimpleDateFormat time = new SimpleDateFormat("MM.dd");
+        TimeZone zone = TimeZone.getTimeZone("Asia/Seoul");
+        time.setTimeZone(zone);
+        String curTime = time.format(date);
+        String msgTime = time.format(msgDate);
+        if(curTime.equals(msgTime))
+            return true;
+        return false;
+    }
 
     @Override
     public int getCount() {
@@ -53,7 +72,13 @@ public class ChattingChannelAdapter extends BaseAdapter {
 
         long now = card.getTime();
         Date date = new Date(now);
-        SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat time;
+        if(checkToday(card)) {
+            time = new SimpleDateFormat("HH:mm");
+        }
+        else {
+            time = new SimpleDateFormat("yyyy.MM.dd");
+        }
         TimeZone zone = TimeZone.getTimeZone("Asia/Seoul");
         time.setTimeZone(zone);
         String strTime = time.format(date);
