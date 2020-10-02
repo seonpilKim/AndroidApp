@@ -29,6 +29,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/*
+    intent needed:
+    myID : String       (ID of user)
+    otherID : String    (ID of opponent)
+ */
 public class ChattingRoom extends AppCompatActivity {
     private Map<String, Object> taskMap = new HashMap<String, Object>();
     public BaseAdapter bAdapter;
@@ -36,7 +41,8 @@ public class ChattingRoom extends AppCompatActivity {
     private ListView listView;
     private ImageButton sendBtn;
     private FirebaseDatabase fbDB;
-    private DatabaseReference dbRef;
+    private DatabaseReference chatRef;
+    private DatabaseReference sendRef;
     private String otherID = "a";
     private String myID = "b";
     private long now;
@@ -47,12 +53,19 @@ public class ChattingRoom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatting);
 
+        // receiving intent
         Intent intent = getIntent();
         otherID = intent.getStringExtra("otherID");
         myID = intent.getStringExtra("myID");
         sendBtn = (ImageButton)findViewById(R.id.sendBtn);
         editText = (EditText)findViewById(R.id.editText);
+        listView = findViewById(R.id.message_view);
+        bAdapter = new chattingAdapter();
+        bAdapter = new chattingAdapter(this);
+        listView.setAdapter(bAdapter);
 
+
+        // initializing UID
         myUID = new UserData();
         myUID.UID = "a";
         otherUID = new UserData();
@@ -60,67 +73,18 @@ public class ChattingRoom extends AppCompatActivity {
         combinedUID = new UserData();
         combinedUID.UID = "a";
 
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference userRef = rootRef.child("User_list");
+        chatRef = FirebaseDatabase.getInstance().getReference();
 
-        ValueEventListener valueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot ds : snapshot.getChildren()) {
-                    if(myID.equals(ds.getKey()))
-                        myUID.UID = ds.child("UID").getValue(String.class);
-                    else if (otherID.equals(ds.getKey()))
-                        otherUID.UID = ds.child("UID").getValue(String.class);
-                }
-
-                combinedUID.UID = "";
-                int compRes = myUID.UID.compareTo(otherUID.UID);
-                if(compRes > 0)
-                    combinedUID.UID = String.format("%s_%s",myUID.UID, otherUID.UID);
-                else if (compRes < 0)
-                    combinedUID.UID = String.format("%s_%s",otherUID.UID, myUID.UID);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        };
-        userRef.addListenerForSingleValueEvent(valueEventListener);
-
-        sendBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String str = editText.getText().toString();
-
-                if(str.length() > 0) {
-                    now = System.currentTimeMillis();
-                    chatMsg c = new chatMsg(str, myID, true, now);
-                    taskMap.put("/ChatMessages/" + combinedUID.UID + "/" + bAdapter.getCount(), c);
-                    LastMsg l = new LastMsg(str, now);
-                    taskMap.put("/UserChats/" + myID + "/" + otherID, l);
-                    taskMap.put("/UserChats/" + otherID + "/" + myID, l);
-                    dbRef.updateChildren(taskMap);
-                    editText.setText("");
-                }
-            }
-        });
-
-
-        listView = findViewById(R.id.message_view);
-        bAdapter = new chattingAdapter();
-        bAdapter = new chattingAdapter(this);
-        listView.setAdapter(bAdapter);
-
-        fbDB = FirebaseDatabase.getInstance();
-        dbRef = fbDB.getReference();
-
-        dbRef.child("ChatMessages").child(combinedUID.UID).addChildEventListener(new ChildEventListener() {
+        // extract msg from DB and adding to adapter
+        final ChildEventListener childEventListener = new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                chatMsg c = snapshot.getValue(chatMsg.class);
-                c.setIsMine(myID);
-                ((chattingAdapter) bAdapter).add(c);
+                chatMsg c1 = snapshot.getValue(chatMsg.class);
+                if(c1.getSentBy().equals(myID))
+                    c1.setIsMine(true);
+                else
+                    c1.setIsMine(false);
+                ((chattingAdapter) bAdapter).add(c1);
             }
 
             @Override
@@ -142,7 +106,64 @@ public class ChattingRoom extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
+        };
+
+        // extracting UID from DB
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference userRef = rootRef.child("User_list");
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds : snapshot.getChildren()) {
+                    if(myID.equals(ds.getKey()))
+                        myUID.UID = ds.child("UID").getValue(String.class);
+                    else if (otherID.equals(ds.getKey()))
+                        otherUID.UID = ds.child("UID").getValue(String.class);
+                }
+
+                // make combined UID for "chat room UID"
+                combinedUID.UID = "";
+                int compRes = myUID.UID.compareTo(otherUID.UID);
+                if(compRes > 0)
+                    combinedUID.UID = String.format("%s_%s",myUID.UID, otherUID.UID);
+                else if (compRes < 0)
+                    combinedUID.UID = String.format("%s_%s",otherUID.UID, myUID.UID);
+
+                chatRef = FirebaseDatabase.getInstance().getReference().child("ChatMessages").child(combinedUID.UID);
+                chatRef.addChildEventListener(childEventListener);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        userRef.addListenerForSingleValueEvent(valueEventListener);
+
+
+        sendRef = FirebaseDatabase.getInstance().getReference();
+        // send msg
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String str = editText.getText().toString();
+
+                // push msg to DB
+                if(str.length() > 0) {
+                    now = System.currentTimeMillis();
+                    chatMsg c = new chatMsg(str, myID, true, now);
+                    taskMap.put("/ChatMessages/" + combinedUID.UID + "/" + bAdapter.getCount(), c);
+                    sendRef.updateChildren(taskMap);
+                    LastMsg l = new LastMsg(str, now);
+                    taskMap.put("/UserChats/" + myID + "/" + otherID, l);
+                    sendRef.updateChildren(taskMap);
+                    taskMap.put("/UserChats/" + otherID + "/" + myID, l);
+                    sendRef.updateChildren(taskMap);
+                    editText.setText("");
+                }
+            }
         });
+
 
 
         /*

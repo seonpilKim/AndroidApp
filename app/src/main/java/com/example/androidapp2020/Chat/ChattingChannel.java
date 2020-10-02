@@ -60,7 +60,7 @@ public class ChattingChannel extends AppCompatActivity {
         dbRef.child("UserChats").child(myID).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                LastMsg l = snapshot.child(snapshot.getKey()).getValue(LastMsg.class);
+                LastMsg l = snapshot.getValue(LastMsg.class);
                 String user = snapshot.getKey();
                 ListCard card = new ListCard(user ,l.getText() , l.getTime());
                 ((ChattingChannelAdapter) adapter).add(card);

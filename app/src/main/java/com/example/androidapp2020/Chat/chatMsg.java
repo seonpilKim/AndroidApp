@@ -49,10 +49,7 @@ public class chatMsg {
         this.text = text;
     }
 
-    public void setIsMine(String myID) {
-        if(this.sentBy == myID)
-            this.isMine = true;
-        else
-            this.isMine = false;
+    public void setIsMine(boolean isMine) {
+        this.isMine = isMine;
     }
 }
