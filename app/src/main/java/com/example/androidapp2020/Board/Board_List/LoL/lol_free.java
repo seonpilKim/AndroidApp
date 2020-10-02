@@ -32,6 +32,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,12 +40,12 @@ import java.util.Map;
 
 public class lol_free extends AppCompatActivity {
     private ListView listView;
-    private ListView listView2;
-    private View header;
 
     private ListViewAdapter adapter;
 
     private ArrayList<ListVO> listVO = new ArrayList<>();
+    private ArrayList<Comment> listCO = new ArrayList<>();
+    private ArrayList<String> listRO = new ArrayList<>();
 
     private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
@@ -77,6 +78,40 @@ public class lol_free extends AppCompatActivity {
 
     private EditText et_search;
 
+    private class Comment {
+        private String id;
+        private String userID;
+        private String content;
+        private String time;
+
+        Comment() { }
+        public Comment(String id, String userID, String content, String time) {
+            this.id = id;
+            this.content = content;
+            this.time = time;
+            this.userID = userID;
+        }
+
+        public String getuserID() {return userID;}
+
+        public String getId() {
+            return id;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        public String getTime() {
+            return time;
+        }
+    }
+
+
+    // star에 intent로 값 넘길필요없이, 추천버튼 리스너에
+    // 해당 게시판 추천수 일정이상되면, 자동으로 star에 같은내용으로 글쓰도록 댓글, 추천 포함
+    // 그다음 star액티비티에서 db내용추가되면 adapter 동작하도록 코딩
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,13 +120,9 @@ public class lol_free extends AppCompatActivity {
         ab.setTitle("롤 자유게시판");
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setDisplayShowHomeEnabled(true);
-        header = getLayoutInflater().inflate(R.layout.activity_lol_star, null, false);
         listView = (ListView) findViewById(R.id.lv_lol_free);
-        listView2 = (ListView) header.findViewById(R.id.lv_lol_star);
         adapter = new ListViewAdapter(listVO);
         listView.setAdapter(adapter);
-        listView2.setAdapter(adapter);
-
 
         btn_search = (Button) findViewById(R.id.btn_lol_free_Search);
         btn_write = (Button) findViewById(R.id.btn_lol_free_write);
@@ -106,7 +137,72 @@ public class lol_free extends AppCompatActivity {
         search = "";
         ((ListViewAdapter)listView.getAdapter()).getFilter().filter(search);
 
-        // 검색
+// 인기게시판 이동
+        database.child("Board_list").child("League_of_Legend").child("Free").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String previousChildName) {
+                ListVO listVO = dataSnapshot.getValue(ListVO.class);
+                Key = dataSnapshot.getKey();
+                adapter.addVO(listVO.getTitle(), listVO.getContent(), Key, listVO.getId(), listVO.getTime(), listVO.getT(),
+                        listVO.getuserID(), listVO.getViews(), listVO.getComments(), listVO.getRecommendations(), listVO.getNum());
+                adapter.notifyDataSetChanged();
+                listView.setAdapter(adapter);
+                for(DataSnapshot s : dataSnapshot.getChildren()){
+                    if(s.getKey().equals("recommendations")){
+                        if(s.getValue(Integer.class) >= 1){
+                            for(DataSnapshot ss : dataSnapshot.getChildren()){
+                              if(ss.getKey().equals("commented")){
+                                  for(DataSnapshot sss : ss.getChildren()){
+                                      listCO.add(sss.getValue(Comment.class));
+                                  }
+                              }
+                              if(ss.getKey().equals("recommended")){
+                                  for(DataSnapshot sss : ss.getChildren()){
+                                      listRO.add(sss.getValue(String.class));
+                                  }
+                              }
+                            }
+                            intent.putExtra("title", listVO.getTitle());
+                            intent.putExtra("content", listVO.getContent());
+                            intent.putExtra("key", Key);
+                            intent.putExtra("id", listVO.getId());
+                            intent.putExtra("time", listVO.getTime());
+                            intent.putExtra("t", listVO.getT());
+                            intent.putExtra("userID", listVO.getuserID());
+                            intent.putExtra("views", listVO.getViews());
+                            intent.putExtra("comments", listVO.getComments());
+                            intent.putExtra("recommendations", listVO.getRecommendations());
+                            intent.putExtra("num", listVO.getNum());
+                            intent.putExtra("CO", listCO);
+                            intent.putExtra("RO", listRO);
+                            startActivity(intent);
+                            break;
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+// 검색
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -166,46 +262,6 @@ public class lol_free extends AppCompatActivity {
                 intent.putExtra("board_type", "Free");
                 intent.putExtra("game_type", "League_of_Legend");
                 startActivity(intent);
-            }
-        });
-
-        database.child("Board_list").child("League_of_Legend").child("Free").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String previousChildName) {
-                ListVO listVO = dataSnapshot.getValue(ListVO.class);
-                Key = dataSnapshot.getKey();
-                adapter.addVO(listVO.getTitle(), listVO.getContent(), Key, listVO.getId(), listVO.getTime(), listVO.getT(),
-                        listVO.getuserID(), listVO.getViews(), listVO.getComments(), listVO.getRecommendations(), listVO.getNum());
-                adapter.notifyDataSetChanged();
-                listView.setAdapter(adapter);
-                for(DataSnapshot s : dataSnapshot.getChildren()){
-                    if(s.getKey().equals("recommendations")){
-                        if(s.getValue(Integer.class) >= 1){
-                            adapter.notifyDataSetChanged();
-                            listView2.setAdapter(adapter);
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
 
