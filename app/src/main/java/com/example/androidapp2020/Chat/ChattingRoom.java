@@ -16,142 +16,154 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.androidapp2020.R;
 //import com.firebase.ui.database.FirebaseListAdapter;
+import com.example.androidapp2020.UserData;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/*
+    intent needed:
+    myID : String       (ID of user)
+    otherID : String    (ID of opponent)
+ */
 public class ChattingRoom extends AppCompatActivity {
     private Map<String, Object> taskMap = new HashMap<String, Object>();
     public BaseAdapter bAdapter;
-    public BaseAdapter channelAdapter;
-    private List<chatMsg> msgList;
-    private ListView channelListView;
     private EditText editText;
     private ListView listView;
     private ImageButton sendBtn;
-    private FirebaseDatabase fbDB = FirebaseDatabase.getInstance();
-    private DatabaseReference dbRef = fbDB.getReference();
-    private chatMsg chatting;
+    private FirebaseDatabase fbDB;
+    private DatabaseReference chatRef;
+    private DatabaseReference sendRef;
     private String otherID = "a";
     private String myID = "b";
     private long now;
+    private UserData myUID, otherUID, combinedUID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatting);
 
+        // receiving intent
         Intent intent = getIntent();
         otherID = intent.getStringExtra("otherID");
         myID = intent.getStringExtra("myID");
         sendBtn = (ImageButton)findViewById(R.id.sendBtn);
         editText = (EditText)findViewById(R.id.editText);
+        listView = findViewById(R.id.message_view);
+        bAdapter = new chattingAdapter();
+        bAdapter = new chattingAdapter(this);
+        listView.setAdapter(bAdapter);
 
+
+        // initializing UID
+        myUID = new UserData();
+        myUID.UID = "a";
+        otherUID = new UserData();
+        otherUID.UID = "a";
+        combinedUID = new UserData();
+        combinedUID.UID = "a";
+
+        chatRef = FirebaseDatabase.getInstance().getReference();
+
+        // extract msg from DB and adding to adapter
+        final ChildEventListener childEventListener = new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                chatMsg c1 = snapshot.getValue(chatMsg.class);
+                if(c1.getSentBy().equals(myID))
+                    c1.setIsMine(true);
+                else
+                    c1.setIsMine(false);
+                ((chattingAdapter) bAdapter).add(c1);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+
+        // extracting UID from DB
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference userRef = rootRef.child("User_list");
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot ds : snapshot.getChildren()) {
+                    if(myID.equals(ds.getKey()))
+                        myUID.UID = ds.child("UID").getValue(String.class);
+                    else if (otherID.equals(ds.getKey()))
+                        otherUID.UID = ds.child("UID").getValue(String.class);
+                }
+
+                // make combined UID for "chat room UID"
+                combinedUID.UID = "";
+                int compRes = myUID.UID.compareTo(otherUID.UID);
+                if(compRes > 0)
+                    combinedUID.UID = String.format("%s_%s",myUID.UID, otherUID.UID);
+                else if (compRes < 0)
+                    combinedUID.UID = String.format("%s_%s",otherUID.UID, myUID.UID);
+
+                chatRef = FirebaseDatabase.getInstance().getReference().child("ChatMessages").child(combinedUID.UID);
+                chatRef.addChildEventListener(childEventListener);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        };
+        userRef.addListenerForSingleValueEvent(valueEventListener);
+
+
+        sendRef = FirebaseDatabase.getInstance().getReference();
+        // send msg
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String str = editText.getText().toString();
 
+                // push msg to DB
                 if(str.length() > 0) {
                     now = System.currentTimeMillis();
-                    chatMsg c = new chatMsg(str, otherID, true, now);
-                    taskMap.put("/ChattingList/" + myID + "/" + otherID + "/" + myID + "/" + bAdapter.getCount(), c);
-                    dbRef.updateChildren(taskMap);
-                    taskMap.put("/ChattingList/" + myID + "/" + otherID + "/recentMsg", str);
-                    dbRef.updateChildren(taskMap);
-                    chatMsg c1 = new chatMsg(str, otherID, false, now);
-                    taskMap.put("/ChattingList/" + otherID + "/" + myID + "/" + myID + "/" + bAdapter.getCount(), c1);
-                    dbRef.updateChildren(taskMap);
-                    taskMap.put("/ChattingList/" + otherID + "/" + myID + "/recentMsg", str);
-                    dbRef.updateChildren(taskMap);
+                    chatMsg c = new chatMsg(str, myID, true, now);
+                    taskMap.put("/ChatMessages/" + combinedUID.UID + "/" + bAdapter.getCount(), c);
+                    sendRef.updateChildren(taskMap);
+                    LastMsg l = new LastMsg(str, now);
+                    taskMap.put("/UserChats/" + myID + "/" + otherID, l);
+                    sendRef.updateChildren(taskMap);
+                    taskMap.put("/UserChats/" + otherID + "/" + myID, l);
+                    sendRef.updateChildren(taskMap);
                     editText.setText("");
                 }
-
-                /*
-                if(str.length() > 0) {
-                    chatMsg c = new chatMsg(str, otherID, true);
-                    dbRef.child("chatting").child(myID).push().setValue(c);
-                    c.setIsMine(false);
-                    dbRef.child("chatting").child(otherID).push().setValue(c);
-                    editText.setText("");
-                }
-                */
             }
         });
 
-
-        listView = findViewById(R.id.message_view);
-        msgList = new ArrayList<>();
-        chatting = new chatMsg();
-        bAdapter = new chattingAdapter();
-
-        bAdapter = new chattingAdapter(this);
-        listView.setAdapter(bAdapter);
-        fbDB = FirebaseDatabase.getInstance();
-        dbRef = fbDB.getReference();
-
-        dbRef.child("ChattingList").child(myID).child(otherID).child(myID).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                chatMsg c = snapshot.getValue(chatMsg.class);
-                ((chattingAdapter) bAdapter).add(c);
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        dbRef.child("ChattingList").child(myID).child(otherID).child(otherID).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                chatMsg c = snapshot.getValue(chatMsg.class);
-                ((chattingAdapter) bAdapter).add(c);
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
 
 
         /*

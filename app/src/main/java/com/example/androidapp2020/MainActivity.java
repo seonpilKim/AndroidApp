@@ -109,6 +109,3 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 
-class UserData {
-    public String UID;
-}
