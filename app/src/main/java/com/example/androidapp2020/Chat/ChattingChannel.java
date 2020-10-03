@@ -11,15 +11,18 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.example.androidapp2020.FriendAddActivity;
 import com.example.androidapp2020.Game;
 import com.example.androidapp2020.MenuActivity;
+import com.example.androidapp2020.ProfileActivity;
 import com.example.androidapp2020.R;
 import com.example.androidapp2020.UserData;
 import com.google.firebase.database.ChildEventListener;
@@ -44,6 +47,7 @@ public class ChattingChannel extends AppCompatActivity {
     private String recentMsg = "s";
     private long time;
     private UserData myUID;
+    private long time2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,8 @@ public class ChattingChannel extends AppCompatActivity {
         setContentView(R.layout.activity_chatting_list);
         ActionBar bar = getSupportActionBar();
         bar.setTitle("채팅");
+        bar.setDisplayHomeAsUpEnabled(true);
+        bar.setDisplayShowHomeEnabled(true);
 
         intent = getIntent();
         myID = intent.getStringExtra("myID");
@@ -86,11 +92,20 @@ public class ChattingChannel extends AppCompatActivity {
                 LastMsg l = snapshot.getValue(LastMsg.class);
                 for(int i = 0; i < adapter.getCount(); i++) {
                     ListCard card = (ListCard)adapter.getItem(i);
-                    if(card.getUserName().equals(snapshot.getKey()) || card.getMembers().equals(snapshot.getValue(LastMsg.class).getMembers())) {
-                        card.setRecentMsg(l.getText());
-                        card.setTime(l.getTime());
-                        adapter.update(card, i);
-                        break;
+                    if(card.isGroupChat()) {
+                        if(card.getMembers().equals(l.getMembers())) {
+                            card.setRecentMsg(l.getText());
+                            card.setTime(l.getTime());
+                            adapter.update(card, i);
+                        }
+                    }
+                    else {
+                        if (card.getUserName().equals(snapshot.getKey())) {
+                            card.setRecentMsg(l.getText());
+                            card.setTime(l.getTime());
+                            adapter.update(card, i);
+                            break;
+                        }
                     }
                 }
             }
@@ -132,10 +147,22 @@ public class ChattingChannel extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public void onBackPressed(){
+        if(System.currentTimeMillis() - time2 >= 2000){
+            time2 = System.currentTimeMillis();
+            Toast.makeText(getApplicationContext(),"한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+        else if(System.currentTimeMillis() - time2 < 2000 ){
+            ActivityCompat.finishAffinity(this);
+            System.exit(0);
+        }
 
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.chatting_channel_menu, menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
     @Override
@@ -144,6 +171,27 @@ public class ChattingChannel extends AppCompatActivity {
             case R.id.add_abIcon:
                 intent = new Intent(getApplicationContext(), CreateChatRoom.class);
                 intent.putExtra("myID", myID);
+                startActivity(intent);
+                return true;
+            case R.id.btn_main:
+                intent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.btn_profile:
+                intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.btn_friend:
+                intent = new Intent(getApplicationContext(), FriendAddActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.btn_chat:
+                Intent intent = new Intent(getApplicationContext(), ChattingChannel.class);
+                intent.putExtra("myID", myID);
+                startActivity(intent);
+                return true;
+            case R.id.btn_game:
+                intent= new Intent(getApplicationContext(), Game.class);
                 startActivity(intent);
                 return true;
             default:

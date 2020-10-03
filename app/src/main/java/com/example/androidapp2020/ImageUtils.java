@@ -20,7 +20,6 @@ public class ImageUtils {
     public static final int AVATAR_HEIGHT = 128;
 
     public static RoundedBitmapDrawable roundedImage(Context context, Bitmap src){
-        /*Bo tròn avatar*/
         Resources res = context.getResources();
         RoundedBitmapDrawable dr =
                 RoundedBitmapDrawableFactory.create(res, src);
@@ -70,19 +69,15 @@ public class ImageUtils {
             final int halfHeight = height / 2;
             final int halfWidth = width / 2;
 
-            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
             while ((halfHeight / inSampleSize) >= reqHeight
                     && (halfWidth / inSampleSize) >= reqWidth) {
                 inSampleSize *= 2;
             }
         }
 
-        // Calculate inSampleSize
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = inSampleSize;
 
-        // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeStream(is, null, options);
     }

@@ -167,9 +167,21 @@
         <activity android:name=".MenuActivity" />
         <activity android:name=".UserProfileActivity" />
         <activity android:name=".Board.Board_Write.board_edit" />
-        <activity android:name=".Chat.ChattingRoom" />
-        <activity android:name=".Chat.ChattingChannel" />
-        <activity android:name=".Chat.GroupChattingRoom"/>
+        <activity android:name=".Chat.ChattingRoom" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Chat.ChattingChannel" />
+        </activity>
+        <activity android:name=".Chat.ChattingChannel">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MenuActivity" />
+        </activity>
+        <activity android:name=".Chat.GroupChattingRoom">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Chat.ChattingChannel" />
+        </activity>
         <activity android:name=".Chat.CreateChatRoom" />
     </application>
 

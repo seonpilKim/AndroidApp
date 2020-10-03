@@ -1,48 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:orientation="vertical">
     <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="729dp"
-
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="200dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
+        android:layout_weight="0.5">
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="1">
         <Button
             android:id="@+id/bt_profile_adj"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="프로필 수정" />
+            android:text="프로필"
+            android:background="#168294"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"/>
 
         <Button
             android:id="@+id/bt_board"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="게시판" />
+            android:text="게시판"
+            android:background="#168294"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF" />
 
         <Button
             android:id="@+id/bt_chat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="채팅" />
+            android:text="채팅"
+            android:background="#168294"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF" />
         
         <Button
             android:id="@+id/btn_friend"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="친구"></Button>
-
+            android:text="친구"
+            android:background="#168294"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"></Button>
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.ChildEventListener;
@@ -41,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         return this.user_list.contains(item);
     }
 
-    // 계속 return false....
     public boolean IsExistUid(String item){
         return this.uid_list.contains(item);
     }
@@ -61,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
         user_list = new ArrayList<>();
         userID = _ID.getText().toString();
 
+        ActionBar ab = getSupportActionBar();
+        ab.setTitle("회원가입");
+
         database.child("User_list").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -78,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
                     Intent intent = new Intent(MainActivity.this, MenuActivity.class);
                     startActivity(intent);
-                    Toast.makeText(getApplicationContext(), "자동로그인되었습니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "자동로그인 되었습니다.", Toast.LENGTH_LONG).show();
                 }
                 else {
                     _RegBtn.setEnabled(true);

@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -31,7 +32,8 @@ public class MenuActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_select);
-
+        ActionBar ab = getSupportActionBar();
+        ab.setTitle("네인");
         id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         database= FirebaseDatabase.getInstance().getReference();
         database.child("User_list").addChildEventListener(new ChildEventListener() {

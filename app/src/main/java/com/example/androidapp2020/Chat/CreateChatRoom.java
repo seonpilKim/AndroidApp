@@ -87,6 +87,7 @@ public class CreateChatRoom extends AppCompatActivity {
                 // move to group chat room
                 if(addedFriend.size() != 0) {
                     Intent intent = new Intent(CreateChatRoom.this, GroupChattingRoom.class);
+                    addedFriend.add(myID);
                     intent.putStringArrayListExtra("members", (ArrayList<String>) addedFriend);
                     intent.putExtra("myID", myID);
                     startActivity(intent);

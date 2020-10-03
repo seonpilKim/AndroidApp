@@ -104,6 +104,38 @@ public class lol_free extends AppCompatActivity {
         search = "";
         ((ListViewAdapter)listView.getAdapter()).getFilter().filter(search);
 
+        database.child("Board_list").child("League_of_Legend").child("Free").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String previousChildName) {
+                ListVO listVO = dataSnapshot.getValue(ListVO.class);
+                Key = dataSnapshot.getKey();
+                adapter.addVO(listVO.getTitle(), listVO.getContent(), Key, listVO.getId(), listVO.getTime(), listVO.getT(),
+                        listVO.getuserID(), listVO.getViews(), listVO.getComments(), listVO.getRecommendations(), listVO.getNum());
+                adapter.notifyDataSetChanged();
+                listView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 // 검색
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -3,6 +3,8 @@ package com.example.androidapp2020.Chat;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -12,8 +14,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import com.example.androidapp2020.FriendAddActivity;
+import com.example.androidapp2020.Game;
+import com.example.androidapp2020.MenuActivity;
+import com.example.androidapp2020.ProfileActivity;
 import com.example.androidapp2020.R;
 //import com.firebase.ui.database.FirebaseListAdapter;
 import com.example.androidapp2020.UserData;
@@ -49,11 +57,16 @@ public class ChattingRoom extends AppCompatActivity {
     private String myID = "b";
     private long now;
     private UserData myUID, otherUID, combinedUID;
+    private Intent intent;
+    private long time2 = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatting);
+        ActionBar bar = getSupportActionBar();
+        bar.setDisplayHomeAsUpEnabled(true);
+        bar.setDisplayShowHomeEnabled(true);
 
         // receiving intent
         Intent intent = getIntent();
@@ -195,5 +208,56 @@ public class ChattingRoom extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+    @Override
+    public void onBackPressed(){
+        if(System.currentTimeMillis() - time2 >= 2000){
+            time2 = System.currentTimeMillis();
+            Toast.makeText(getApplicationContext(),"한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+        else if(System.currentTimeMillis() - time2 < 2000 ){
+            ActivityCompat.finishAffinity(this);
+            System.exit(0);
+        }
+
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.chatting_channel_menu, menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.add_abIcon:
+                intent = new Intent(getApplicationContext(), CreateChatRoom.class);
+                intent.putExtra("myID", myID);
+                startActivity(intent);
+                return true;
+            case R.id.btn_main:
+                intent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.btn_profile:
+                intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.btn_friend:
+                intent = new Intent(getApplicationContext(), FriendAddActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.btn_chat:
+                Intent intent = new Intent(getApplicationContext(), ChattingChannel.class);
+                intent.putExtra("myID", myID);
+                startActivity(intent);
+                return true;
+            case R.id.btn_game:
+                intent= new Intent(getApplicationContext(), Game.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
