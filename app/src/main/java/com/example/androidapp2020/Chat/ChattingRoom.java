@@ -230,6 +230,11 @@ public class ChattingRoom extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
+            case android.R.id.home:
+                Intent intent = new Intent(getApplicationContext(), ChattingChannel.class);
+                intent.putExtra("myID", myID);
+                startActivity(intent);
+                return true;
             case R.id.add_abIcon:
                 intent = new Intent(getApplicationContext(), CreateChatRoom.class);
                 intent.putExtra("myID", myID);
@@ -248,7 +253,7 @@ public class ChattingRoom extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.btn_chat:
-                Intent intent = new Intent(getApplicationContext(), ChattingChannel.class);
+                intent = new Intent(getApplicationContext(), ChattingChannel.class);
                 intent.putExtra("myID", myID);
                 startActivity(intent);
                 return true;

@@ -1,4 +1,4 @@
-package com.example.androidapp2020.Chat;
+package com.example.androidapp2020;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.example.androidapp2020.Chat.ListCard;
 import com.example.androidapp2020.R;
 
 import java.text.SimpleDateFormat;
