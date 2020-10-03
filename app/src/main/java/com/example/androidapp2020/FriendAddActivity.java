@@ -37,7 +37,7 @@ import java.util.Map;
 
 public class FriendAddActivity extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
-    DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();
+    static DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();
 
     Button friend_add_button;
     EditText friend_edit_view;
@@ -47,11 +47,13 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
     String friend_name;
 
     LinearLayout layer_friend_view;
+    LinearLayout layer_user_view;
 
     String ID="testUser";
     //String ID = SharedProperty.getUserID();
 
     FriendList friend_data = new FriendList();
+    static FriendList friend_data_of_friend = new FriendList();
 
     ArrayAdapter<String> arrayAdapter;
     ArrayAdapter<String> userAdapter;
@@ -78,7 +80,7 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
         friend_edit_view = (EditText) findViewById(R.id.friend_name);
 
         //       arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-        arrayAdapter = new FriendListAdapter(friendList, this);
+        arrayAdapter = new FriendListAdapter(friendList, this, ID);
         friend_names = (ListView) findViewById(R.id.friend_name_list);
         friend_names.setAdapter(arrayAdapter);
         friend_names.setOnItemLongClickListener(longClickListener);
@@ -89,6 +91,8 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
         friend_edit_view.addTextChangedListener(this);
 
         layer_friend_view = (LinearLayout) findViewById(R.id.layer_friend_view);
+        layer_user_view = (LinearLayout) findViewById(R.id.layer_user_view);
+        layer_user_view.setVisibility(View.GONE);
 
         getFriendListFromServer(ID);
 
@@ -108,7 +112,7 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             friend_data.friend_names.remove(user_name);
-                            putFriendListToServer(ID);
+                            putFriendListToServer(ID, user_name, false);
                             getFriendListFromServer(ID);
                             Toast.makeText(FriendAddActivity.this, "친구를 삭제했습니다.", Toast.LENGTH_SHORT).show();
                         }
@@ -128,7 +132,8 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
     private AdapterView.OnItemClickListener userOnClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            String user_name = userList.get(position).toString();
+            String user_name = (String) userAdapter.getItem(position);
+            // String user_name = userList.get(position).toString();
             friend_edit_view.setText(user_name);
         }
     };
@@ -141,15 +146,17 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
         return friendList.contains(name);
     }
 
-    public void putFriendListToServer(String ID){
+    public void putFriendListToServer(String myID, String friendID, boolean add){
         //mPostReference = FirebaseDatabase.getInstance().getReference();
         Map<String, Object> childUpdates = new HashMap<>();
         Map<String, Object> postValues = null;
 
         postValues = friend_data.toMap();
 
-        childUpdates.put("/Friend_list/" + ID, postValues);
+        childUpdates.put("/Friend_list/" + myID, postValues);
         mPostReference.updateChildren(childUpdates);
+
+        getFriendListOfFriendAndSetMyID(myID, friendID, add);
     }
 
     public void getRegisteredUserList(){
@@ -218,6 +225,52 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
         data.addListenerForSingleValueEvent(postListener2);
     }
 
+    public static void addFriendID(final String myID, final String friendID) {
+        getFriendListOfFriendAndSetMyID(myID, friendID, true);
+        getFriendListOfFriendAndSetMyID(friendID, myID, true);
+    }
+
+    public static void removeFriendID(final String myID, final String friendID) {
+        getFriendListOfFriendAndSetMyID(myID, friendID, false);
+        getFriendListOfFriendAndSetMyID(friendID, myID, false);
+    }
+
+    public static void getFriendListOfFriendAndSetMyID(final String myID, final String friendID, final boolean add){
+        ValueEventListener postListener3 = new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                FriendList get = dataSnapshot.getValue(FriendList.class);
+
+                if (get != null) {
+                    friend_data_of_friend = get;
+                }
+
+                if (add == true) {
+                    friend_data_of_friend.friend_names.add(0, myID);
+                } else {
+                    friend_data_of_friend.friend_names.remove(myID);
+                }
+
+                Map<String, Object> childUpdates = new HashMap<>();
+                Map<String, Object> postValues = null;
+
+                postValues = friend_data_of_friend.toMap();
+
+                childUpdates.put("/Friend_list/" + friendID, postValues);
+                mPostReference.updateChildren(childUpdates);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("getFirebaseDatabase","loadPost:onCancelled", databaseError.toException());
+            }
+        };
+        Query data = mPostReference.child("Friend_list").child(friendID).orderByKey();
+        data.addListenerForSingleValueEvent(postListener3);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -234,7 +287,7 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
                     } else {
                         friend_data.friend_names.add(0, friend_name);
                         friend_edit_view.getText().clear();
-                        putFriendListToServer(ID);
+                        putFriendListToServer(ID, friend_name, true);
                         getFriendListFromServer(ID);
                     }
                 }
@@ -269,10 +322,12 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
             user_names.clearTextFilter();
             user_names.setTextFilterEnabled(false);
             layer_friend_view.setVisibility(View.VISIBLE);
+            layer_user_view.setVisibility(View.GONE);
         } else if (friend_edit_view.getText().length() >= 1) {
             user_names.setTextFilterEnabled(true);
             user_names.setFilterText(friend_edit_view.getText().toString());
             layer_friend_view.setVisibility(View.GONE);
+            layer_user_view.setVisibility(View.VISIBLE);
         }
     }
 

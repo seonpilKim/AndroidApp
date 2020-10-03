@@ -10,27 +10,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="4">
+        android:weightSum="3">
         <Button
             android:id="@+id/btn_sc_free_notice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="공지사항"
             android:layout_weight="1"
+            android:background="#FFFFFF"
+            style="@style/Widget.AppCompat.Button.Borderless"
             ></Button>
-        <Button
-            android:id="@+id/btn_sc_free_star"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="인기 게시판"
-            android:layout_weight="1"
-            ></Button>
+
         <Button
             android:id="@+id/btn_sc_free_free"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="자유 게시판"
             android:layout_weight="1"
+            android:background="#FFFFFF"
+            style="@style/Widget.AppCompat.Button.Borderless"
             ></Button>
         <Button
             android:id="@+id/btn_sc_free_find"
@@ -38,7 +36,39 @@
             android:layout_height="wrap_content"
             android:text="팀원/상대 모집"
             android:layout_weight="1"
+            android:background="#FFFFFF"
+            style="@style/Widget.AppCompat.Button.Borderless"
             ></Button>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerInParent="true"
+            android:background="#E6E6E6"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"></View>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:background="#0489B1"
+            android:layout_weight="1"></View>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_centerInParent="true"
+            android:background="#E6E6E6"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"></View>
     </LinearLayout>
 
     <LinearLayout

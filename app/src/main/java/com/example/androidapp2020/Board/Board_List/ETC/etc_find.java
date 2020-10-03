@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,15 +21,13 @@ import android.widget.Toast;
 
 import com.example.androidapp2020.Board.Adapter.ListViewAdapter;
 import com.example.androidapp2020.Board.Board_Item.BoardItem;
-import com.example.androidapp2020.Board.Board_List.AmUs.AmongUs;
-import com.example.androidapp2020.Board.Board_List.AmUs.au_find;
-import com.example.androidapp2020.Board.Board_List.AmUs.au_free;
-import com.example.androidapp2020.Board.Board_List.AmUs.au_star;
 import com.example.androidapp2020.Board.Board_Write.board_write;
 import com.example.androidapp2020.Board.ListVO.ListVO;
+import com.example.androidapp2020.Chat.ChattingChannel;
 import com.example.androidapp2020.FriendAddActivity;
 import com.example.androidapp2020.Game;
 import com.example.androidapp2020.MenuActivity;
+import com.example.androidapp2020.ProfileActivity;
 import com.example.androidapp2020.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -62,6 +61,7 @@ public class etc_find extends AppCompatActivity {
     private String key;
     private String time;
     private String userID;
+    private String my_userID;
 
     private int comments;
     private int recommendations;
@@ -72,7 +72,6 @@ public class etc_find extends AppCompatActivity {
     private Button btn_search;
     private Button btn_write;
     private Button btn_notice;
-    private Button btn_star;
     private Button btn_free;
     private Button btn_find;
 
@@ -88,7 +87,6 @@ public class etc_find extends AppCompatActivity {
         btn_search = (Button) findViewById(R.id.btn_etc_find_Search);
         btn_write = (Button) findViewById(R.id.btn_etc_find_write);
         btn_notice = (Button) findViewById(R.id.btn_etc_find_notice);
-        btn_star = (Button) findViewById(R.id.btn_etc_find_star);
         btn_free = (Button) findViewById(R.id.btn_etc_find_free);
         btn_find = (Button) findViewById(R.id.btn_etc_find_find);
         et_search = (EditText) findViewById(R.id.et_etc_find_Search);
@@ -145,13 +143,6 @@ public class etc_find extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 intent = new Intent(getApplicationContext(), etc_free.class);
-                startActivity(intent);
-            }
-        });
-        btn_star.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                intent = new Intent(getApplicationContext(), etc_star.class);
                 startActivity(intent);
             }
         });
@@ -237,31 +228,70 @@ public class etc_find extends AppCompatActivity {
             }
         });
 
+        database.child("User_list").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                for(DataSnapshot s : snapshot.getChildren()){
+                    if(s.getKey().equals("UID")){
+                        if(s.getValue(String.class).equals(id)){
+                            my_userID = snapshot.getKey();
+                            break;
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) { }
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) { }
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) { }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
+        });
     }
+
     @Override
-    public boolean onCreateOptionsMenu(Menu menu){
+    public void onBackPressed(){
+        if(System.currentTimeMillis() - time2 >= 2000){
+            time2=System.currentTimeMillis();
+            Toast.makeText(getApplicationContext(),"한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+        else if(System.currentTimeMillis() - time2 < 2000 ){
+            ActivityCompat.finishAffinity(this);
+            System.exit(0);
+        }
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
+
     @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch(item.getItemId()){
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.btn_main:
                 intent = new Intent(getApplicationContext(), MenuActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.btn_profile:
-                // 화면전환
+                intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.btn_friend:
                 intent = new Intent(getApplicationContext(), FriendAddActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.btn_setup:
-                // 화면전환
+            case R.id.btn_chat:
+                Intent intent = new Intent(getApplicationContext(), ChattingChannel.class);
+                intent.putExtra("myID", my_userID);
+                startActivity(intent);
                 return true;
             case R.id.btn_game:
-                intent= new Intent(getApplicationContext(), Game.class);
+                intent = new Intent(getApplicationContext(), Game.class);
                 startActivity(intent);
                 return true;
             default:

@@ -1,15 +1,24 @@
 package com.example.androidapp2020;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -18,8 +27,16 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +46,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +56,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     ///////// 화면 UI ////////////////////////////////////////////////////////////////////////////////
     //버튼이나 체크박스 데이터베이스 변수들
     DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();// 서버의 루트 변경해서 사용하면 됨
+    Context context;
     Button btn_Update;
+    private static final int PICK_IMAGE = 1994;
+    ImageView user_picture;
 
     CheckBox check_lol;
     CheckBox check_battle;
@@ -132,6 +154,23 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     static ArrayList<String> arrayIndex =  new ArrayList<String>();
     static ArrayList<String> arrayData = new ArrayList<String>();
 
+    private void setImageAvatar(Context context, String imgBase64){
+        try {
+            Resources res = getResources();
+            Bitmap src;
+            if (imgBase64.equals("default")) {
+                src = BitmapFactory.decodeResource(res, R.drawable.default_picture);
+            } else {
+                byte[] decodedString = Base64.decode(imgBase64, Base64.DEFAULT);
+                src = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            }
+
+            user_picture.setImageDrawable(ImageUtils.roundedImage(context, src));
+        }catch (Exception e){
+        }
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);    //내용 저장용
@@ -145,6 +184,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
         loginID = pref.getString("loginID", "testUser");
 
+        context = this;
+
         Intent intent = getIntent();
         friendID = intent.getStringExtra( "friendID");
 
@@ -156,6 +197,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             ID = friendID;
             profileEditable = false;
             editState = false;
+
         }
         ab.setSubtitle(ID);
 
@@ -173,6 +215,34 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         hearth_spinner2 = (Spinner)findViewById(R.id.hearthstone_dack);
         star_spinner1 = (Spinner)findViewById(R.id.star2_triber);
         star_spinner2 = (Spinner)findViewById(R.id.star2_tiers);
+
+        user_picture = (ImageView) findViewById(R.id.user_picture);
+        user_picture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ID == loginID) {
+                    new AlertDialog.Builder(view.getContext())
+                            .setTitle("사진 설정")
+                            .setMessage("프로필사진을 바꾸시겠어요?")
+                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Intent intent = new Intent();
+                                    intent.setType("image/*");
+                                    intent.setAction(Intent.ACTION_PICK);
+                                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).show();
+                }
+            }
+        });
 
         AdapterView.OnItemSelectedListener item_listener =  new AdapterView.OnItemSelectedListener() {
             @Override
@@ -560,8 +630,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 user_age.setText(userData.Age);
                 user_gender.setText(userData.Gender);
                 user_dico.setText(userData.Discord);
+                if (userData.Picture == null) {
+                    setImageAvatar(context, "default");
+                } else {
+                    setImageAvatar(context, userData.Picture);
+                }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
         };
@@ -570,6 +644,50 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         data0.addListenerForSingleValueEvent(dataListener0);
 
 
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE && resultCode == AppCompatActivity.RESULT_OK) {
+            if (data == null) {
+                Toast.makeText(this, "사진이 선택되지 않았습니다.", Toast.LENGTH_LONG).show();
+                return;
+            }
+            try {
+                InputStream inputStream = getContentResolver().openInputStream(data.getData());
+
+                Bitmap imgBitmap = BitmapFactory.decodeStream(inputStream);
+                imgBitmap = ImageUtils.cropToSquare(imgBitmap);
+                InputStream is = ImageUtils.convertBitmapToInputStream(imgBitmap);
+                final Bitmap liteImage = ImageUtils.makeImageLite(is,
+                        imgBitmap.getWidth(), imgBitmap.getHeight(),
+                        ImageUtils.AVATAR_WIDTH, ImageUtils.AVATAR_HEIGHT);
+
+                String imageBase64 = ImageUtils.encodeBase64(liteImage);
+                //myAccount.avata = imageBase64;
+
+                mPostReference.child("User_list/"+ID).child("Picture").setValue(imageBase64)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    Log.w("onActivityResult","Picure is updated");
+                                    user_picture.setImageDrawable(ImageUtils.roundedImage(context, liteImage));
+                                    Toast.makeText(context, "사진이 변경되었습니다.", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(context, "서버에 저장중 에러가 발생되었습니다.", Toast.LENGTH_LONG).show();
+                            }
+                        });
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void setProfileEditable(Boolean profileEditable, Boolean editable) {
@@ -929,4 +1047,5 @@ class UserData0 {
     public String Age;
     public String Discord;
     public String Gender;
+    public String Picture;
 }

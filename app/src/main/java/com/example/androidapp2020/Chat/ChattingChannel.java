@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -12,8 +14,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.androidapp2020.FriendAddActivity;
+import com.example.androidapp2020.Game;
+import com.example.androidapp2020.MenuActivity;
 import com.example.androidapp2020.R;
 import com.example.androidapp2020.UserData;
 import com.google.firebase.database.ChildEventListener;
@@ -23,6 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class ChattingChannel extends AppCompatActivity {
@@ -42,6 +49,8 @@ public class ChattingChannel extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatting_list);
+        ActionBar bar = getSupportActionBar();
+        bar.setTitle("채팅");
 
         intent = getIntent();
         myID = intent.getStringExtra("myID");
@@ -62,13 +71,28 @@ public class ChattingChannel extends AppCompatActivity {
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 LastMsg l = snapshot.getValue(LastMsg.class);
                 String user = snapshot.getKey();
-                ListCard card = new ListCard(user ,l.getText() , l.getTime());
+                ListCard card;
+
+                if(l.isGroupChat())
+                    card = new ListCard(l.getMembers(), l.getText(), l.getTime(), l.isGroupChat());
+                else
+                    card = new ListCard(user, l.getText(), l.getTime(), l.isGroupChat());
+
                 ((ChattingChannelAdapter) adapter).add(card);
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                LastMsg l = snapshot.getValue(LastMsg.class);
+                for(int i = 0; i < adapter.getCount(); i++) {
+                    ListCard card = (ListCard)adapter.getItem(i);
+                    if(card.getUserName().equals(snapshot.getKey()) || card.getMembers().equals(snapshot.getValue(LastMsg.class).getMembers())) {
+                        card.setRecentMsg(l.getText());
+                        card.setTime(l.getTime());
+                        adapter.update(card, i);
+                        break;
+                    }
+                }
             }
 
             @Override
@@ -87,19 +111,43 @@ public class ChattingChannel extends AppCompatActivity {
             }
         });
 
-
-
         chat_channel_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TextView name_TextView = (TextView) findViewById(R.id.name_textView);
-                otherID = name_TextView.getText().toString();
-                Intent tmp = new Intent(ChattingChannel.this, ChattingRoom.class);
-                tmp.putExtra("myID", myID);
-                tmp.putExtra("otherID", otherID);
-                startActivity(tmp);
+                ListCard card = (ListCard) adapter.getItem(i);
+                Intent intent;
+                if(card.isGroupChat()) {
+                    intent = new Intent(ChattingChannel.this, GroupChattingRoom.class);
+                    intent.putExtra("myID", myID);
+                    intent.putStringArrayListExtra("members", (ArrayList<String>)card.getMembers());
+                    startActivity(intent);
+                }
+                else {
+                    otherID = card.getUserName();
+                    intent = new Intent(ChattingChannel.this, ChattingRoom.class);
+                    intent.putExtra("myID", myID);
+                    intent.putExtra("otherID", otherID);
+                    startActivity(intent);
+                }
             }
         });
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.chatting_channel_menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.add_abIcon:
+                intent = new Intent(getApplicationContext(), CreateChatRoom.class);
+                intent.putExtra("myID", myID);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

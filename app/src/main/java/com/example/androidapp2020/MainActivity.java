@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -51,7 +52,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         database = FirebaseDatabase.getInstance().getReference();
         _RegBtn = (Button) findViewById(R.id.registerBtn);
+        _RegBtn.setEnabled(false);
         _ID = (EditText) findViewById(R.id.inputID);
+        _ID.setCursorVisible(false);
+        _ID.setInputType(EditorInfo.TYPE_NULL);
         ID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         uid_list = new ArrayList<>();
         user_list = new ArrayList<>();
@@ -69,12 +73,17 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if(IsExistUid(ID)) {
+
                     saveUserID(user_list.get(uid_list.indexOf(ID)));
 
                     Intent intent = new Intent(MainActivity.this, MenuActivity.class);
                     startActivity(intent);
+                    Toast.makeText(getApplicationContext(), "자동로그인되었습니다.", Toast.LENGTH_LONG).show();
                 }
                 else {
+                    _RegBtn.setEnabled(true);
+                    _ID.setCursorVisible(true);
+                    _ID.setInputType(EditorInfo.TYPE_CLASS_TEXT);
                     _RegBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -108,4 +117,3 @@ public class MainActivity extends AppCompatActivity {
         editor.commit();
     }
 }
-

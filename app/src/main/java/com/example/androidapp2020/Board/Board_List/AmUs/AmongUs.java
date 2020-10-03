@@ -21,15 +21,13 @@ import androidx.core.app.ActivityCompat;
 
 import com.example.androidapp2020.Board.Adapter.ListViewAdapter;
 import com.example.androidapp2020.Board.Board_Item.BoardItem;
-import com.example.androidapp2020.Board.Board_List.BG.BG_find;
-import com.example.androidapp2020.Board.Board_List.BG.BG_free;
-import com.example.androidapp2020.Board.Board_List.BG.BG_star;
-import com.example.androidapp2020.Board.Board_List.BG.BattleGrounds;
 import com.example.androidapp2020.Board.Board_Write.board_write;
 import com.example.androidapp2020.Board.ListVO.ListVO;
+import com.example.androidapp2020.Chat.ChattingChannel;
 import com.example.androidapp2020.FriendAddActivity;
 import com.example.androidapp2020.Game;
 import com.example.androidapp2020.MenuActivity;
+import com.example.androidapp2020.ProfileActivity;
 import com.example.androidapp2020.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -63,6 +61,7 @@ public class AmongUs extends AppCompatActivity {
     private String key;
     private String time;
     private String userID;
+    private String my_userID;
 
     private int comments;
     private int recommendations;
@@ -73,7 +72,6 @@ public class AmongUs extends AppCompatActivity {
     private Button btn_search;
     private Button btn_write;
     private Button btn_notice;
-    private Button btn_star;
     private Button btn_free;
     private Button btn_find;
 
@@ -95,7 +93,6 @@ public class AmongUs extends AppCompatActivity {
         btn_search = (Button) findViewById(R.id.btn_au_notice_Search);
         btn_write = (Button) findViewById(R.id.btn_au_notice_write);
         btn_notice = (Button) findViewById(R.id.btn_au_notice_notice);
-        btn_star = (Button) findViewById(R.id.btn_au_notice_star);
         btn_free = (Button) findViewById(R.id.btn_au_notice_free);
         btn_find = (Button) findViewById(R.id.btn_au_notice_find);
         et_search = (EditText) findViewById(R.id.et_au_notice_Search);
@@ -103,6 +100,28 @@ public class AmongUs extends AppCompatActivity {
         myid = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         search = "";
         ((ListViewAdapter)listView.getAdapter()).getFilter().filter(search);
+
+        database.child("User_list").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                for(DataSnapshot s : snapshot.getChildren()){
+                    if(s.getKey().equals("UID")){
+                        if(s.getValue(String.class).equals(id)){
+                            my_userID = snapshot.getKey();
+                            break;
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) { }
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) { }
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) { }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
+        });
 
 // 검색
         btn_search.setOnClickListener(new View.OnClickListener() {
@@ -146,13 +165,6 @@ public class AmongUs extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 intent = new Intent(getApplicationContext(), au_free.class);
-                startActivity(intent);
-            }
-        });
-        btn_star.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                intent = new Intent(getApplicationContext(), au_star.class);
                 startActivity(intent);
             }
         });
@@ -270,14 +282,17 @@ public class AmongUs extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.btn_profile:
-                // 화면전환
+                intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.btn_friend:
                 intent = new Intent(getApplicationContext(), FriendAddActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.btn_setup:
-                // 화면전환
+            case R.id.btn_chat:
+                Intent intent = new Intent(getApplicationContext(), ChattingChannel.class);
+                intent.putExtra("myID", my_userID);
+                startActivity(intent);
                 return true;
             case R.id.btn_game:
                 intent= new Intent(getApplicationContext(), Game.class);

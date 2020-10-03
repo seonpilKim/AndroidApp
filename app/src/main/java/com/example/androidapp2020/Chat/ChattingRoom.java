@@ -24,10 +24,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 
 /*
     intent needed:
@@ -40,7 +43,6 @@ public class ChattingRoom extends AppCompatActivity {
     private EditText editText;
     private ListView listView;
     private ImageButton sendBtn;
-    private FirebaseDatabase fbDB;
     private DatabaseReference chatRef;
     private DatabaseReference sendRef;
     private String otherID = "a";
@@ -63,6 +65,7 @@ public class ChattingRoom extends AppCompatActivity {
         bAdapter = new chattingAdapter();
         bAdapter = new chattingAdapter(this);
         listView.setAdapter(bAdapter);
+        getSupportActionBar().setTitle(otherID);
 
 
         // initializing UID
@@ -80,6 +83,28 @@ public class ChattingRoom extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 chatMsg c1 = snapshot.getValue(chatMsg.class);
+                /*
+                chatMsg dateMsg;
+                if(bAdapter.getCount() != 0) {
+                    chatMsg prevMsg = (chatMsg) bAdapter.getItem(bAdapter.getCount() - 1);
+                    long prev = prevMsg.getTime();
+                    Date msgDate = new Date(c1.getTime());
+                    Date prevDate = new Date(prev);
+                    SimpleDateFormat time = new SimpleDateFormat("MM.dd");
+                    TimeZone zone = TimeZone.getTimeZone("Asia/Seoul");
+                    time.setTimeZone(zone);
+                    String prevTime = time.format(prevDate);
+                    String msgTime = time.format(msgDate);
+                    if (prevTime.equals(msgTime)) {
+                        dateMsg = new chatMsg("0721commandDatecommand0721", "command", false, c1.getTime());
+                        ((chattingAdapter) bAdapter).add_icon(dateMsg);
+                    }
+                }
+                else {
+                    dateMsg = new chatMsg("0721commandDatecommand0721", "command", false, c1.getTime());
+                    ((chattingAdapter)bAdapter).add_icon(dateMsg);
+                }
+            */
                 if(c1.getSentBy().equals(myID))
                     c1.setIsMine(true);
                 else
@@ -154,7 +179,7 @@ public class ChattingRoom extends AppCompatActivity {
                     chatMsg c = new chatMsg(str, myID, true, now);
                     taskMap.put("/ChatMessages/" + combinedUID.UID + "/" + bAdapter.getCount(), c);
                     sendRef.updateChildren(taskMap);
-                    LastMsg l = new LastMsg(str, now);
+                    LastMsg l = new LastMsg(str, now, false);
                     taskMap.put("/UserChats/" + myID + "/" + otherID, l);
                     sendRef.updateChildren(taskMap);
                     taskMap.put("/UserChats/" + otherID + "/" + myID, l);
@@ -163,36 +188,12 @@ public class ChattingRoom extends AppCompatActivity {
                 }
             }
         });
-
-
-
-        /*
-        //display chat msg
-        ListView message_view = (ListView)findViewById(R.id.message_view);
-        //display my msg
-        adapter = new FirebaseListAdapter<chatMsg>(this, chatMsg.class, R.layout.my_msg, FirebaseDatabase.getInstance().getReference()) {
-            @Override
-            protected void populateView(View v, chatMsg model, int position) {
-                TextView time = (TextView)v.findViewById(R.id.message_time);
-                TextView text = (TextView)v.findViewById(R.id.message_body);
-                text.setText(model.getText());
-                time.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)", model.getTime()));
-            }
-        };
-        //display other msg
-        adapter = new FirebaseListAdapter<chatMsg>(this, chatMsg.class, R.layout.other_msg, FirebaseDatabase.getInstance().getReference()) {
-            @Override
-            protected void populateView(View v, chatMsg model, int position) {
-                TextView name = (TextView)v.findViewById(R.id.name);
-                TextView text = (TextView)v.findViewById(R.id.message_body);
-                TextView time = (TextView)v.findViewById(R.id.message_time);
-                text.setText(model.getText());
-                name.setText(model.getUser());
-                time.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)", model.getTime()));
-            }
-        };
-        message_view.setAdapter(adapter);
-         */
     }
 
+    boolean sameMsg(chatMsg c1, chatMsg c2) {
+        if(c1.getText().equals(c2.getText()) && c1.getSentBy().equals(c2.getSentBy()) && c1.getTime() == c2.getTime()) {
+            return true;
+        }
+        return false;
+    }
 }

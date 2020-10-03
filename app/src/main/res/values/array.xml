@@ -18,6 +18,7 @@
         <item>플레티넘</item>
         <item>다이아</item>
         <item>마스터</item>
+        <item>그랜드마스터</item>
     </string-array>
     <string-array name="over">
         <item>브론즈</item>

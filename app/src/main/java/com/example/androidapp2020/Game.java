@@ -34,8 +34,8 @@ import com.google.firebase.database.FirebaseDatabase;
 public class Game extends AppCompatActivity {
     private Intent intent;
     private DatabaseReference database;
-    String id;
-    String cm_userID;
+    private String id;
+    private String cm_userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -177,14 +177,17 @@ public class Game extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.btn_profile:
-                // 화면전환
+                intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.btn_friend:
                 intent = new Intent(getApplicationContext(), FriendAddActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.btn_setup:
-                // 화면전환
+            case R.id.btn_chat:
+                Intent intent = new Intent(getApplicationContext(), ChattingChannel.class);
+                intent.putExtra("myID", cm_userID);
+                startActivity(intent);
                 return true;
             case R.id.btn_game:
                 intent= new Intent(getApplicationContext(), Game.class);

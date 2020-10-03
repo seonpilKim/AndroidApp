@@ -27,9 +27,24 @@ public class chattingAdapter extends BaseAdapter {
     public chattingAdapter() {}
 
     public void add(chatMsg msg) {
-
         this.msgList.add(msg);
         notifyDataSetChanged();
+    }
+
+    public boolean checkSameDay(chatMsg msg, chatMsg prevMsg) {
+        Date prevDate = new Date(prevMsg.getTime());
+        Date msgDate = new Date(msg.getTime());
+        SimpleDateFormat time = new SimpleDateFormat("MM.dd");
+        TimeZone zone = TimeZone.getTimeZone("Asia/Seoul");
+        time.setTimeZone(zone);
+        String prevTime = time.format(prevDate);
+        String msgTime = time.format(msgDate);
+        if(prevTime.equals(msgTime))
+            return true;
+        return false;
+    }
+
+    public void deleteMsg(int i) {
     }
 
     @Override
@@ -60,13 +75,24 @@ public class chattingAdapter extends BaseAdapter {
         time.setTimeZone(zone);
         String strTime = time.format(date);
 
+        Date month = new Date(now);
+        SimpleDateFormat monthTime = new SimpleDateFormat("yyyy.MM.dd");
+        monthTime.setTimeZone(zone);
+        String strMonth = monthTime.format(month);
+
         if(msg.getIsMine()) {   // my msg
             view = msgInflater.inflate(R.layout.my_msg, null);
             holder.msgBody = (TextView) view.findViewById(R.id.message_body);
             holder.time = (TextView) view.findViewById(R.id.message_time);
+            holder.date = (TextView) view.findViewById(R.id.date_textView);
             view.setTag(holder);
             holder.msgBody.setText(msg.getText());
             holder.time.setText(strTime);
+            holder.date.setText(strMonth);
+            if(i != 0) {
+                if (checkSameDay(msg, (chatMsg) this.getItem(i - 1)))
+                    holder.date.setVisibility(View.GONE);
+            }
         }
         else {  // other msg
             view = msgInflater.inflate(R.layout.other_msg, null);
@@ -74,10 +100,16 @@ public class chattingAdapter extends BaseAdapter {
             holder.name = (TextView) view.findViewById(R.id.name);
             holder.msgBody = (TextView) view.findViewById(R.id.message_body);
             holder.time = (TextView) view.findViewById(R.id.message_time);
+            holder.date = (TextView) view.findViewById(R.id.date_textView);
             view.setTag(holder);
             holder.name.setText(msg.getSentBy());
             holder.msgBody.setText(msg.getText());
             holder.time.setText(strTime);
+            holder.date.setText(strMonth);
+            if(i != 0) {
+                if (checkSameDay(msg, (chatMsg) this.getItem(i - 1)))
+                    holder.date.setVisibility(View.GONE);
+            }
         }
         return view;
     }
@@ -88,4 +120,5 @@ class MessageViewHolder {
     public TextView name;
     public TextView msgBody;
     public TextView time;
+    public TextView date;
 }

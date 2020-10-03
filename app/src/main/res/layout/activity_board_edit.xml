@@ -6,46 +6,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="4">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="공지사항"
-            android:layout_weight="1"
-            ></Button>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="인기 게시판"
-            android:layout_weight="1"
-            ></Button>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="자유 게시판"
-            android:layout_weight="1"
-            ></Button>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="팀원/상대 모집"
-            android:layout_weight="1"
-            ></Button>
-    </LinearLayout>
-
-    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_gravity="right">
         <Button
             android:id="@+id/btn_lol_board_edit_write"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="작성"
+            android:text="등록"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
             ></Button>
     </LinearLayout>
     <LinearLayout

@@ -2,6 +2,7 @@ package com.example.androidapp2020;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,15 +13,19 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import com.example.androidapp2020.Chat.ChattingRoom;
+
 public class FriendListAdapter extends ArrayAdapter {
     ArrayList<String> listViewNames;
     Context mCtx;
+    String userID;
 
 
-    public FriendListAdapter(ArrayList<String> friendNames, Context context) {
+    public FriendListAdapter(ArrayList<String> friendNames, Context context, String userID) {
         super(context, R.layout.listviewrow, friendNames);
         this.listViewNames=friendNames;
         this.mCtx=context;
+        this.userID = userID;
     }
 
     @Override
@@ -54,9 +59,11 @@ public class FriendListAdapter extends ArrayAdapter {
         viewHolder.button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), viewHolder.textName.getText().toString(), Toast.LENGTH_LONG).show();
-
-            }});
+                Intent intent=new Intent(getContext(), ChattingRoom.class);
+                intent.putExtra("otherID", viewHolder.textName.getText().toString());
+                intent.putExtra("myID", userID);
+                mCtx.startActivity(intent);
+        }});
 
 
         return convertView;

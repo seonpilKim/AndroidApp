@@ -27,40 +27,32 @@ import com.example.androidapp2020.Board.Adapter.CommViewAdapter;
 import com.example.androidapp2020.Board.Board_List.AmUs.AmongUs;
 import com.example.androidapp2020.Board.Board_List.AmUs.au_find;
 import com.example.androidapp2020.Board.Board_List.AmUs.au_free;
-import com.example.androidapp2020.Board.Board_List.AmUs.au_star;
 import com.example.androidapp2020.Board.Board_List.BG.BG_find;
 import com.example.androidapp2020.Board.Board_List.BG.BG_free;
-import com.example.androidapp2020.Board.Board_List.BG.BG_star;
 import com.example.androidapp2020.Board.Board_List.BG.BattleGrounds;
 import com.example.androidapp2020.Board.Board_List.ETC.ET_Cetera;
 import com.example.androidapp2020.Board.Board_List.ETC.etc_find;
 import com.example.androidapp2020.Board.Board_List.ETC.etc_free;
-import com.example.androidapp2020.Board.Board_List.ETC.etc_star;
 import com.example.androidapp2020.Board.Board_List.FIFA.FifaOnline4;
 import com.example.androidapp2020.Board.Board_List.FIFA.ff_find;
 import com.example.androidapp2020.Board.Board_List.FIFA.ff_free;
-import com.example.androidapp2020.Board.Board_List.FIFA.ff_star;
 import com.example.androidapp2020.Board.Board_List.HS.HearthStone;
 import com.example.androidapp2020.Board.Board_List.HS.hs_find;
 import com.example.androidapp2020.Board.Board_List.HS.hs_free;
-import com.example.androidapp2020.Board.Board_List.HS.hs_star;
 import com.example.androidapp2020.Board.Board_List.KR.KartRider;
 import com.example.androidapp2020.Board.Board_List.KR.kr_find;
 import com.example.androidapp2020.Board.Board_List.KR.kr_free;
-import com.example.androidapp2020.Board.Board_List.KR.kr_star;
 import com.example.androidapp2020.Board.Board_List.LoL.League_of_Legend;
 import com.example.androidapp2020.Board.Board_List.LoL.lol_find;
 import com.example.androidapp2020.Board.Board_List.LoL.lol_free;
-import com.example.androidapp2020.Board.Board_List.LoL.lol_star;
 import com.example.androidapp2020.Board.Board_List.OW.OverWatch;
 import com.example.androidapp2020.Board.Board_List.OW.ow_find;
 import com.example.androidapp2020.Board.Board_List.OW.ow_free;
-import com.example.androidapp2020.Board.Board_List.OW.ow_star;
 import com.example.androidapp2020.Board.Board_List.SC2.StarCraft2;
 import com.example.androidapp2020.Board.Board_List.SC2.sc_find;
 import com.example.androidapp2020.Board.Board_List.SC2.sc_free;
-import com.example.androidapp2020.Board.Board_List.SC2.sc_star;
 import com.example.androidapp2020.Board.Board_Write.board_edit;
+import com.example.androidapp2020.Chat.ChattingChannel;
 import com.example.androidapp2020.Chat.ChattingRoom;
 import com.example.androidapp2020.FriendAddActivity;
 import com.example.androidapp2020.Game;
@@ -80,6 +72,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -98,6 +91,7 @@ public class BoardItem extends AppCompatActivity {
 
     private ArrayList<String> recommendeds = new ArrayList<>();
     private ArrayList<CommVO> commVO = new ArrayList<>();
+    private List<String> Friends;
 
     private CommViewAdapter adapter;
 
@@ -116,6 +110,7 @@ public class BoardItem extends AppCompatActivity {
     private Button btn_recommendation;
     private Button btn_edit;
     private Button btn_delete;
+    private Button mn_pf_addFriend;
 
     private TextView tv_comments;
     private TextView tv_recommendations;
@@ -131,6 +126,8 @@ public class BoardItem extends AppCompatActivity {
     private int number;
 
     private long now;
+
+
 
     private AlertDialog.Builder alert;
 
@@ -166,6 +163,9 @@ public class BoardItem extends AppCompatActivity {
     private boolean IsExist(String item){
         return recommendeds.contains(item);
     }
+    private boolean IsExist_Friend(String item){
+        return Friends.contains(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -185,6 +185,7 @@ public class BoardItem extends AppCompatActivity {
         btn_recommendation = (Button) findViewById(R.id.btn_lol_board_Recommendations);
         btn_edit = (Button) findViewById(R.id.btn_lol_board_edit);
         btn_delete = (Button) findViewById(R.id.btn_lol_board_delete);
+        mn_pf_addFriend = (Button)findViewById(R.id.mn_pf_addFriend);
         et_comment = (EditText) findViewById(R.id.et_lol_Comment);
         database = FirebaseDatabase.getInstance().getReference();
         listView = (ListView) findViewById(R.id.lv_board_view);
@@ -195,6 +196,7 @@ public class BoardItem extends AppCompatActivity {
         alert = new AlertDialog.Builder(this);
         board_type = intent.getStringExtra("board_type");
         game_type = intent.getStringExtra("game_type");
+
 
         tv_title = (TextView) findViewById(R.id.tv_lol_board_Title);
         tv_title.setText(intent.getStringExtra("title"));
@@ -236,44 +238,18 @@ public class BoardItem extends AppCompatActivity {
                 break;
             case "AmongUs":
                 ab.setTitle("어몽어스");
+                break;
             case "StarCraft2":
                 ab.setTitle("스타2");
+                break;
             case "HearthStone":
                 ab.setTitle("하스스톤");
+                break;
             case"ET_Cetera":
                 ab.setTitle("기타");
+                break;
             default:
         }
-        tv_id.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PopupMenu p = new PopupMenu(getApplicationContext(), view);
-                getMenuInflater().inflate(R.menu.profile_menu, p.getMenu());
-                p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        switch(menuItem.getItemId()) {
-                            case R.id.mn_pf_addFriend:
-                                return true;
-                            case R.id.mn_pf_Chat:
-                                intent = new Intent(getApplicationContext(), ChattingRoom.class);
-                                intent.putExtra("myID", cm_userID);
-                                intent.putExtra("otherID", tv_id.getText().toString());
-                                startActivity(intent);
-                                return true;
-                            case R.id.mn_pf_Profile:
-                                intent = new Intent(getApplicationContext(), ProfileActivity.class);
-                                intent.putExtra("friendID", userID);
-                                startActivity(intent);
-                                return true;
-                            default:
-                                return BoardItem.super.onOptionsItemSelected(menuItem);
-                        }
-                    }
-                });
-                p.show();
-            }
-        });
 
         database.child("User_list").addChildEventListener(new ChildEventListener() {
             @Override
@@ -297,6 +273,39 @@ public class BoardItem extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) { }
         });
 
+
+        tv_id.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PopupMenu p = new PopupMenu(getApplicationContext(), view);
+                getMenuInflater().inflate(R.menu.profile_menu, p.getMenu());
+                p.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        switch(menuItem.getItemId()) {
+                            case R.id.mn_pf_addFriend:
+                                FriendAddActivity.addFriendID(cm_userID, userID);
+                               return true;
+                            case R.id.mn_pf_Chat:
+                                intent = new Intent(getApplicationContext(), ChattingRoom.class);
+                                intent.putExtra("myID", cm_userID);
+                                intent.putExtra("otherID", tv_id.getText().toString());
+                                startActivity(intent);
+                                return true;
+                            case R.id.mn_pf_Profile:
+                                intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                                intent.putExtra("friendID", userID);
+                                startActivity(intent);
+                                return true;
+                            default:
+                                return BoardItem.super.onOptionsItemSelected(menuItem);
+                        }
+                    }
+                });
+                p.show();
+            }
+        });
+
         listView.setOnTouchListener(new View.OnTouchListener(){
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -314,13 +323,14 @@ public class BoardItem extends AppCompatActivity {
             btn_delete.setVisibility(View.VISIBLE);
             btn_edit.setVisibility(View.VISIBLE);
         }
-        if(id.equals("228bc064cfc41a98")){
-            btn_delete.setVisibility(View.VISIBLE);
-        }
         else{
             btn_delete.setVisibility(View.INVISIBLE);
             btn_edit.setVisibility(View.INVISIBLE);
         }
+        if(id.equals("228bc064cfc41a98")){
+            btn_delete.setVisibility(View.VISIBLE);
+        }
+
 
 //수정
         btn_edit.setOnClickListener(new View.OnClickListener() {
@@ -364,10 +374,6 @@ public class BoardItem extends AppCompatActivity {
                                                 intent = new Intent(getApplicationContext(), lol_free.class);
                                             }
                                             break;
-                                            case "Star": {
-                                                intent = new Intent(getApplicationContext(), lol_star.class);
-                                            }
-                                            break;
                                             default:
                                         }
                                     }break;
@@ -383,10 +389,6 @@ public class BoardItem extends AppCompatActivity {
                                             break;
                                             case "Free": {
                                                 intent = new Intent(getApplicationContext(), BG_free.class);
-                                            }
-                                            break;
-                                            case "Star": {
-                                                intent = new Intent(getApplicationContext(), BG_star.class);
                                             }
                                             break;
                                             default:
@@ -406,10 +408,6 @@ public class BoardItem extends AppCompatActivity {
                                                 intent = new Intent(getApplicationContext(), ow_free.class);
                                             }
                                             break;
-                                            case "Star": {
-                                                intent = new Intent(getApplicationContext(), ow_star.class);
-                                            }
-                                            break;
                                             default:
                                         }
                                     }break;
@@ -425,10 +423,6 @@ public class BoardItem extends AppCompatActivity {
                                             break;
                                             case "Free": {
                                                 intent = new Intent(getApplicationContext(), ff_free.class);
-                                            }
-                                            break;
-                                            case "Star": {
-                                                intent = new Intent(getApplicationContext(), ff_star.class);
                                             }
                                             break;
                                             default:
@@ -448,10 +442,6 @@ public class BoardItem extends AppCompatActivity {
                                                 intent = new Intent(getApplicationContext(), kr_free.class);
                                             }
                                             break;
-                                            case "Star": {
-                                                intent = new Intent(getApplicationContext(), kr_star.class);
-                                            }
-                                            break;
                                             default:
                                         }
                                     }break;
@@ -467,10 +457,6 @@ public class BoardItem extends AppCompatActivity {
                                             break;
                                             case "Free": {
                                                 intent = new Intent(getApplicationContext(), au_free.class);
-                                            }
-                                            break;
-                                            case "Star": {
-                                                intent = new Intent(getApplicationContext(), au_star.class);
                                             }
                                             break;
                                             default:
@@ -490,10 +476,6 @@ public class BoardItem extends AppCompatActivity {
                                                 intent = new Intent(getApplicationContext(), sc_free.class);
                                             }
                                             break;
-                                            case "Star": {
-                                                intent = new Intent(getApplicationContext(), sc_star.class);
-                                            }
-                                            break;
                                             default:
                                         }
                                     }break;
@@ -509,10 +491,6 @@ public class BoardItem extends AppCompatActivity {
                                             break;
                                             case "Free": {
                                                 intent = new Intent(getApplicationContext(), hs_free.class);
-                                            }
-                                            break;
-                                            case "Star": {
-                                                intent = new Intent(getApplicationContext(), hs_star.class);
                                             }
                                             break;
                                             default:
@@ -532,10 +510,6 @@ public class BoardItem extends AppCompatActivity {
                                                 intent = new Intent(getApplicationContext(), etc_free.class);
                                             }
                                             break;
-                                            case "Star": {
-                                                intent = new Intent(getApplicationContext(), etc_star.class);
-                                            }
-                                            break;
                                             default:
                                         }
                                     }break;
@@ -552,8 +526,8 @@ public class BoardItem extends AppCompatActivity {
 
                     }
                 });
-               alert.setMessage("정말 삭제하시겠습니까?");
-               alert.show();
+                alert.setMessage("정말 삭제하시겠습니까?");
+                alert.show();
             }
         });
 // 추천
@@ -563,8 +537,8 @@ public class BoardItem extends AppCompatActivity {
                 recommendations = (int)dataSnapshot.getChildrenCount();
                 recommendeds.clear();
                 for (DataSnapshot recSnapshot : dataSnapshot.getChildren()) {
-                   recommended = recSnapshot.getValue(String.class);
-                   recommendeds.add(recommended);
+                    recommended = recSnapshot.getValue(String.class);
+                    recommendeds.add(recommended);
                 }
                 taskMap.put("/Board_list/" + game_type + "/" + board_type + "/" + key + "/recommendations", recommendations);
                 database.updateChildren(taskMap);
@@ -666,9 +640,9 @@ public class BoardItem extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu, menu);
-        getMenuInflater().inflate(R.menu.profile_menu, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
@@ -688,10 +662,6 @@ public class BoardItem extends AppCompatActivity {
                                 intent = new Intent(getApplicationContext(), lol_free.class);
                             }
                             break;
-                            case "Star": {
-                                intent = new Intent(getApplicationContext(), lol_star.class);
-                            }
-                            break;
                             default:
                         }
                     }break;
@@ -707,10 +677,6 @@ public class BoardItem extends AppCompatActivity {
                             break;
                             case "Free": {
                                 intent = new Intent(getApplicationContext(), BG_free.class);
-                            }
-                            break;
-                            case "Star": {
-                                intent = new Intent(getApplicationContext(), BG_star.class);
                             }
                             break;
                             default:
@@ -730,10 +696,6 @@ public class BoardItem extends AppCompatActivity {
                                 intent = new Intent(getApplicationContext(), ow_free.class);
                             }
                             break;
-                            case "Star": {
-                                intent = new Intent(getApplicationContext(), ow_star.class);
-                            }
-                            break;
                             default:
                         }
                     }break;
@@ -749,10 +711,6 @@ public class BoardItem extends AppCompatActivity {
                             break;
                             case "Free": {
                                 intent = new Intent(getApplicationContext(), ff_free.class);
-                            }
-                            break;
-                            case "Star": {
-                                intent = new Intent(getApplicationContext(), ff_star.class);
                             }
                             break;
                             default:
@@ -772,10 +730,6 @@ public class BoardItem extends AppCompatActivity {
                                 intent = new Intent(getApplicationContext(), kr_free.class);
                             }
                             break;
-                            case "Star": {
-                                intent = new Intent(getApplicationContext(), kr_star.class);
-                            }
-                            break;
                             default:
                         }
                     }break;
@@ -791,10 +745,6 @@ public class BoardItem extends AppCompatActivity {
                             break;
                             case "Free": {
                                 intent = new Intent(getApplicationContext(), au_free.class);
-                            }
-                            break;
-                            case "Star": {
-                                intent = new Intent(getApplicationContext(), au_star.class);
                             }
                             break;
                             default:
@@ -814,10 +764,6 @@ public class BoardItem extends AppCompatActivity {
                                 intent = new Intent(getApplicationContext(), sc_free.class);
                             }
                             break;
-                            case "Star": {
-                                intent = new Intent(getApplicationContext(), sc_star.class);
-                            }
-                            break;
                             default:
                         }
                     }break;
@@ -833,10 +779,6 @@ public class BoardItem extends AppCompatActivity {
                             break;
                             case "Free": {
                                 intent = new Intent(getApplicationContext(), hs_free.class);
-                            }
-                            break;
-                            case "Star": {
-                                intent = new Intent(getApplicationContext(), hs_star.class);
                             }
                             break;
                             default:
@@ -856,10 +798,6 @@ public class BoardItem extends AppCompatActivity {
                                 intent = new Intent(getApplicationContext(), etc_free.class);
                             }
                             break;
-                            case "Star": {
-                                intent = new Intent(getApplicationContext(), etc_star.class);
-                            }
-                            break;
                             default:
                         }
                     }break;
@@ -873,27 +811,21 @@ public class BoardItem extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.btn_profile:
-                // 화면전환
+                intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.btn_friend:
                 intent = new Intent(getApplicationContext(), FriendAddActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.btn_setup:
-                // 화면전환
-                return true;
             case R.id.btn_game:
                 intent= new Intent(getApplicationContext(), Game.class);
                 startActivity(intent);
                 return true;
-            case R.id.mn_pf_addFriend:
-                item.setVisible(false);
-                return true;
-            case R.id.mn_pf_Chat:
-                item.setVisible(false);
-                return true;
-            case R.id.mn_pf_Profile:
-                item.setVisible(false);
+            case R.id.btn_chat:
+                Intent intent = new Intent(getApplicationContext(), ChattingChannel.class);
+                intent.putExtra("myID", cm_userID);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
