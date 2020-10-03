@@ -284,7 +284,7 @@ public class BoardItem extends AppCompatActivity {
                     public boolean onMenuItemClick(MenuItem menuItem) {
                         switch(menuItem.getItemId()) {
                             case R.id.mn_pf_addFriend:
-                                FriendAddActivity.addFriendID(cm_userID, userID);
+                                FriendAddActivity.addFriendID(getApplicationContext(), cm_userID, userID);
                                return true;
                             case R.id.mn_pf_Chat:
                                 intent = new Intent(getApplicationContext(), ChattingRoom.class);

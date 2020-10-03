@@ -1,6 +1,7 @@
 package com.example.androidapp2020;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -156,7 +157,7 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
         childUpdates.put("/Friend_list/" + myID, postValues);
         mPostReference.updateChildren(childUpdates);
 
-        getFriendListOfFriendAndSetMyID(myID, friendID, add);
+        getFriendListOfFriendAndSetMyID(getApplicationContext(), myID, friendID, add);
     }
 
     public void getRegisteredUserList(){
@@ -225,17 +226,16 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
         data.addListenerForSingleValueEvent(postListener2);
     }
 
-    public static void addFriendID(final String myID, final String friendID) {
-        getFriendListOfFriendAndSetMyID(myID, friendID, true);
-        getFriendListOfFriendAndSetMyID(friendID, myID, true);
+    public static void addFriendID(Context context, final String myID, final String friendID) {
+        if(!myID.equals(friendID)) {
+            getFriendListOfFriendAndSetMyID(context, myID, friendID, true);
+            getFriendListOfFriendAndSetMyID(context, friendID, myID, true);
+        } else {
+            Toast.makeText(context, "당신의 ID 입니다.", Toast.LENGTH_LONG).show();
+        }
     }
 
-    public static void removeFriendID(final String myID, final String friendID) {
-        getFriendListOfFriendAndSetMyID(myID, friendID, false);
-        getFriendListOfFriendAndSetMyID(friendID, myID, false);
-    }
-
-    public static void getFriendListOfFriendAndSetMyID(final String myID, final String friendID, final boolean add){
+    public static void getFriendListOfFriendAndSetMyID(final Context context, final String myID, final String friendID, final boolean add){
         ValueEventListener postListener3 = new ValueEventListener() {
 
             @Override
@@ -247,8 +247,13 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
                     friend_data_of_friend = get;
                 }
 
+                if(add && friend_data_of_friend.friend_names.contains(myID)) {
+                    Toast.makeText(context, "이미 친구로 등록된 ID 입니다.", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 if (add == true) {
                     friend_data_of_friend.friend_names.add(0, myID);
+                    Toast.makeText(context, "친구로 등록하였습니다.", Toast.LENGTH_LONG).show();
                 } else {
                     friend_data_of_friend.friend_names.remove(myID);
                 }
@@ -326,6 +331,8 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
         } else if (friend_edit_view.getText().length() >= 1) {
             user_names.setTextFilterEnabled(true);
             user_names.setFilterText(friend_edit_view.getText().toString());
+            //user_names.setFilterText(friend_edit_view.getText().toString());
+            userAdapter.getFilter().filter(friend_edit_view.getText().toString());
             layer_friend_view.setVisibility(View.GONE);
             layer_user_view.setVisibility(View.VISIBLE);
         }

@@ -32,7 +32,7 @@
             android:layout_weight="2"
             android:ems="10"
             android:hint="any message"
-            android:inputType="text"
+            android:inputType="textMultiLine"
             android:paddingHorizontal="10dp"
             android:text="" />
 
