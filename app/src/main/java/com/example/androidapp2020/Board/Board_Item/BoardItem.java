@@ -137,12 +137,14 @@ public class BoardItem extends AppCompatActivity {
         private String content;
         private String time;
 
+
         Comment() { }
         public Comment(String id, String userID, String content, String time) {
             this.id = id;
             this.content = content;
             this.time = time;
             this.userID = userID;
+
         }
 
         public String getuserID() {return userID;}

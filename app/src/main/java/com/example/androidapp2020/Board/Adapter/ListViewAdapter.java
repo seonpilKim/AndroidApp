@@ -1,12 +1,14 @@
 package com.example.androidapp2020.Board.Adapter;
 
 import android.content.Context;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.androidapp2020.Board.ListVO.ListVO;
@@ -25,6 +27,7 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
     private TextView comments;
     private TextView recommendations;
     private TextView recommendations2;
+    private ImageView icon;
 
     public ListViewAdapter(ArrayList<ListVO> listVO){
         this.listVO = listVO;
@@ -50,7 +53,6 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
         final int pos = position;
         final Context context = parent.getContext();
         final ListVO listViewItem = filteredItemList.get(position);
-
         if(convertView == null){
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.custom_listview, parent, false);
@@ -63,7 +65,34 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
        comments = (TextView) convertView.findViewById(R.id.tv_board_item_Comments);
        recommendations = (TextView) convertView.findViewById(R.id.tv_board_item_Recommendations);
        recommendations2 = (TextView) convertView.findViewById(R.id.tv_board_item_Recommendations2);
+       icon = (ImageView) convertView.findViewById(R.id.iv_board_item_icon);
 
+       switch(listViewItem.getType()){
+           case "League_of_Legend":
+               icon.setImageResource(R.drawable.lol);
+               break;
+           case "BattleGrounds":
+               icon.setImageResource(R.drawable.bg);
+               break;
+           case "AmongUs":
+               icon.setImageResource(R.drawable.am);
+               break;
+           case "FifaOnline4":
+               icon.setImageResource(R.drawable.ff);
+               break;
+           case "HearthStone":
+               icon.setImageResource(R.drawable.hs);
+               break;
+           case "KartRider":
+               icon.setImageResource(R.drawable.kr);
+               break;
+           case "OverWatch":
+               icon.setImageResource(R.drawable.ow);
+               break;
+           case "StarCraft2":
+               icon.setImageResource(R.drawable.sc);
+               break;
+       }
         comments.setText(""+listViewItem.getComments());
         if(listViewItem.getRecommendations() != -1) {
             recommendations.setText("" + listViewItem.getRecommendations());
@@ -79,7 +108,7 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
     }
 
     public void addVO(String Title, String Content, String Key, String id, String time, String t, String userID
-    , int views, int comments, int recommendations, int num){
+    , int views, int comments, int recommendations, int num, String type){
         ListVO item = new ListVO();
 
         item.setuserID(userID);
@@ -93,6 +122,7 @@ public class ListViewAdapter extends BaseAdapter implements Filterable {
         item.setKey(Key);
         item.setTitle(Title);
         item.setContent(Content);
+        item.setType(type);
 
         listVO.add(0,item);
     }

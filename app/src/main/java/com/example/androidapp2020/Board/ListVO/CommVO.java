@@ -6,8 +6,11 @@ public class CommVO {
     private String content;
     private String time;
 
+
     public CommVO(){}
     public CommVO(String content) {this.content = content;}
+
+
 
     public void setuserID(String userID) {
         this.userID = userID;

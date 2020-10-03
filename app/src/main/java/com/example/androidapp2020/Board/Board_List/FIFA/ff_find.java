@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Filter;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -69,8 +70,8 @@ public class ff_find extends AppCompatActivity {
     private int views;
     private long time2= 0;
 
-    private Button btn_search;
-    private Button btn_write;
+    private ImageButton btn_search;
+    private ImageButton btn_write;
     private Button btn_notice;
     private Button btn_free;
     private Button btn_find;
@@ -84,8 +85,8 @@ public class ff_find extends AppCompatActivity {
         adapter = new ListViewAdapter(listVO);
         listView.setAdapter(adapter);
 
-        btn_search = (Button) findViewById(R.id.btn_ff_find_Search);
-        btn_write = (Button) findViewById(R.id.btn_ff_find_write);
+        btn_search = (ImageButton) findViewById(R.id.btn_ff_find_Search);
+        btn_write = (ImageButton) findViewById(R.id.btn_ff_find_write);
         btn_notice = (Button) findViewById(R.id.btn_ff_find_notice);
         btn_free = (Button) findViewById(R.id.btn_ff_find_free);
         btn_find = (Button) findViewById(R.id.btn_ff_find_find);
@@ -164,7 +165,8 @@ public class ff_find extends AppCompatActivity {
                 ListVO listVO = dataSnapshot.getValue(ListVO.class);
                 Key = dataSnapshot.getKey();
                 adapter.addVO(listVO.getTitle(), listVO.getContent(), Key, listVO.getId(), listVO.getTime(), listVO.getT(),
-                        listVO.getuserID(), listVO.getViews(), listVO.getComments(), -1, listVO.getNum());
+                        listVO.getuserID(), listVO.getViews(), listVO.getComments(), -1, listVO.getNum(),
+                        "FifaOnline4");
                 adapter.notifyDataSetChanged();
                 listView.setAdapter(adapter);
             }

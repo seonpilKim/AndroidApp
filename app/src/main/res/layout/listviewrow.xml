@@ -6,10 +6,11 @@
     >
     <TextView
         android:id="@+id/childTextView"
-        android:layout_width="100dp"
-        android:text="Itemnae"
+        android:layout_width="wrap_content"
+        android:text="Itemname"
         android:layout_marginTop="15sp"
-        android:textSize="18sp"
+        android:textSize="18dp"
+        android:textColor="#000000"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true" />
 
@@ -18,7 +19,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@id/childButton2"
-        android:textSize="10sp"
+        android:textSize="15dp"
+        android:background="#0489B1"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
         android:layout_marginRight="10sp"
         android:layout_marginTop="5sp"
         android:text="프로필" />
@@ -28,7 +32,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:textSize="10sp"
+        android:textSize="15dp"
+        android:background="#0489B1"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
         android:text="채팅"
         android:layout_marginTop="5sp"
         android:layout_marginRight="20sp" />

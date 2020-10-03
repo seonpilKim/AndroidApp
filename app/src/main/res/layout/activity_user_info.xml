@@ -17,10 +17,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:background="#AFEEEE"
-            android:text="Profile"
+            android:background="#0489B1"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:text="프로필"
             android:textAlignment="center"
-            android:textSize="40dp"
+            android:textSize="30dp"
             tools:ignore="RtlCompat" />
 
         <LinearLayout
@@ -120,6 +122,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="#0489B1"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
             android:text="등록" />
 
 

@@ -84,6 +84,7 @@ public class board_write extends AppCompatActivity {
         private String userID;
         private String time;
         private String t;
+        private String type;
         private int views;
         private int comments;
         private int recommendations;
@@ -91,7 +92,7 @@ public class board_write extends AppCompatActivity {
 
         Board(){}
         public Board(String title, String content, String id, String time, String t, String userID,
-                     int views, int comments, int recommendations, int num){
+                     int views, int comments, int recommendations, int num, String type){
             this.title = title;
             this.content = content;
             this.id = id;
@@ -102,8 +103,10 @@ public class board_write extends AppCompatActivity {
             this.recommendations = recommendations;
             this.num = num;
             this.userID = userID;
+            this.type = type;
         }
 
+        public String getType() {return type;}
         public String getTitle() {return title;}
         public String getContent() {return content;}
         public String getUserID() {return userID;}
@@ -194,7 +197,7 @@ public class board_write extends AppCompatActivity {
 
                 // DB에 context 저장 및 화면전환
                 Board board = new Board(et_title.getText().toString(), et_content.getText().toString(), id
-                , Time.format(mDate), t.format(mDate), userID, 0, 0, 0, ++number);
+                , Time.format(mDate), t.format(mDate), userID, 0, 0, 0, ++number, game_type);
 
                 switch(game_type) {
                     case "League_of_Legend" :{

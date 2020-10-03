@@ -89,28 +89,35 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:hint="검색(10자 이내)"
-            android:enabled="true"
-            android:selectAllOnFocus="true"
-            android:textColorHighlight="@color/colorPrimary"
             android:inputType="textPersonName"
             android:maxLength="10"></EditText>
-        <Button
+        <ImageButton
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:id="@+id/btn_ow_notice_Search"
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
-            android:text="검색"></Button>
-        <Button
+            android:layout_marginTop="5dp"
+            android:layout_width="1dp"
+            android:layout_height="40dp"
+            android:padding="0sp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/search"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:text="검색"></ImageButton>
+        <ImageButton
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:id="@+id/btn_ow_notice_write"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_width="17dp"
+            android:layout_height="45dp"
+            android:padding="0sp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/write"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:text="글 쓰기"
-            ></Button>
+            ></ImageButton>
     </LinearLayout>
     <View
         android:layout_width="match_parent"

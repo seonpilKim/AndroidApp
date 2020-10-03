@@ -172,6 +172,9 @@ public class Game extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
             case R.id.btn_main:
                 intent = new Intent(getApplicationContext(), MenuActivity.class);
                 startActivity(intent);

@@ -214,9 +214,7 @@ public class GroupChattingRoom extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case android.R.id.home:
-                Intent intent = new Intent(getApplicationContext(), ChattingChannel.class);
-                intent.putExtra("myID", myID);
-                startActivity(intent);
+                finish();
                 return true;
             case R.id.add_abIcon:
                 intent = new Intent(getApplicationContext(), CreateChatRoom.class);

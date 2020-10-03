@@ -16,7 +16,7 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="친구리스트"
+            android:hint="유저 닉네임 검색"
             android:layout_weight="8"
             android:id="@+id/friend_name">
         </EditText>
@@ -25,6 +25,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="2"
+            android:background="#0489B1"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
             android:id="@+id/friend_add"
             android:text="친구 추가"/>
 
@@ -51,7 +54,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="친구 리스트"
+                    android:text="친구 목록"
                     android:gravity="center_horizontal"
                     android:layout_marginTop="10dp"
                     android:textSize="25dp"> </TextView>
@@ -80,7 +83,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="검색된 사용자"
+                android:text="유저 목록"
                 android:gravity="center_horizontal"
                 android:layout_marginTop="10dp"
                 android:textSize="25dp"> </TextView>

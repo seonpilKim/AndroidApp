@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +30,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.androidapp2020.Chat.ChattingChannel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -58,6 +61,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     DatabaseReference mPostReference = FirebaseDatabase.getInstance().getReference();// 서버의 루트 변경해서 사용하면 됨
     Context context;
     Button btn_Update;
+    private Intent intent;
+    private long time2 = 0;
     private static final int PICK_IMAGE = 1994;
     ImageView user_picture;
 
@@ -1032,14 +1037,52 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
+    public void onBackPressed(){
+        if(System.currentTimeMillis() - time2 >= 2000){
+            time2 = System.currentTimeMillis();
+            Toast.makeText(getApplicationContext(),"한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+        else if(System.currentTimeMillis() - time2 < 2000 ){
+            ActivityCompat.finishAffinity(this);
+            System.exit(0);
+        }
+
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case android.R.id.home:
                 finish();
                 return true;
-            }
+            case R.id.btn_main:
+                intent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.btn_profile:
+                intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.btn_friend:
+                intent = new Intent(getApplicationContext(), FriendAddActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.btn_chat:
+                intent = new Intent(getApplicationContext(), ChattingChannel.class);
+                intent.putExtra("myID", ID);
+                startActivity(intent);
+                return true;
+            case R.id.btn_game:
+                intent= new Intent(getApplicationContext(), Game.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 }
 

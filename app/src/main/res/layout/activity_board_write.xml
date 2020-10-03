@@ -11,8 +11,14 @@
         android:layout_gravity="right">
         <Button
             android:id="@+id/btn_write"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="#0489B1"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            style="@style/Widget.AppCompat.Button.Borderless"
             android:text="등록"
             android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"

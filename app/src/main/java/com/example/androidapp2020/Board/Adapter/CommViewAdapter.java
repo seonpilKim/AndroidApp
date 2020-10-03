@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.androidapp2020.Board.ListVO.CommVO;
@@ -41,7 +42,6 @@ public class CommViewAdapter extends BaseAdapter {
         if(convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             CommVO commViewItem = commVO.get(position);
-
             convertView = inflater.inflate(R.layout.custom_commview, parent, false);
 
             TextView time = (TextView) convertView.findViewById(R.id.tv_comm_time);

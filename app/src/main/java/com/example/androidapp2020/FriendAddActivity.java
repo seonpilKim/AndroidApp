@@ -3,11 +3,13 @@ package com.example.androidapp2020;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +26,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import com.example.androidapp2020.Chat.ChattingChannel;
+import com.example.androidapp2020.Chat.CreateChatRoom;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,9 +49,9 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
     EditText friend_edit_view;
     ListView friend_names;
     ListView user_names;
-
+    private long time2 = 0;
     String friend_name;
-
+    private Intent intent;
     LinearLayout layer_friend_view;
     LinearLayout layer_user_view;
 
@@ -69,9 +74,9 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_friend);
 
         ActionBar ab = getSupportActionBar();
-        ab.setTitle("친구 추가");
+        ab.setTitle("친구");
         ab.setDisplayHomeAsUpEnabled(true);
-        // ab.setDisplayShowHomeEnabled(true);
+        ab.setDisplayShowHomeEnabled(true);
 
         SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
         ID = pref.getString("loginID", "testUser");
@@ -301,14 +306,52 @@ public class FriendAddActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:{ //toolbar의 back키 눌렀을 때 동작
+    public void onBackPressed(){
+        if(System.currentTimeMillis() - time2 >= 2000){
+            time2 = System.currentTimeMillis();
+            Toast.makeText(getApplicationContext(),"한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+        else if(System.currentTimeMillis() - time2 < 2000 ){
+            ActivityCompat.finishAffinity(this);
+            System.exit(0);
+        }
+
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case android.R.id.home:
                 finish();
                 return true;
-            }
+            case R.id.btn_main:
+                intent = new Intent(getApplicationContext(), MenuActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.btn_profile:
+                intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.btn_friend:
+                intent = new Intent(getApplicationContext(), FriendAddActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.btn_chat:
+                intent = new Intent(getApplicationContext(), ChattingChannel.class);
+                intent.putExtra("myID", ID);
+                startActivity(intent);
+                return true;
+            case R.id.btn_game:
+                intent= new Intent(getApplicationContext(), Game.class);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
