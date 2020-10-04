@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,6 +27,7 @@ public class MenuActivity extends AppCompatActivity {
     private Intent intent;
     private String userID;
     private DatabaseReference database;
+    private ImageView iv;
     String id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,13 @@ public class MenuActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         ab.setTitle("네인");
         id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+        iv = (ImageView) findViewById(R.id.nein);
+        iv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(),"developers : 김선필, 박진호, 박호진, 장석우 ", Toast.LENGTH_LONG).show();
+            }
+        });
         database= FirebaseDatabase.getInstance().getReference();
         database.child("User_list").addChildEventListener(new ChildEventListener() {
             @Override

@@ -7,9 +7,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="Android App 2020"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@mipmap/launchernein"
+        android:label="NE:IN"
+        android:roundIcon="@mipmap/launchernein_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Board.Board_List.ETC.etc_free" >
