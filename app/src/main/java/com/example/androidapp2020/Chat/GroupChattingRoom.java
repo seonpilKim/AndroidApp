@@ -51,6 +51,7 @@ public class GroupChattingRoom extends AppCompatActivity {
     private ImageButton sendBtn;
     private List<UserData> memberData;
     private DatabaseReference chatRef;
+    private String abTitle = "a";
     private DatabaseReference sendRef;
     private UserData combinedUID;
     private Map<String, Object> taskMap = new HashMap<String, Object>();
@@ -79,6 +80,12 @@ public class GroupChattingRoom extends AppCompatActivity {
         memberData = new ArrayList<UserData>();
         combinedUID = new UserData();
         combinedUID.UID = "a";
+
+        abTitle = members.get(0);
+        for(int i = 1; i < members.size(); i++) {
+            abTitle = String.format("%s, %s", abTitle, members.get(i));
+        }
+        getSupportActionBar().setTitle(abTitle);
 
         chatRef = FirebaseDatabase.getInstance().getReference();
         final ChildEventListener childEventListener = new ChildEventListener() {
@@ -206,7 +213,7 @@ public class GroupChattingRoom extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.chatting_channel_menu, menu);
+        getMenuInflater().inflate(R.menu.group_chatting_menu, menu);
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
@@ -216,8 +223,9 @@ public class GroupChattingRoom extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
-            case R.id.add_abIcon:
-                intent = new Intent(getApplicationContext(), CreateChatRoom.class);
+            case R.id.group_member:
+                intent = new Intent(getApplicationContext(), GroupMember.class);
+                intent.putStringArrayListExtra("members", (ArrayList<String>)members);
                 intent.putExtra("myID", myID);
                 startActivity(intent);
                 return true;

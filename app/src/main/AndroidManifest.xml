@@ -177,6 +177,7 @@
         <activity android:name=".Chat.GroupChattingRoom">
         </activity>
         <activity android:name=".Chat.CreateChatRoom" />
+        <activity android:name=".Chat.GroupMember"/>
     </application>
 
 </manifest>
