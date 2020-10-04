@@ -232,7 +232,7 @@ public class BoardItem extends AppCompatActivity {
             case "OverWatch":
                 ab.setTitle("오버워치");
                 break;
-            case "FifaOnlione4":
+            case "FifaOnline4":
                 ab.setTitle("피파4");
                 break;
             case "KartRider":

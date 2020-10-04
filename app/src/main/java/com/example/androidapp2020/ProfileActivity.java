@@ -63,7 +63,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     Button btn_Update;
     private Intent intent;
     private long time2 = 0;
-    private static final int PICK_IMAGE = 1994;
+//    private static final int PICK_IMAGE = 1994;
     ImageView user_picture;
 
     CheckBox check_lol;
@@ -159,21 +159,21 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     static ArrayList<String> arrayIndex =  new ArrayList<String>();
     static ArrayList<String> arrayData = new ArrayList<String>();
 
-    private void setImageAvatar(Context context, String imgBase64){
-        try {
-            Resources res = getResources();
-            Bitmap src;
-            if (imgBase64.equals("default")) {
-                src = BitmapFactory.decodeResource(res, R.drawable.default_picture);
-            } else {
-                byte[] decodedString = Base64.decode(imgBase64, Base64.DEFAULT);
-                src = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-            }
-
-            user_picture.setImageDrawable(ImageUtils.roundedImage(context, src));
-        }catch (Exception e){
-        }
-    }
+//    private void setImageAvatar(Context context, String imgBase64){
+//        try {
+//            Resources res = getResources();
+//            Bitmap src;
+//            if (imgBase64.equals("default")) {
+//                src = BitmapFactory.decodeResource(res, R.drawable.default_picture);
+//            } else {
+//                byte[] decodedString = Base64.decode(imgBase64, Base64.DEFAULT);
+//                src = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+//            }
+//
+//            user_picture.setImageDrawable(ImageUtils.roundedImage(context, src));
+//        }catch (Exception e){
+//        }
+//    }
 
 
     @Override
@@ -184,8 +184,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         ActionBar ab = getSupportActionBar();
         ab.setTitle("프로필");
         ab.setDisplayHomeAsUpEnabled(true);
-        // ab.setDisplayShowHomeEnabled(true);
-
+         ab.setDisplayShowHomeEnabled(true);
+        user_picture = (ImageView) findViewById(R.id.user_picture);
+        user_picture.setImageResource(R.mipmap.profile);
         SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
         loginID = pref.getString("loginID", "testUser");
 
@@ -221,33 +222,33 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         star_spinner1 = (Spinner)findViewById(R.id.star2_triber);
         star_spinner2 = (Spinner)findViewById(R.id.star2_tiers);
 
-        user_picture = (ImageView) findViewById(R.id.user_picture);
-        user_picture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (ID == loginID) {
-                    new AlertDialog.Builder(view.getContext())
-                            .setTitle("사진 설정")
-                            .setMessage("프로필사진을 바꾸시겠어요?")
-                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    Intent intent = new Intent();
-                                    intent.setType("image/*");
-                                    intent.setAction(Intent.ACTION_PICK);
-                                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
-                                    dialogInterface.dismiss();
-                                }
-                            })
-                            .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            }).show();
-                }
-            }
-        });
+//        user_picture = (ImageView) findViewById(R.id.user_picture);
+//        user_picture.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (ID == loginID) {
+//                    new AlertDialog.Builder(view.getContext())
+//                            .setTitle("사진 설정")
+//                            .setMessage("프로필사진을 바꾸시겠어요?")
+//                            .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialogInterface, int i) {
+//                                    Intent intent = new Intent();
+//                                    intent.setType("image/*");
+//                                    intent.setAction(Intent.ACTION_PICK);
+//                                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+//                                    dialogInterface.dismiss();
+//                                }
+//                            })
+//                            .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialogInterface, int i) {
+//                                    dialogInterface.dismiss();
+//                                }
+//                            }).show();
+//                }
+//            }
+//        });
 
         AdapterView.OnItemSelectedListener item_listener =  new AdapterView.OnItemSelectedListener() {
             @Override
@@ -635,11 +636,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 user_age.setText(userData.Age);
                 user_gender.setText(userData.Gender);
                 user_dico.setText(userData.Discord);
-                if (userData.Picture == null) {
-                    setImageAvatar(context, "default");
-                } else {
-                    setImageAvatar(context, userData.Picture);
-                }
+//                if (userData.Picture == null) {
+//                    setImageAvatar(context, "default");
+//                } else {
+//                    setImageAvatar(context, userData.Picture);
+//                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) { }
@@ -651,49 +652,49 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE && resultCode == AppCompatActivity.RESULT_OK) {
-            if (data == null) {
-                Toast.makeText(this, "사진이 선택되지 않았습니다.", Toast.LENGTH_LONG).show();
-                return;
-            }
-            try {
-                InputStream inputStream = getContentResolver().openInputStream(data.getData());
-
-                Bitmap imgBitmap = BitmapFactory.decodeStream(inputStream);
-                imgBitmap = ImageUtils.cropToSquare(imgBitmap);
-                InputStream is = ImageUtils.convertBitmapToInputStream(imgBitmap);
-                final Bitmap liteImage = ImageUtils.makeImageLite(is,
-                        imgBitmap.getWidth(), imgBitmap.getHeight(),
-                        ImageUtils.AVATAR_WIDTH, ImageUtils.AVATAR_HEIGHT);
-
-                String imageBase64 = ImageUtils.encodeBase64(liteImage);
-                //myAccount.avata = imageBase64;
-
-                mPostReference.child("User_list/"+ID).child("Picture").setValue(imageBase64)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()){
-                                    Log.w("onActivityResult","Picure is updated");
-                                    user_picture.setImageDrawable(ImageUtils.roundedImage(context, liteImage));
-                                    Toast.makeText(context, "사진이 변경되었습니다.", Toast.LENGTH_LONG).show();
-                                }
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(context, "서버에 저장중 에러가 발생되었습니다.", Toast.LENGTH_LONG).show();
-                            }
-                        });
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == PICK_IMAGE && resultCode == AppCompatActivity.RESULT_OK) {
+//            if (data == null) {
+//                Toast.makeText(this, "사진이 선택되지 않았습니다.", Toast.LENGTH_LONG).show();
+//                return;
+//            }
+//            try {
+//                InputStream inputStream = getContentResolver().openInputStream(data.getData());
+//
+//                Bitmap imgBitmap = BitmapFactory.decodeStream(inputStream);
+//                imgBitmap = ImageUtils.cropToSquare(imgBitmap);
+//                InputStream is = ImageUtils.convertBitmapToInputStream(imgBitmap);
+//                final Bitmap liteImage = ImageUtils.makeImageLite(is,
+//                        imgBitmap.getWidth(), imgBitmap.getHeight(),
+//                        ImageUtils.AVATAR_WIDTH, ImageUtils.AVATAR_HEIGHT);
+//
+//                String imageBase64 = ImageUtils.encodeBase64(liteImage);
+//                //myAccount.avata = imageBase64;
+//
+//                mPostReference.child("User_list/"+ID).child("Picture").setValue(imageBase64)
+//                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<Void> task) {
+//                                if(task.isSuccessful()){
+//                                    Log.w("onActivityResult","Picure is updated");
+//                                    user_picture.setImageDrawable(ImageUtils.roundedImage(context, liteImage));
+//                                    Toast.makeText(context, "사진이 변경되었습니다.", Toast.LENGTH_LONG).show();
+//                                }
+//                            }
+//                        })
+//                        .addOnFailureListener(new OnFailureListener() {
+//                            @Override
+//                            public void onFailure(@NonNull Exception e) {
+//                                Toast.makeText(context, "서버에 저장중 에러가 발생되었습니다.", Toast.LENGTH_LONG).show();
+//                            }
+//                        });
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 
     private void setProfileEditable(Boolean profileEditable, Boolean editable) {
         if (profileEditable) {
@@ -1090,5 +1091,5 @@ class UserData0 {
     public String Age;
     public String Discord;
     public String Gender;
-    public String Picture;
+//    public String Picture;
 }
